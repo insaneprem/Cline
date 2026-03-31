@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Masterclass — Advanced AI-Assisted Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #080b12;
+  --bg2:     #0d1120;
+  --bg3:     #121828;
+  --surface: #161e30;
+  --border:  #1e2a42;
+  --border2: #263348;
+  --text:    #c8d6f0;
+  --text2:   #8096b8;
+  --text3:   #4e6080;
+  --head:    #eaf1ff;
+  --cyan:    #38d9f5;
+  --cyan2:   #0fa8c7;
+  --amber:   #f5a623;
+  --amber2:  #c47d0c;
+  --green:   #3dffa0;
+  --red:     #ff5f7a;
+  --purple:  #b48cf7;
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-display: 'Fraunces', serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden;
+}
+
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022; pointer-events: none; z-index: 9999;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* LAYOUT */
+.shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  grid-row: 1 / -1; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--bg2); border-right: 1px solid var(--border);
+  padding: 32px 0; display: flex; flex-direction: column;
+}
+.sidebar-logo { padding: 0 24px 28px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+.sidebar-logo .wordmark { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); }
+.sidebar-logo .tagline  { font-size: 12px; color: var(--text3); margin-top: 4px; line-height: 1.4; }
+.nav-label { font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); padding: 0 24px 10px; }
+.nav-item  { display: flex; align-items: center; gap: 12px; padding: 10px 24px; text-decoration: none; color: var(--text2); font-size: 13px; transition: all 0.2s; border-left: 2px solid transparent; }
+.nav-item:hover  { color: var(--head); background: var(--surface); border-left-color: var(--cyan); }
+.nav-item.active { color: var(--cyan); background: rgba(56,217,245,0.06); border-left-color: var(--cyan); }
+.nav-num  { font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--text3); min-width: 18px; }
+.nav-item.active .nav-num { color: var(--cyan2); }
+.nav-icon { font-size: 16px; min-width: 20px; text-align: center; }
+.sidebar-footer { margin-top: auto; padding: 24px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text3); line-height: 1.8; }
+.sidebar-footer span { color: var(--green); }
+
+/* HERO */
+.hero {
+  position: relative; padding: 80px 72px 72px;
+  border-bottom: 1px solid var(--border); overflow: hidden; background: var(--bg2);
+}
+.hero::before { content:''; position:absolute; top:-120px; right:-80px; width:600px; height:600px; background:radial-gradient(circle,rgba(56,217,245,0.07) 0%,transparent 65%); pointer-events:none; }
+.hero::after  { content:''; position:absolute; bottom:-100px; left:40%; width:400px; height:400px; background:radial-gradient(circle,rgba(245,166,35,0.05) 0%,transparent 65%); pointer-events:none; }
+.hero-grid-bg {
+  position:absolute; inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:40px 40px; opacity:0.18; pointer-events:none;
+  mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,0.5) 30%,rgba(0,0,0,0.5) 70%,transparent);
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--cyan);
+  background:rgba(56,217,245,0.08); border:1px solid rgba(56,217,245,0.2);
+  padding:6px 14px; border-radius:100px; margin-bottom:28px; animation:fadeUp 0.6s ease both;
+}
+.hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); animation:pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.hero h1 { font-family:var(--font-display); font-size:clamp(36px,5vw,62px); font-weight:900; color:var(--head); line-height:1.08; letter-spacing:-0.02em; max-width:700px; margin-bottom:24px; animation:fadeUp 0.6s 0.1s ease both; }
+.hero h1 em { font-style:italic; color:var(--cyan); font-weight:300; }
+.hero-intro { font-size:17px; color:var(--text2); max-width:620px; line-height:1.75; animation:fadeUp 0.6s 0.2s ease both; }
+.hero-intro strong { color:var(--text); }
+.hero-meta { display:flex; gap:32px; margin-top:40px; animation:fadeUp 0.6s 0.3s ease both; }
+.meta-item { display:flex; flex-direction:column; gap:4px; }
+.meta-val   { font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--head); }
+.meta-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:0.1em; font-family:var(--font-mono); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+
+/* TOPIC SECTIONS */
+.topic-section { padding:72px; border-bottom:1px solid var(--border); opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.topic-section.visible { opacity:1; transform:translateY(0); }
+.topic-section:nth-child(even) { background:var(--bg2); }
+.topic-header { display:flex; align-items:flex-start; gap:28px; margin-bottom:48px; }
+.topic-number { font-family:var(--font-display); font-size:80px; font-weight:900; font-style:italic; line-height:1; color:transparent; -webkit-text-stroke:1px var(--border2); min-width:80px; margin-top:-8px; transition:-webkit-text-stroke 0.3s; user-select:none; }
+.topic-section:hover .topic-number { -webkit-text-stroke-color:var(--cyan2); }
+.topic-title-block { flex:1; }
+.topic-badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; padding:4px 12px; border-radius:100px; margin-bottom:12px; }
+.badge-skills      { color:var(--cyan);   background:rgba(56,217,245,0.08);  border:1px solid rgba(56,217,245,0.2); }
+.badge-rules       { color:var(--amber);  background:rgba(245,166,35,0.08);  border:1px solid rgba(245,166,35,0.2); }
+.badge-workflow    { color:var(--green);  background:rgba(61,255,160,0.08);  border:1px solid rgba(61,255,160,0.2); }
+.badge-hooks       { color:var(--purple); background:rgba(180,140,247,0.08); border:1px solid rgba(180,140,247,0.2); }
+.badge-memory      { color:var(--cyan);   background:rgba(56,217,245,0.08);  border:1px solid rgba(56,217,245,0.2); }
+.badge-checkpoints { color:var(--red);    background:rgba(255,95,122,0.08);  border:1px solid rgba(255,95,122,0.2); }
+.topic-title { font-family:var(--font-display); font-size:clamp(24px,3vw,36px); font-weight:700; color:var(--head); line-height:1.15; letter-spacing:-0.01em; }
+
+/* CARDS */
+.subsections { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.subsection-full { grid-column:1 / -1; }
+.sub-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:24px 28px; transition:border-color 0.25s,transform 0.25s; }
+.sub-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+.sub-heading { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:14px; }
+.sh-what{color:var(--cyan);} .sh-why{color:var(--amber);} .sh-how{color:var(--green);} .sh-best{color:var(--purple);}
+.sub-card p { font-size:14.5px; color:var(--text2); line-height:1.75; }
+.sub-card p strong { color:var(--text); font-weight:500; }
+
+/* STEPS */
+.steps { display:flex; flex-direction:column; gap:22px; margin-top:4px; }
+.step  { display:flex; gap:16px; align-items:flex-start; }
+.step-num { flex-shrink:0; width:26px; height:26px; background:var(--bg3); border:1px solid var(--border2); border-radius:50%; font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--cyan); display:flex; align-items:center; justify-content:center; margin-top:2px; }
+.step-body  { flex:1; }
+.step-title { font-weight:500; color:var(--head); font-size:14px; margin-bottom:6px; }
+.step-desc  { font-size:13.5px; color:var(--text2); line-height:1.7; }
+
+/* UI NAVIGATION CALLOUT — replaces terminal blocks */
+.ui-nav {
+  background:#090e1c; border:1px solid var(--border2); border-left:3px solid var(--amber);
+  border-radius:var(--r-sm); padding:14px 18px; margin:12px 0;
+  font-size:13px; color:var(--text2); line-height:1.75;
+}
+.ui-nav + .ui-nav { margin-top:6px; }
+.ui-nav-label { font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber); margin-bottom:7px; }
+.crumb { display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:11.5px; background:var(--surface); border:1px solid var(--border2); border-radius:4px; padding:2px 8px; color:var(--head); white-space:nowrap; }
+.arrow { color:var(--text3); margin:0 2px; font-size:12px; }
+
+/* CODE BLOCK */
+.code-block { background:#050810; border:1px solid var(--border); border-radius:var(--r-sm); overflow:hidden; margin:14px 0; font-family:var(--font-mono); font-size:12.5px; }
+.code-header { display:flex; align-items:center; justify-content:space-between; padding:8px 16px; background:var(--bg3); border-bottom:1px solid var(--border); }
+.code-dots { display:flex; gap:6px; }
+.code-dots span { width:10px; height:10px; border-radius:50%; }
+.dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+.code-filename { font-size:11px; color:var(--text3); letter-spacing:0.05em; }
+.code-body { padding:18px 20px; overflow-x:auto; line-height:1.75; color:var(--text2); }
+.code-body .kw {color:#b48cf7;} .code-body .str{color:#98c97a;} .code-body .cm{color:#4e6080;font-style:italic;} .code-body .cn{color:var(--cyan);} .code-body .nb{color:var(--amber);}
+
+/* IMAGE PLACEHOLDER */
+.img-placeholder { background:var(--bg3); border:1px dashed var(--border2); border-radius:var(--r-md); padding:24px; margin:16px 0; display:flex; align-items:flex-start; gap:16px; }
+.img-icon { font-size:26px; flex-shrink:0; }
+.img-label { font-size:13px; color:var(--text3); font-family:var(--font-mono); line-height:1.6; }
+.img-label strong { display:block; color:var(--text2); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:4px; }
+
+/* BEST PRACTICES */
+.bp-list { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
+.bp-item { display:flex; gap:12px; font-size:13.5px; color:var(--text2); line-height:1.65; }
+.bp-dot  { color:var(--purple); font-family:var(--font-mono); font-weight:700; flex-shrink:0; margin-top:2px; }
+.bp-item strong { color:var(--text); }
+
+/* CHIP */
+.chip { display:inline-block; font-family:var(--font-mono); font-size:11.5px; background:var(--bg3); border:1px solid var(--border2); border-radius:4px; padding:1px 7px; color:var(--cyan); }
+
+/* SUMMARY */
+.summary-section { padding:72px; background:var(--bg2); border-bottom:1px solid var(--border); }
+.summary-section h2 { font-family:var(--font-display); font-size:34px; font-weight:700; color:var(--head); margin-bottom:8px; }
+.summary-section .sub { color:var(--text2); font-size:15px; margin-bottom:40px; }
+.feature-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:24px; transition:all 0.25s; position:relative; overflow:hidden; }
+.feature-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+.fc-skills::before    { background:linear-gradient(90deg,var(--cyan),var(--cyan2)); }
+.fc-rules::before     { background:linear-gradient(90deg,var(--amber),var(--amber2)); }
+.fc-workflow::before  { background:linear-gradient(90deg,var(--green),#27b870); }
+.fc-hooks::before     { background:linear-gradient(90deg,var(--purple),#8b5cf6); }
+.fc-memory::before    { background:linear-gradient(90deg,var(--cyan),var(--purple)); }
+.fc-checkpoints::before { background:linear-gradient(90deg,var(--red),#c73058); }
+.feature-card:hover   { border-color:var(--border2); transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.3); }
+.fc-icon { font-size:28px; margin-bottom:14px; }
+.fc-name { font-family:var(--font-mono); font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--head); margin-bottom:8px; }
+.fc-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+
+/* FOOTER */
+.page-footer { padding:48px 72px; display:flex; align-items:center; justify-content:space-between; background:var(--bg); }
+.footer-left { font-family:var(--font-mono); font-size:12px; color:var(--text3); line-height:1.8; }
+.footer-left span { color:var(--green); }
+.footer-badge { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--text2); background:var(--surface); border:1px solid var(--border); padding:8px 18px; border-radius:100px; }
+
+@media (max-width:900px) {
+  .shell { grid-template-columns:1fr; } .sidebar { display:none; }
+  .hero,.topic-section,.summary-section,.page-footer { padding:40px 28px; }
+  .subsections { grid-template-columns:1fr; } .feature-grid { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:560px) { .feature-grid{grid-template-columns:1fr;} .hero-meta{flex-wrap:wrap;gap:20px;} }
+</style>
+</head>
+
+<body>
+<div class="shell">
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="wordmark">⬡ Cline Masterclass</div>
+    <div class="tagline">Advanced AI-Assisted Development</div>
+  </div>
+  <div class="nav-label">Core Concepts</div>
+  <a class="nav-item active" href="#skills"><span class="nav-num">01</span><span class="nav-icon">🔌</span>Skills &amp; MCPs</a>
+  <a class="nav-item" href="#rules"><span class="nav-num">02</span><span class="nav-icon">📋</span>Rules</a>
+  <a class="nav-item" href="#workflow"><span class="nav-num">03</span><span class="nav-icon">⚡</span>Workflow</a>
+  <a class="nav-item" href="#hooks"><span class="nav-num">04</span><span class="nav-icon">🪝</span>Hooks</a>
+  <a class="nav-item" href="#memory"><span class="nav-num">05</span><span class="nav-icon">🧠</span>Memory Bank</a>
+  <a class="nav-item" href="#checkpoints"><span class="nav-num">06</span><span class="nav-icon">💾</span>Checkpoints</a>
+  <div class="nav-label" style="margin-top:24px;">Summary</div>
+  <a class="nav-item" href="#summary"><span class="nav-num">→</span><span class="nav-icon">🗺️</span>Big Picture</a>
+  <div class="sidebar-footer"><span>●</span> Cline Extension<br/>VS Code · MCP · AI-Native<br/>6 Concepts · 30+ Tips</div>
+</aside>
+
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-eyebrow">Advanced Developer Guide</div>
+    <h1>Cline Masterclass:<br/><em>From Zero</em> to<br/>High-Efficiency</h1>
+    <p class="hero-intro">
+      If you're already comfortable with the basics of Cline — opening a task, asking it to write code — this guide is your <strong>next leap forward.</strong> These six features separate engineers who <em>use</em> Cline from engineers who <em>wield</em> it. Each one compounds the others into a system.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item"><div class="meta-val">6</div><div class="meta-label">Core Concepts</div></div>
+      <div class="meta-item"><div class="meta-val">30+</div><div class="meta-label">Pro Tips</div></div>
+      <div class="meta-item"><div class="meta-val">∞</div><div class="meta-label">Efficiency Gain</div></div>
+    </div>
+  </section>
+
+  <div class="content-area">
+
+    <!-- ═══ 01 SKILLS ═══ -->
+    <section class="topic-section" id="skills">
+      <div class="topic-header">
+        <div class="topic-number">01</div>
+        <div class="topic-title-block">
+          <div class="topic-badge badge-skills">🔌 Custom Tooling</div>
+          <h2 class="topic-title">Skills &amp; MCPs<br/>Giving Cline New Powers</h2>
+        </div>
+      </div>
+
+      <div class="subsections">
+        <div class="sub-card">
+          <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+          <p>A <strong>Skill</strong> (powered by the <strong>Model Context Protocol</strong>) is a plug-in that gives Cline a capability it doesn't have out of the box — querying a database, calling an internal build system, inspecting binary output from your compiler, or fetching tickets from an issue tracker. MCP is an open standard; tools are composable and can be written in any language.</p>
+        </div>
+        <div class="sub-card">
+          <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+          <p>Cline's defaults are generic. <strong>Your toolchain isn't.</strong> Skills close that gap. Instead of you copy-pasting tool output into the chat, Cline invokes the tool directly, reads its output, and acts on it. No context switching, no copy-paste errors — and Cline can chain multiple tool calls autonomously within a single task.</p>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-how"><span>◎</span><span>How to use it — Step by Step</span></div>
+          <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: You're working on a systems project (C++, Go, Rust — any language) and want Cline to query your internal project database or issue tracker directly, instead of you pasting schema dumps or ticket descriptions by hand.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Open the MCP Servers panel inside Cline</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Cline sidebar panel <span class="arrow">›</span> look for the <span class="crumb">🔌 plug icon</span> in the top-right toolbar of the Cline panel <span class="arrow">›</span> click it to open the MCP Servers list
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline panel open in VS Code with the MCP Servers plug icon highlighted in the top-right of the panel toolbar. The panel body shows an empty or existing server list.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Open the MCP Settings editor</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  MCP Servers panel <span class="arrow">›</span> click <span class="crumb">Edit MCP Settings</span> (button at the bottom of the panel, or via the gear icon inside the panel)
+                </div>
+                <p style="margin-top:10px;font-size:13.5px;">This opens a JSON file (<span class="chip">cline_mcp_settings.json</span>) where all your MCP servers are registered. This is where you tell Cline which external tools exist and how to launch them.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Add an entry for each tool you want to connect</div>
+                <p style="margin-bottom:10px;font-size:13.5px;color:var(--text2);">The <span class="chip">command</span> field points to the MCP server executable on your machine. <span class="chip">args</span> passes its configuration. <span class="chip">alwaysAllow</span> lists which operations Cline can call without asking you each time.</p>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">cline_mcp_settings.json</span></div>
+                  <div class="code-body"><pre>{
+  <span class="str">"mcpServers"</span>: {
+    <span class="str">"project-db"</span>: {
+      <span class="str">"command"</span>: <span class="str">"path/to/your/mcp-server"</span>,
+      <span class="str">"args"</span>: [<span class="str">"--config"</span>, <span class="str">"./db.conf"</span>],
+      <span class="str">"disabled"</span>: <span class="kw">false</span>,
+      <span class="str">"alwaysAllow"</span>: [<span class="str">"query"</span>, <span class="str">"describe_table"</span>]
+      <span class="cm">// ↑ only list read-only tools here — never write/delete</span>
+    },
+    <span class="str">"build-system"</span>: {
+      <span class="str">"command"</span>: <span class="str">"path/to/build-mcp"</span>,
+      <span class="str">"args"</span>: [<span class="str">"--workspace"</span>, <span class="str">"${workspaceRoot}"</span>],
+      <span class="str">"disabled"</span>: <span class="kw">false</span>,
+      <span class="str">"alwaysAllow"</span>: [<span class="str">"get_targets"</span>, <span class="str">"get_deps"</span>]
+    }
+  }
+}</pre></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Check the connection status</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to look in Cline</div>
+                  Save the JSON file <span class="arrow">›</span> Cline auto-connects <span class="arrow">›</span> return to the <span class="crumb">🔌 MCP Servers panel</span> <span class="arrow">›</span> each server should show a <strong>green status dot ✅</strong>. Red = wrong path or bad args.
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>MCP Servers panel listing "project-db" and "build-system" entries, each with a green connected status dot. The list of available tools each server exposes is shown beneath each entry.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Use your new Skills naturally in any task</div>
+                <div class="step-desc">No special syntax. Just ask Cline as you normally would — it figures out which tool to call:<br/><br/><em>"Look at the schema of the <span class="chip">events</span> table and generate a migration to add a monotonic timestamp column with a covering index for time-series queries."</em><br/><br/>Cline calls <span class="chip">query</span> on your <span class="chip">project-db</span> server, reads the schema, and writes the migration — in one shot.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+          <div class="bp-list">
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Guard <span class="chip">alwaysAllow</span> carefully.</strong> Only list read-only operations. Any tool that writes, deletes, or mutates state should always require explicit approval — never auto-allow those.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Wrap your internal CLI tools as MCP servers.</strong> Custom build system? Service registry? Binary analysis scripts? Even a thin 20-line wrapper that shells out to your existing CLI counts. The whole team benefits.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Keep credentials out of the config.</strong> Reference environment variables, not literal secrets. Your MCP settings file may end up in version control.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Name servers by environment AND purpose.</strong> <span class="chip">db-dev</span> vs <span class="chip">db-staging</span>, <span class="chip">tracker-jira</span> vs <span class="chip">tracker-github</span> — obvious at a glance which system and which environment.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 02 RULES ═══ -->
+    <section class="topic-section" id="rules">
+      <div class="topic-header">
+        <div class="topic-number">02</div>
+        <div class="topic-title-block">
+          <div class="topic-badge badge-rules">📋 Project Context</div>
+          <h2 class="topic-title">Cline Rules<br/>The <em>.clinerules</em> File</h2>
+        </div>
+      </div>
+
+      <div class="subsections">
+        <div class="sub-card">
+          <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+          <p>A <strong><span class="chip">.clinerules</span></strong> file is a Markdown document placed at your project root. Every time Cline starts a task in that project, it reads this file first — your coding standards, architectural invariants, naming conventions, and forbidden patterns. Defined once, respected on every task.</p>
+        </div>
+        <div class="sub-card">
+          <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+          <p>Without rules, you re-brief Cline every session. <em>"Don't use exceptions in this codebase," "All allocations go through our pool allocator," "Never touch the HAL layer without a flag."</em> With <span class="chip">.clinerules</span>, that context is captured once and stays in effect — even weeks later, even for new teammates.</p>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-how"><span>◎</span><span>How to use it — Step by Step</span></div>
+          <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: A mixed C++ / Go systems project. You want Cline to always follow your team's architectural constraints without reminders.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Create the file at your project root</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in VS Code</div>
+                  VS Code Explorer <span class="arrow">›</span> right-click your project root folder <span class="arrow">›</span> <span class="crumb">New File</span> <span class="arrow">›</span> name it <span class="crumb">.clinerules</span> (same level as your <span class="chip">CMakeLists.txt</span>, <span class="chip">go.mod</span>, or <span class="chip">Makefile</span>)
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Write your rules — precise constraints, not paragraphs</div>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">.clinerules (systems project example)</span></div>
+                  <div class="code-body"><pre><span class="cm"># Telemetry Platform — Cline Rules</span>
+
+<span class="nb">## Architecture</span>
+- C++ owns the data-plane (ingestion, encoding, ring buffers).
+- Go owns the control-plane (config push, health, orchestration).
+- These layers communicate via shared memory + thin IPC protocol.
+  Do NOT introduce sockets between them.
+
+<span class="nb">## C++ Constraints</span>
+- C++20 only. No exceptions — use Result&lt;T,E&gt; from lib/result.h.
+- All heap allocations go through PoolAllocator in lib/alloc.h.
+- RAII everywhere. No raw new/delete outside the allocator.
+- No global mutable state. Config is passed at construction time.
+
+<span class="nb">## Go Constraints</span>
+- Use errors.As / errors.Is. No sentinel error variables.
+- Concurrency via channels. Avoid sync.Mutex unless genuinely needed.
+- Every exported function that can fail must return (T, error).
+
+<span class="nb">## What NOT to do</span>
+- Do NOT touch /hal/ without explicit instruction — hardware-locked.
+- Do NOT add third-party libs to the C++ layer without discussion.
+- Do NOT log in hot paths — use the perf-event counter API instead.</pre></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Add global personal rules that apply across all projects</div>
+                <div class="step-desc">Rules like "always explain your reasoning before writing code" or "never delete files without stating why" can live in Cline's global settings instead of per-project files.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Cline sidebar <span class="arrow">›</span> <span class="crumb">⚙ Settings</span> (gear icon, top or bottom of the panel) <span class="arrow">›</span> find the <span class="crumb">Custom Instructions</span> text area <span class="arrow">›</span> type your global rules directly here
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline Settings panel open, scrolled to the "Custom Instructions" text area. Two or three global rules are typed in, e.g. "Always explain your reasoning before writing any code."</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Test that Cline is respecting the rules</div>
+                <div class="step-desc">Give Cline a task that would normally need reminders. For the example above: <em>"Add a new metric counter to the ingestion pipeline."</em> Without being told, Cline should automatically use <span class="chip">PoolAllocator</span>, avoid exceptions, use <span class="chip">Result&lt;T,E&gt;</span>, and stay away from <span class="chip">/hal/</span>.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+          <div class="bp-list">
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Layer your rules: Global → Project → Task.</strong> Global settings = your personal coding style. <span class="chip">.clinerules</span> = team and codebase standards. Chat message = one-off override for a specific task.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Write constraints, not philosophies.</strong> "No raw new/delete outside the allocator" is more useful than a paragraph about your memory management approach. Specificity wins.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>A "What NOT to do" section is often the most valuable part.</strong> Negative constraints prevent the high-impact mistakes that are hardest to catch in review — touching protected layers, adding banned deps, breaking invariants.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Commit <span class="chip">.clinerules</span> to version control.</strong> It becomes living documentation of your architectural decisions. New team members understand the codebase faster just by reading it.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Revisit after every significant refactor.</strong> A rule that contradicts the current codebase is worse than no rule — it actively confuses Cline and produces inconsistent output.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 03 WORKFLOW ═══ -->
+    <section class="topic-section" id="workflow">
+      <div class="topic-header">
+        <div class="topic-number">03</div>
+        <div class="topic-title-block">
+          <div class="topic-badge badge-workflow">⚡ Task Lifecycle</div>
+          <h2 class="topic-title">Cline Workflow<br/>Define → Plan → Approve → Iterate</h2>
+        </div>
+      </div>
+
+      <div class="subsections">
+        <div class="sub-card">
+          <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+          <p>The structured lifecycle of every Cline task: you define what you want → Cline proposes a plan → you approve or redirect → Cline executes step by step, showing each action before it happens → you review and iterate. <strong>Nothing touches your codebase without your knowledge.</strong></p>
+        </div>
+        <div class="sub-card">
+          <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+          <p>Uncontrolled AI code generation is how you get a 200-file diff you can't reason about. Cline's workflow keeps <strong>you as the architect</strong> — every file write, every compiler invocation, every tool call is visible before execution. The approval step is your veto. The iteration loop is your feedback channel.</p>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-how"><span>◎</span><span>How to use it — Step by Step</span></div>
+          <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: Replacing a polling loop in a Go control-plane service with an event-driven subscriber using your project's IPC interface.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Write a precise, scoped task definition in the Cline chat</div>
+                <div class="step-desc">The quality of your task definition directly determines the quality of Cline's plan. Give it scope, inputs, expected outputs, and boundaries.</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                  <div style="background:#1a0808;border:1px solid #3d1515;border-radius:8px;padding:14px 16px;">
+                    <div style="font-family:var(--font-mono);font-size:10px;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">✗ Vague</div>
+                    <div style="font-size:13px;color:#8a6060;font-style:italic;">"Refactor the polling loop."</div>
+                  </div>
+                  <div style="background:#081a0e;border:1px solid #153d23;border-radius:8px;padding:14px 16px;">
+                    <div style="font-family:var(--font-mono);font-size:10px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">✓ Precise</div>
+                    <div style="font-size:12.5px;color:#608a70;font-style:italic;line-height:1.6;">"Replace the polling loop in <span class="chip">config_watcher.go</span> with an event-driven subscriber using the <span class="chip">EventQueue</span> interface in <span class="chip">pkg/ipc/</span>. Keep the public API identical — only change the internal implementation. Add a unit test for the subscriber path."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Read the plan Cline generates — before approving anything</div>
+                <div class="step-desc">After you send your task, Cline enters planning mode. It lists every file it intends to touch and what it plans to do to each one, <em>before writing a single line</em>. This is your most valuable checkpoint — redirect here, not after 30 edits.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 What to do in Cline</div>
+                  Read Cline's response fully <span class="arrow">›</span> if the plan looks correct, click <span class="crumb">Approve</span> <span class="arrow">›</span> if something's wrong, type a correction in the chat to redirect <em>before</em> any code is written
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline's planning-mode response in the chat showing a numbered list of intended actions per file. "Approve" and "Reject" buttons are visible at the bottom of the chat response before any execution has happened.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Approve each action individually as Cline executes</div>
+                <div class="step-desc">Every file write is shown as a diff for your review before it is applied. You can approve, reject, or give feedback on each individual change.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 What to do in Cline</div>
+                  For each action Cline surfaces <span class="arrow">›</span> review the inline diff in the Cline panel <span class="arrow">›</span> click <span class="crumb">Approve</span> to apply or <span class="crumb">Reject</span> to skip <span class="arrow">›</span> or type feedback in the chat to redirect mid-execution
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline's diff view for a single file change shown inline in the panel. Left shows original code, right shows proposed change with green additions and red deletions. "Approve" and "Reject" buttons are directly below the diff.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Iterate with targeted feedback — don't restart</div>
+                <div class="step-desc">After execution, test the result. If something needs adjustment, give focused feedback — Cline picks up where it left off and adjusts only what's needed:<br/><br/><em>"The subscriber is correct but doesn't handle the case where <span class="chip">EventQueue</span> returns nil on timeout — treat that as a no-op, not an error."</em></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+          <div class="bp-list">
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Front-load all constraints in the first message.</strong> Every boundary and invariant you know about belongs in the task definition. Mid-execution corrections cost more and produce messier diffs.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>For risky tasks, ask for a plan first.</strong> Say: <em>"Don't write any code yet — give me a detailed step-by-step plan."</em> Review it, correct it, then say "proceed." This is free insurance on complex work.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Keep tasks atomic — one cohesive change per task.</strong> Mixing "refactor the event loop AND update the IPC layer AND add documentation" produces diffs that are impossible to review meaningfully. Break it up.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Reject at the plan stage — it's cheaper.</strong> If the plan touches files it shouldn't, push back before a single line is written. Redirecting a plan takes seconds; undoing 20 file changes does not.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 04 HOOKS ═══ -->
+    <section class="topic-section" id="hooks">
+      <div class="topic-header">
+        <div class="topic-number">04</div>
+        <div class="topic-title-block">
+          <div class="topic-badge badge-hooks">🪝 Lifecycle Automation</div>
+          <h2 class="topic-title">Cline Hooks<br/>Close the Feedback Loop</h2>
+        </div>
+      </div>
+
+      <div class="subsections">
+        <div class="sub-card">
+          <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+          <p><strong>Hooks</strong> are commands you configure to run automatically at specific moments in a Cline task lifecycle — before a task starts, after every file save, or after the entire task completes. Their output can be fed back to Cline, creating a self-correcting loop with no human in the middle.</p>
+        </div>
+        <div class="sub-card">
+          <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+          <p>Without hooks: Cline writes code → you run the build → you copy errors → Cline fixes them → repeat. With hooks: <strong>Cline writes → build runs → Cline reads the output → Cline fixes it.</strong> You only re-enter the loop when everything passes. A fully automated quality cycle.</p>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-how"><span>◎</span><span>How to use it — Step by Step</span></div>
+          <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: C++ project. You want compiler errors to automatically reach Cline after every file save, so it self-corrects without you copying error messages.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Open the Hooks settings in Cline</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Cline sidebar panel <span class="arrow">›</span> <span class="crumb">⚙ Settings</span> (gear icon) <span class="arrow">›</span> scroll down to the <span class="crumb">Hooks</span> section
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline Settings panel scrolled to the "Hooks" section. Four input fields are visible: "Pre-task command", "Post-file-save command", "Post-task command", and a toggle labeled "Feed output back to Cline" (currently off).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Enter a Post-file-save command</div>
+                <div class="step-desc">This runs every time Cline saves a file. Point it at your build or compile command. Note: add <span class="chip">2>&1</span> to your command so compiler errors (which tools write to stderr) are visible to Cline — otherwise it only sees stdout.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Settings <span class="arrow">›</span> Hooks <span class="arrow">›</span> <span class="crumb">Post-file-save command</span> input field <span class="arrow">›</span> type your build command (e.g. <span class="crumb">cmake --build ./build 2>&1</span> or <span class="crumb">go build ./... 2>&1</span>)
+                </div>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">Examples by language / build system</span></div>
+                  <div class="code-body"><pre><span class="cm"># C++ (CMake)</span>
+cmake --build ./build -- -j4 <span class="nb">2>&1</span>
+
+<span class="cm"># Go</span>
+go build ./... <span class="nb">2>&1</span>
+
+<span class="cm"># Rust</span>
+cargo check <span class="nb">2>&1</span>
+
+<span class="cm"># Any custom build script</span>
+./scripts/build.sh <span class="nb">2>&1</span>
+
+<span class="cm"># ↑ 2>&1 is critical — it sends stderr (where errors live) to stdout</span></pre></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Enable "Feed output back to Cline"</div>
+                <div class="step-desc">This is the single most important toggle in the Hooks section. Without it, the hook runs but Cline never sees the output. With it on, build errors and warnings become part of Cline's context automatically.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Settings <span class="arrow">›</span> Hooks section <span class="arrow">›</span> toggle <span class="crumb">Feed output back to Cline</span> to <strong>ON</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Add a Post-task command for your quality gates</div>
+                <div class="step-desc">After an entire task completes, run your full linter and test suite. Cline sees the report and addresses any issues before the task is declared done.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Settings <span class="arrow">›</span> Hooks <span class="arrow">›</span> <span class="crumb">Post-task command</span> input field <span class="arrow">›</span> enter your quality gate (e.g. <span class="crumb">golangci-lint run ./... 2>&1 && go test ./... 2>&1</span>)
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Add a Pre-task command for a baseline snapshot</div>
+                <div class="step-desc">Run a static analysis or type-check before Cline starts. This gives Cline a clear picture of pre-existing issues — it won't confuse old problems with its own changes.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Settings <span class="arrow">›</span> Hooks <span class="arrow">›</span> <span class="crumb">Pre-task command</span> input field <span class="arrow">›</span> enter your analysis tool (e.g. <span class="crumb">clang-tidy src/**/*.cpp 2>&1</span>)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+          <div class="bp-list">
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Always use <span class="chip">2>&1</span>.</strong> Compilers, linkers, and most build tools write error messages to stderr. Cline only reads stdout. Without this redirect, errors are invisible to Cline.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Keep post-save hooks fast — under 5 seconds.</strong> A slow hook on every file save destroys flow. Use incremental builds, check only the modified file, or use <span class="chip">cargo check</span>/<span class="chip">go vet</span> style fast-feedback tools. Save the full build for post-task.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Use hooks to mechanically enforce your <span class="chip">.clinerules</span>.</strong> Your rules say "no global mutable state"? Write a grep or static analysis hook that checks for it. Cline sees the violation automatically and fixes it without you reviewing.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Hook frequency hierarchy:</strong> Post-save = fast compile/check only. Post-task = full linter + tests. Pre-task = baseline snapshot. Don't run the full test suite on every save.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 05 MEMORY BANK ═══ -->
+    <section class="topic-section" id="memory">
+      <div class="topic-header">
+        <div class="topic-number">05</div>
+        <div class="topic-title-block">
+          <div class="topic-badge badge-memory">🧠 Long-Term Context</div>
+          <h2 class="topic-title">Memory Bank<br/>Context That Survives Sessions</h2>
+        </div>
+      </div>
+
+      <div class="subsections">
+        <div class="sub-card">
+          <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+          <p>A folder of Markdown files you maintain collaboratively with Cline inside your project. They describe your system architecture, in-progress work, key past decisions, and recurring patterns. At the start of each session Cline reads them — solving the blank-slate problem and arriving already briefed on your project.</p>
+        </div>
+        <div class="sub-card">
+          <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+          <p>Without a Memory Bank, every session starts with 10 minutes of re-briefing. The Memory Bank is a <strong>force multiplier</strong>: the more accurately you maintain it, the more Cline can do autonomously. It transforms Cline from a stateless assistant into a project-aware collaborator who remembers every decision you've made.</p>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-how"><span>◎</span><span>How to use it — Step by Step</span></div>
+          <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: A multi-component telemetry platform spanning C++ data-plane and Go control-plane services. You want Cline to always know where the project stands without re-briefing.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Create the Memory Bank folder</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in VS Code</div>
+                  VS Code Explorer <span class="arrow">›</span> right-click your project root <span class="arrow">›</span> <span class="crumb">New Folder</span> <span class="arrow">›</span> name it <span class="crumb">.memory-bank</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Create focused, purpose-specific Markdown files inside it</div>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">Recommended structure</span></div>
+                  <div class="code-body"><pre>.memory-bank/
+├── <span class="cn">projectbrief.md</span>    <span class="cm"># What are we building? What phase are we in?</span>
+├── <span class="cn">architecture.md</span>    <span class="cm"># Component map, layer boundaries, data flows</span>
+├── <span class="cn">activetasks.md</span>     <span class="cm"># What is in progress right now</span>
+├── <span class="cn">decisions.md</span>       <span class="cm"># Key decisions + rationale (ADR-lite log)</span>
+└── <span class="cn">patterns.md</span>        <span class="cm"># Recurring code patterns and idioms</span></pre></div>
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>VS Code Explorer showing .memory-bank/ expanded with all five Markdown files listed. The decisions.md file is open in the editor showing ADR-style entries.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Write for a reader with zero project memory — include the "why"</div>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">.memory-bank/decisions.md (example)</span></div>
+                  <div class="code-body"><pre><span class="nb">## Decision: Lock-free Ring Buffer for Ingestion</span>
+<span class="cn">Why:</span> Mutex contention at ingestion peaks caused 40% throughput drop.
+<span class="cn">Impact:</span> The ring buffer in lib/ringbuf.h is single-producer / single-consumer
+         only. Never use it with multiple writers — use mpsc_queue instead.
+
+<span class="nb">## Decision: No Dynamic Dispatch in Hot Path</span>
+<span class="cn">Why:</span> Vtable overhead was measurable at 1M events/sec in profiling.
+<span class="cn">Impact:</span> All hot-path types are resolved at compile time via templates.
+         Do NOT introduce virtual functions in lib/pipeline/. Use CRTP instead.</pre></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Tell Cline to read it at the start of every task</div>
+                <div class="step-desc">Add this block to your <span class="chip">.clinerules</span> file so it happens automatically:</div>
+                <div class="code-block">
+                  <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">.clinerules (add this)</span></div>
+                  <div class="code-body"><pre><span class="nb">## Memory Bank</span>
+At the start of EVERY task, read all files in .memory-bank/ before
+doing anything else. After completing any task that changes the
+architecture, introduces a new pattern, or makes a key decision,
+update the relevant memory bank file to reflect the new state.</pre></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Ask Cline to update the Memory Bank at session end</div>
+                <div class="step-desc">After a meaningful session, hand off maintenance to Cline. It reads the current files, diffs what changed, and writes precise updates.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Example prompt to use</div>
+                  <em>"Update the memory bank. Today we switched the ingestion encoder to SIMD-optimized paths for AVX2. Update architecture.md and add a new entry to decisions.md explaining why and what it restricts."</em>
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline's activity log showing it reading .memory-bank/decisions.md, then the diff view for the proposed update — new green lines added with the SIMD decision entry. "Approve" button is visible below the diff.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+          <div class="bp-list">
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Keep <span class="chip">activetasks.md</span> ruthlessly current.</strong> This is the most-read file. Update it at the start of every session. Stale task context actively misleads Cline and is worse than nothing.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Decisions need the "why", not just the "what".</strong> The reasoning is what prevents Cline from accidentally reversing a hard-won choice. "We use CRTP because vtables were measured as too slow at our event rates" is priceless context.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Use <span class="chip">decisions.md</span> as your ADR log.</strong> Architecture Decision Records are good practice anyway. Maintaining them via Cline means you get documentation as a side effect of development.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Prune every few sprints.</strong> Ask Cline: <em>"Audit the memory bank for stale or contradicted entries and suggest what to remove."</em> A lean, accurate memory bank beats a large, outdated one.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 06 CHECKPOINTS ═══ -->
+    <section class="topic-section" id="checkpoints">
+      <div class="topic-header">
+        <div class="topic-number">06</div>
+        <div class="topic-title-block">
+          <div class="topic-badge badge-checkpoints">💾 State Snapshots</div>
+          <h2 class="topic-title">Checkpoints<br/>Explore Boldly, Revert Safely</h2>
+        </div>
+      </div>
+
+      <div class="subsections">
+        <div class="sub-card">
+          <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+          <p><strong>Checkpoints</strong> are fine-grained workspace snapshots that Cline creates automatically (or you trigger manually) at key moments in a task. They capture every file Cline has touched. If a direction goes wrong — even several steps in — you roll back the entire workspace instantly, without touching git.</p>
+        </div>
+        <div class="sub-card">
+          <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+          <p>Even with careful approvals, sometimes you realize several steps in that an earlier step was wrong. Git is coarse and intentional. Checkpoints are <strong>fine-grained and automatic</strong> — purpose-built for the rapid iterative changes of AI-assisted coding. They let you tackle aggressive refactors without fear.</p>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-how"><span>◎</span><span>How to use it — Step by Step</span></div>
+          <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: You're asking Cline to replace a custom pool allocator with a new arena-based one across 30+ files. High-risk, many interdependent changes.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Understand when Cline creates checkpoints automatically</div>
+                <div class="step-desc">Cline automatically checkpoints: before starting any task, and before modifying any existing file. These appear as orange diamond markers on the task activity timeline inside the Cline panel.</div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Cline's task activity panel showing a vertical timeline. Orange diamond markers appear at "Task Start", "Before editing allocator.h", "Before editing pool.cpp". A "Create Checkpoint" button is at the top of the panel.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Create a named checkpoint before any high-risk task</div>
+                <div class="step-desc">Auto-checkpoints are useful, but a named one gives you a clearly labelled, intentional restore point you can find instantly later.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Option A — via the Cline chat</div>
+                  Type: <em>"Before we start, create a checkpoint labeled 'pre-arena-allocator-refactor'."</em>
+                </div>
+                <div class="ui-nav" style="margin-top:6px;">
+                  <div class="ui-nav-label">🖱 Option B — via the Cline panel button</div>
+                  Cline panel <span class="arrow">›</span> task activity area <span class="arrow">›</span> click <span class="crumb">+ Create Checkpoint</span> <span class="arrow">›</span> type a descriptive label <span class="arrow">›</span> click <span class="crumb">Save</span>
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>The checkpoint creation dialog with a text field filled with "pre-arena-allocator-refactor" and a "Save Checkpoint" button. Below it, a chronological list of recent auto-checkpoints with timestamps is visible.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Let Cline work — approve actions as they are surfaced</div>
+                <div class="step-desc">Cline continues creating automatic checkpoints throughout execution. You are building a full, reversible history of every change as it happens.</div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Roll back to any checkpoint in one action</div>
+                <div class="step-desc">After 20 file changes you realize Cline misunderstood a critical invariant of the old allocator. One click rolls everything back.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Cline panel <span class="arrow">›</span> <span class="crumb">Checkpoints</span> tab <span class="arrow">›</span> find <span class="crumb">pre-arena-allocator-refactor</span> <span class="arrow">›</span> click <span class="crumb">⋮ Options</span> <span class="arrow">›</span> <span class="crumb">Restore</span> <span class="arrow">›</span> confirm in the dialog
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>The Checkpoints panel with "pre-arena-allocator-refactor" highlighted and a context menu open showing "Restore", "View Diff", and "Delete". A confirmation dialog reads "Restoring this checkpoint will revert 20 file changes. Confirm?"</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Use "View Diff" before committing to a restore</div>
+                <div class="step-desc">Before doing a full rollback, inspect the exact diff between a checkpoint and the current state. You may want to restore to the checkpoint but manually keep one specific file's changes.</div>
+                <div class="ui-nav">
+                  <div class="ui-nav-label">🖱 Where to go in Cline</div>
+                  Checkpoints tab <span class="arrow">›</span> select your checkpoint <span class="arrow">›</span> click <span class="crumb">View Diff</span> <span class="arrow">›</span> review the side-by-side diff of every changed file before deciding whether to restore in full
+                </div>
+                <div class="img-placeholder">
+                  <div class="img-icon">📸</div>
+                  <div class="img-label"><strong>Screenshot Needed</strong>Checkpoint diff view. Left column "Checkpoint State" shows old arena.h, right column "Current State" shows the modified version. Changed lines highlighted in green (additions) and red (deletions).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-card subsection-full">
+          <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+          <div class="bp-list">
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Create named checkpoints before every high-risk task.</strong> Allocator changes, ABI-breaking refactors, build system migrations, schema changes, large file reorganizations — anything where being wrong is expensive.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Use self-explanatory labels.</strong> <span class="chip">pre-arena-allocator</span>, <span class="chip">before-abi-freeze</span>, <span class="chip">stable-post-ipc-refactor</span>. A label from three days ago should be immediately understandable without a timestamp.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Checkpoints complement git — they don't replace it.</strong> Use checkpoints for intra-session exploration and rollback. Once Cline produces output you're happy with, do a proper git commit as normal.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>The maximum safety combo: plan-first → named checkpoint → step-by-step approvals.</strong> Three independent safety nets on every risky task. None of them take more than a few seconds to set up.</span></div>
+            <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Delete checkpoints for stable, committed work.</strong> Keep the list clean and meaningful — only states you might actually want to return to. A cluttered checkpoint list is harder to navigate in a crisis.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="summary-section" id="summary">
+      <h2>Putting It All Together</h2>
+      <p class="sub">These six features aren't isolated — they form a compounding system. Each one plays a distinct role.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card fc-skills"><div class="fc-icon">🔌</div><div class="fc-name">Skills &amp; MCPs</div><div class="fc-desc">Gives Cline the tools to act in your specific environment — databases, build systems, binary analysis, internal tooling.</div></div>
+        <div class="feature-card fc-rules"><div class="fc-icon">📋</div><div class="fc-name">Rules</div><div class="fc-desc">Ensures every action respects your architecture and constraints. Captured once in .clinerules, enforced on every task forever.</div></div>
+        <div class="feature-card fc-workflow"><div class="fc-icon">⚡</div><div class="fc-name">Workflow</div><div class="fc-desc">Keeps you as the architect. Every file write and tool call is planned and individually approved before execution.</div></div>
+        <div class="feature-card fc-hooks"><div class="fc-icon">🪝</div><div class="fc-name">Hooks</div><div class="fc-desc">Closes the quality feedback loop. Build errors, lint warnings, and test failures reach Cline automatically — no copy-paste.</div></div>
+        <div class="feature-card fc-memory"><div class="fc-icon">🧠</div><div class="fc-name">Memory Bank</div><div class="fc-desc">Persistent, accurate project context across sessions. Cline arrives already knowing your architecture, decisions, and progress.</div></div>
+        <div class="feature-card fc-checkpoints"><div class="fc-icon">💾</div><div class="fc-name">Checkpoints</div><div class="fc-desc">Safety net for every significant change. Explore aggressively — roll back cleanly, any time, in one click from the Cline panel.</div></div>
+      </div>
+
+      <div style="margin-top:40px;padding:28px 32px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);border-left:3px solid var(--cyan);">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;">The Full Picture</div>
+        <p style="font-size:15px;color:var(--text2);line-height:1.85;">A fully equipped session: Cline reads your <strong style="color:var(--cyan)">Memory Bank</strong> and arrives already knowing your architecture. Your <strong style="color:var(--amber)">Rules</strong> ensure every generated line respects your constraints and invariants. <strong style="color:var(--cyan)">Skills</strong> give it direct access to your build system, database, and internal tools. The <strong style="color:var(--green)">Workflow</strong> keeps you as the approving architect for every action. <strong style="color:var(--purple)">Hooks</strong> run your build tools and analysis automatically, feeding results back. And <strong style="color:var(--red)">Checkpoints</strong> mean you can attempt bold refactors knowing you can always return to solid ground.</p>
+        <p style="margin-top:14px;font-size:15px;color:var(--text3);line-height:1.8;">That's not just AI-assisted development. <strong style="color:var(--head)">That's a system. And now you know how to build it.</strong></p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="page-footer">
+    <div class="footer-left">Cline Masterclass · Advanced AI-Assisted Development<br/><span>Happy building. 🛠️</span></div>
+    <div class="footer-badge">⬡ Cline + VS Code + MCP</div>
+  </footer>
+
+</main>
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.06 });
+document.querySelectorAll('.topic-section').forEach(el => observer.observe(el));
+
+const navItems = document.querySelectorAll('.nav-item');
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.getAttribute('id');
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + id) item.classList.add('active');
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+document.querySelectorAll('[id]').forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
