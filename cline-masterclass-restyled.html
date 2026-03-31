@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cline Masterclass — Advanced Developer Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── ROOT ──────────────────────────────────────────────── */
+:root {
+  /* Doc-2 palette */
+  --bg:      #080b12;
+  --bg2:     #0d1120;
+  --bg3:     #121828;
+  --surface: #161e30;
+  --border:  #1e2a42;
+  --border2: #263348;
+  --text:    #c8d6f0;
+  --text2:   #8096b8;
+  --text3:   #4e6080;
+  --head:    #eaf1ff;
+  --cyan:    #38d9f5;
+  --cyan2:   #0fa8c7;
+  --amber:   #f5a623;
+  --amber2:  #c47d0c;
+  --green:   #3dffa0;
+  --red:     #ff5f7a;
+  --purple:  #b48cf7;
+
+  /* Legacy var aliases so doc-1 class names keep working */
+  --ink:        var(--bg);
+  --ink-2:      var(--bg2);
+  --ink-3:      var(--bg3);
+  --panel:      var(--surface);
+  --panel-2:    #1a2438;
+  --line:       var(--border);
+  --line-2:     var(--border2);
+  --muted:      var(--text3);
+  --dim:        var(--text2);
+  --heading:    var(--head);
+  --white:      var(--head);
+  --violet:     var(--purple);
+  --rose:       var(--red);
+
+  --green-dim:  rgba(61,255,160,0.08);
+  --violet-dim: rgba(180,140,247,0.08);
+  --amber-dim:  rgba(245,166,35,0.08);
+  --rose-dim:   rgba(255,95,122,0.08);
+  --cyan-dim:   rgba(56,217,245,0.08);
+
+  --r:  6px;
+  --r2: 12px;
+  --mono:    'JetBrains Mono', monospace;
+  --serif:   'Fraunces', serif;
+  --display: 'DM Sans', sans-serif;
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* ── BASE ──────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* noise grain overlay (doc-2 aesthetic) */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022; pointer-events: none; z-index: 9999;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── BACKGROUNDS ───────────────────────────────────────── */
+.global-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 18% -8%,  rgba(56,217,245,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 108%, rgba(180,140,247,0.06) 0%, transparent 55%);
+}
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.18;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 40%, transparent 100%);
+}
+
+/* ── NAV ───────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(8,11,18,0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-logo-mark {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--bg);
+}
+.nav-brand-text {
+  font-family: var(--mono); font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 0.08em; color: var(--head);
+}
+.nav-brand-text span { color: var(--text3); font-weight: 400; }
+.nav-pills { display: flex; gap: 2px; }
+.nav-pill {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em;
+  color: var(--text3); padding: 0.3rem 0.7rem; border-radius: 100px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-pill:hover { color: var(--cyan); background: var(--cyan-dim); }
+.nav-cta {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+  color: var(--bg); background: var(--cyan);
+  padding: 0.35rem 0.9rem; border-radius: 100px;
+  font-weight: 700; transition: opacity 0.2s;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── HERO ──────────────────────────────────────────────── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 92vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem 5rem;
+  overflow: hidden;
+  background: var(--bg2);
+}
+/* grid bg inside hero */
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.18; pointer-events: none;
+  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 70%, transparent);
+  z-index: 0;
+}
+/* cyan glow top-right */
+.hero::after {
+  content: ''; position: absolute; top: -120px; right: -80px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(56,217,245,0.07) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.hero > * { position: relative; z-index: 1; }
+
+.hero-orb {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%, -58%);
+  background: radial-gradient(circle, rgba(245,166,35,0.05) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+  animation: orb-pulse 8s ease-in-out infinite;
+}
+@keyframes orb-pulse {
+  0%,100% { transform: translate(-50%,-58%) scale(1);   opacity: 1; }
+  50%      { transform: translate(-50%,-58%) scale(1.1); opacity: 0.6; }
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan);
+  background: rgba(56,217,245,0.08); border: 1px solid rgba(56,217,245,0.22);
+  padding: 6px 14px; border-radius: 100px;
+  margin-bottom: 2rem;
+  animation: fade-up 0.6s ease both;
+}
+.hero-eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 8px var(--cyan);
+  animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+.hero-h1 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1.0; letter-spacing: -0.025em;
+  color: var(--head); margin-bottom: 0.4em;
+  animation: fade-up 0.7s ease 0.08s both;
+}
+.serif-word {
+  font-style: italic; font-weight: 300;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--green) 50%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+  max-width: 560px; color: var(--text2); font-family: var(--display);
+  font-size: 1.05rem; line-height: 1.82; margin-bottom: 2.8rem;
+  animation: fade-up 0.8s ease 0.16s both;
+}
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;
+  margin-bottom: 4rem;
+  animation: fade-up 0.9s ease 0.24s both;
+}
+.tag {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em;
+  padding: 0.28rem 0.75rem; border-radius: 4px;
+  border: 1px solid var(--border); color: var(--text3); background: var(--surface);
+}
+.tag.g { color: var(--green);  border-color: rgba(61,255,160,0.25);  background: var(--green-dim); }
+.tag.v { color: var(--purple); border-color: rgba(180,140,247,0.25); background: var(--violet-dim); }
+
+.hero-scroll {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  animation: fade-up 1s ease 0.32s both; color: var(--text3);
+}
+.hero-scroll-text { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--border), transparent);
+  animation: scroll-shrink 2s ease infinite;
+}
+@keyframes scroll-shrink { 0%,100%{transform:scaleY(1);opacity:1;} 50%{transform:scaleY(0.5);opacity:0.3;} }
+@keyframes fade-up { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+
+/* ── CHAPTER INDEX ─────────────────────────────────────── */
+.index-wrap {
+  position: relative; z-index: 1;
+  max-width: 1120px; margin: 0 auto 7rem; padding: 0 2rem;
+}
+.index-label {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 1.2rem;
+}
+.index-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden;
+}
+.index-card {
+  background: var(--surface); padding: 1.4rem 1.5rem;
+  display: flex; flex-direction: column; gap: 0.4rem;
+  transition: background 0.2s; position: relative; overflow: hidden;
+}
+.index-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; opacity: 0; transition: opacity 0.2s;
+}
+.index-card:hover { background: var(--panel-2); }
+.index-card:hover::before { opacity: 1; }
+/* accent colours per chapter */
+.c1::before,.c6::before { background: var(--cyan); }
+.c2::before,.c7::before { background: var(--purple); }
+.c3::before             { background: var(--amber); }
+.c4::before             { background: var(--red); }
+.c5::before             { background: var(--green); }
+.ic-num {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.1em; margin-bottom: 0.15rem;
+}
+.c1 .ic-num,.c6 .ic-num { color: var(--cyan); }
+.c2 .ic-num,.c7 .ic-num { color: var(--purple); }
+.c3 .ic-num             { color: var(--amber); }
+.c4 .ic-num             { color: var(--red); }
+.c5 .ic-num             { color: var(--green); }
+.ic-title {
+  font-family: var(--display); font-weight: 700;
+  font-size: 0.92rem; color: var(--head); line-height: 1.25;
+}
+.ic-sub {
+  font-family: var(--mono); font-size: 0.6rem;
+  color: var(--text3); letter-spacing: 0.04em; line-height: 1.4;
+}
+
+/* ── MAIN WRAP ─────────────────────────────────────────── */
+.main-wrap {
+  position: relative; z-index: 1;
+  max-width: 1040px; margin: 0 auto; padding: 0 2rem 10rem;
+}
+
+/* ── TOPIC ─────────────────────────────────────────────── */
+.topic {
+  margin-bottom: 9rem;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.topic.visible { opacity: 1; transform: translateY(0); }
+
+/* ── CHAPTER BANNER ────────────────────────────────────── */
+.ch-banner {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--border); border-radius: var(--r2);
+  overflow: hidden; margin-bottom: 3rem;
+  background: var(--surface);
+  transition: border-color 0.25s;
+}
+.ch-banner:hover { border-color: var(--border2); }
+
+.ch-bar { width: 5px; flex-shrink: 0; }
+.t-green  .ch-bar { background: var(--cyan); }
+.t-violet .ch-bar { background: var(--purple); }
+.t-amber  .ch-bar { background: var(--amber); }
+.t-rose   .ch-bar { background: var(--red); }
+.t-cyan   .ch-bar { background: var(--green); }
+
+.ch-inner { display: flex; align-items: center; gap: 2rem; padding: 2rem 2.5rem; flex: 1; }
+
+/* outlined giant number — doc-2 signature */
+.ch-num {
+  font-family: var(--serif); font-style: italic; font-weight: 900;
+  font-size: 5rem; line-height: 1; letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border2);
+  flex-shrink: 0; min-width: 72px; text-align: center;
+  user-select: none;
+  transition: -webkit-text-stroke-color 0.3s;
+}
+.ch-banner:hover .ch-num { -webkit-text-stroke-color: var(--cyan2); }
+
+.ch-div { width: 1px; background: var(--border); align-self: stretch; flex-shrink: 0; }
+.ch-text { flex: 1; }
+.ch-label {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.t-green  .ch-label { color: var(--cyan); }
+.t-violet .ch-label { color: var(--purple); }
+.t-amber  .ch-label { color: var(--amber); }
+.t-rose   .ch-label { color: var(--red); }
+.t-cyan   .ch-label { color: var(--green); }
+
+.ch-title {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  letter-spacing: -0.02em; line-height: 1.1;
+  color: var(--head); margin-bottom: 0.5rem;
+}
+.ch-desc {
+  color: var(--text2); font-family: var(--display);
+  font-size: 0.95rem; max-width: 480px; line-height: 1.75;
+}
+.ch-badge {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--bg); padding: 0.25rem 0.65rem;
+  border-radius: 100px; font-weight: 700;
+  align-self: flex-start; flex-shrink: 0;
+}
+.t-green  .ch-badge { background: var(--cyan); }
+.t-violet .ch-badge { background: var(--purple); }
+.t-amber  .ch-badge { background: var(--amber); }
+.t-rose   .ch-badge { background: var(--red); }
+.t-cyan   .ch-badge { background: var(--green); color: var(--bg3); }
+
+/* ── SUBSECTION ────────────────────────────────────────── */
+.sub { margin-bottom: 2.8rem; }
+.sub-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+.sub-label {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap;
+}
+.t-green  .sub-label { color: var(--cyan); }
+.t-violet .sub-label { color: var(--purple); }
+.t-amber  .sub-label { color: var(--amber); }
+.t-rose   .sub-label { color: var(--red); }
+.t-cyan   .sub-label { color: var(--green); }
+.sub-head-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+.sub p {
+  color: var(--text2); font-family: var(--display);
+  font-size: 0.95rem; line-height: 1.85; margin-bottom: 0.85rem;
+}
+.sub p:last-child { margin-bottom: 0; }
+.sub p strong { color: var(--text); font-weight: 500; }
+
+/* ── IMAGE PLACEHOLDER ─────────────────────────────────── */
+.img-ph {
+  border: 1px dashed var(--border2); border-radius: var(--r2);
+  background: var(--bg3); padding: 1.6rem 1.8rem; margin: 1.6rem 0;
+  display: flex; align-items: flex-start; gap: 1.2rem;
+}
+.img-ph-emoji { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+.img-ph-title {
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
+  color: var(--text); letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.img-ph-desc {
+  font-family: var(--mono); font-size: 0.63rem;
+  color: var(--text3); line-height: 1.65; letter-spacing: 0.02em;
+}
+
+/* ── CODE BLOCK ────────────────────────────────────────── */
+.code-wrap {
+  margin: 1.4rem 0;
+  border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden;
+}
+.code-head {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg3); padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.code-dots { display: flex; gap: 5px; }
+.code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.code-dots span:nth-child(1) { background: #ff5f57; }
+.code-dots span:nth-child(2) { background: #febc2e; }
+.code-dots span:nth-child(3) { background: #28c840; }
+.code-lang {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3);
+}
+.code-body { background: #050810; overflow-x: auto; }
+.code-body code {
+  font-family: var(--mono); font-size: 0.8rem;
+  line-height: 1.8; color: var(--text2);
+  display: block; padding: 1.2rem 1.5rem;
+}
+/* doc-2 syntax colours */
+.kw  { color: #b48cf7; }
+.fn  { color: var(--cyan); }
+.str { color: #98c97a; }
+.cm  { color: var(--text3); font-style: italic; }
+.at  { color: var(--amber); }
+.hl  { color: var(--green); font-weight: 700; }
+.op  { color: var(--red); }
+
+p code, li code {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--cyan); background: var(--cyan-dim);
+  border: 1px solid rgba(56,217,245,0.15);
+  padding: 0.08em 0.45em; border-radius: 4px;
+}
+
+/* ── STEPS ─────────────────────────────────────────────── */
+.steps { display: flex; flex-direction: column; }
+.step {
+  display: grid; grid-template-columns: 44px 1fr;
+  padding: 1.1rem 0; border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step-nw { display: flex; flex-direction: column; align-items: center; padding-top: 0.1rem; }
+/* bordered circle — doc-2 style */
+.step-n {
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.t-green  .step-n { color: var(--cyan);   border-color: rgba(56,217,245,0.35); }
+.t-violet .step-n { color: var(--purple); border-color: rgba(180,140,247,0.35); }
+.t-amber  .step-n { color: var(--amber);  border-color: rgba(245,166,35,0.35); }
+.t-rose   .step-n { color: var(--red);    border-color: rgba(255,95,122,0.35); }
+.t-cyan   .step-n { color: var(--green);  border-color: rgba(61,255,160,0.35); }
+.step-line {
+  width: 1px; flex: 1; background: var(--border);
+  margin-top: 6px; min-height: 20px;
+}
+.step:last-child .step-line { display: none; }
+.step-body {
+  padding-left: 0.5rem; color: var(--text2);
+  font-family: var(--display); font-size: 0.95rem; line-height: 1.75;
+}
+.step-body strong { color: var(--text); font-weight: 500; }
+
+/* ── BEST PRACTICES ────────────────────────────────────── */
+.practices { display: flex; flex-direction: column; gap: 0.75rem; }
+.prac {
+  display: flex; align-items: stretch;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+  transition: border-color 0.2s;
+}
+.prac:hover { border-color: var(--border2); }
+.prac-icon {
+  width: 48px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-right: 1px solid var(--border); font-size: 1.1rem;
+}
+.prac-body {
+  padding: 0.9rem 1.2rem; font-family: var(--display);
+  font-size: 0.91rem; color: var(--text2); line-height: 1.7;
+}
+.prac-body strong {
+  color: var(--text); font-weight: 500;
+  display: block; margin-bottom: 0.15rem;
+}
+
+/* ── CALLOUT ───────────────────────────────────────────── */
+.callout {
+  display: flex; gap: 1rem; align-items: flex-start;
+  border-radius: var(--r); padding: 1rem 1.2rem; margin: 1.4rem 0;
+  font-family: var(--display); font-size: 0.9rem;
+  color: var(--text2); line-height: 1.7;
+}
+.callout strong { font-weight: 500; }
+.callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.callout.green  { background: var(--green-dim);  border: 1px solid rgba(61,255,160,0.18);  border-left: 3px solid var(--green); }
+.callout.green  strong { color: var(--green); }
+.callout.amber  { background: var(--amber-dim);  border: 1px solid rgba(245,166,35,0.18);  border-left: 3px solid var(--amber); }
+.callout.amber  strong { color: var(--amber); }
+.callout.violet { background: var(--violet-dim); border: 1px solid rgba(180,140,247,0.18); border-left: 3px solid var(--purple); }
+.callout.violet strong { color: var(--purple); }
+.callout.cyan   { background: var(--cyan-dim);   border: 1px solid rgba(56,217,245,0.18);  border-left: 3px solid var(--cyan); }
+.callout.cyan   strong { color: var(--cyan); }
+
+/* ── TABLE ─────────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: var(--r2); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+th {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text3); text-align: left;
+  padding: 0.7rem 1rem; background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 0.7rem 1rem; font-family: var(--display);
+  border-bottom: 1px solid rgba(30,42,66,0.55);
+  color: var(--text2); vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface); }
+td:first-child { font-family: var(--mono); font-size: 0.75rem; color: var(--amber); }
+
+/* ── MEMORY GRID ───────────────────────────────────────── */
+.mem-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; margin: 1rem 0; }
+.mem-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem 1.1rem;
+  display: flex; gap: 0.9rem; align-items: flex-start;
+  transition: border-color 0.2s, transform 0.25s;
+}
+.mem-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.mem-badge {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+  color: var(--amber); background: var(--amber-dim);
+  border: 1px solid rgba(245,166,35,0.25);
+  padding: 0.2rem 0.45rem; border-radius: 4px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 0.1rem;
+}
+.mem-name { font-family: var(--mono); font-size: 0.77rem; color: var(--cyan); margin-bottom: 0.3rem; }
+.mem-desc { font-family: var(--display); font-size: 0.84rem; color: var(--text3); line-height: 1.55; }
+
+/* ── CHECKPOINT GRID ───────────────────────────────────── */
+.cp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; margin: 1.2rem 0; }
+.cp-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1.2rem;
+  position: relative; overflow: hidden;
+  transition: border-color 0.2s, transform 0.25s;
+}
+.cp-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.cp-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.cp-c1::after { background: linear-gradient(90deg, var(--cyan), var(--cyan2)); }
+.cp-c2::after { background: linear-gradient(90deg, var(--purple), #8b5cf6); }
+.cp-c3::after { background: linear-gradient(90deg, var(--amber), var(--amber2)); }
+.cp-h { font-family: var(--display); font-weight: 700; font-size: 0.9rem; color: var(--head); margin-bottom: 0.5rem; }
+.cp-b { font-family: var(--display); font-size: 0.84rem; color: var(--text3); line-height: 1.6; }
+.cp-b em { font-style: italic; color: var(--text2); }
+
+/* ── TOOL GRID ─────────────────────────────────────────── */
+.tool-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.7rem; margin: 1rem 0; }
+.tool-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 0.9rem 1rem;
+  transition: border-color 0.2s, transform 0.25s;
+}
+.tool-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.tool-name { font-family: var(--mono); font-size: 0.72rem; color: var(--purple); margin-bottom: 0.3rem; }
+.tool-desc { font-family: var(--display); font-size: 0.8rem; color: var(--text3); line-height: 1.5; }
+
+/* ── USE-CASE GRID ─────────────────────────────────────── */
+.uc-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.7rem; margin: 1rem 0; }
+.uc-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem 1.2rem;
+  display: flex; gap: 0.9rem; align-items: flex-start;
+  transition: border-color 0.2s, transform 0.25s;
+}
+.uc-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.uc-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+.uc-title { font-family: var(--display); font-weight: 700; font-size: 0.88rem; color: var(--head); margin-bottom: 0.25rem; }
+.uc-desc  { font-family: var(--display); font-size: 0.83rem; color: var(--text3); line-height: 1.6; }
+
+/* ── DIVIDER ───────────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 5rem 0; position: relative; }
+.divider::before {
+  content: ''; position: absolute; top: -3px; left: 50%;
+  transform: translateX(-50%); width: 6px; height: 6px;
+  border-radius: 50%; background: var(--border2);
+}
+
+/* ── FOOTER ────────────────────────────────────────────── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 3.5rem 2rem; text-align: center;
+  background: var(--bg2);
+}
+.footer-logo {
+  font-family: var(--serif); font-weight: 900; font-style: italic;
+  font-size: 2rem; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 0.8rem;
+}
+.footer-sub {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; color: var(--text3); text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .index-grid   { grid-template-columns: repeat(2,1fr); }
+  .mem-grid, .cp-grid, .tool-grid { grid-template-columns: 1fr 1fr; }
+  .uc-grid      { grid-template-columns: 1fr; }
+  .ch-inner     { padding: 1.5rem; gap: 1rem; }
+  .ch-num       { font-size: 3.5rem; min-width: 52px; }
+}
+@media (max-width: 600px) {
+  .index-grid   { grid-template-columns: 1fr; }
+  .nav-pills    { display: none; }
+  .cp-grid, .tool-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<div class="global-bg"></div>
+<div class="grid-bg"></div>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo-mark">⬡</div>
+    <div class="nav-brand-text">Cline Masterclass <span>/ Advanced Guide</span></div>
+  </div>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#skills">Skills</a>
+    <a class="nav-pill" href="#rules">Rules</a>
+    <a class="nav-pill" href="#workflow">Workflow</a>
+    <a class="nav-pill" href="#hooks">Hooks</a>
+    <a class="nav-pill" href="#memory">Memory</a>
+    <a class="nav-pill" href="#checkpoints">Checkpoints</a>
+  </div>
+  <a class="nav-cta" href="#skills">Start Reading →</a>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-eyebrow">Advanced Developer Guide</div>
+  <h1 class="hero-h1">Cline<br><span class="serif-word">Masterclass</span></h1>
+  <p class="hero-sub">
+    If you're already comfortable with the basics of Cline — opening a task, asking it to write code — this guide is your <strong>next leap forward.</strong> Six features that separate engineers who <em>use</em> Cline from engineers who <em>wield</em> it.
+  </p>
+  <div class="hero-tags">
+    <span class="tag g">MCP / Skills</span>
+    <span class="tag">Rules &amp; Personas</span>
+    <span class="tag g">Workflow Modes</span>
+    <span class="tag">Hooks</span>
+    <span class="tag v">Memory Bank</span>
+    <span class="tag">Checkpoints</span>
+    <span class="tag v">6 Concepts · 30+ Tips</span>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Scroll to explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CHAPTER INDEX ═════════════════════════ -->
+<div class="index-wrap">
+  <div class="index-label">// Chapter Index</div>
+  <div class="index-grid">
+    <a class="index-card c1" href="#skills">
+      <div class="ic-num">01</div>
+      <div class="ic-title">Skills &amp; MCPs</div>
+      <div class="ic-sub">Custom tools · New powers · Protocol</div>
+    </a>
+    <a class="index-card c2" href="#rules">
+      <div class="ic-num">02</div>
+      <div class="ic-title">Rules</div>
+      <div class="ic-sub">Personas · Constraints · Team norms</div>
+    </a>
+    <a class="index-card c3" href="#workflow">
+      <div class="ic-num">03</div>
+      <div class="ic-title">Workflow Modes</div>
+      <div class="ic-sub">Auto-approve · Speed · Safety</div>
+    </a>
+    <a class="index-card c4" href="#hooks">
+      <div class="ic-num">04</div>
+      <div class="ic-title">Hooks</div>
+      <div class="ic-sub">Automation · Pre/post actions · Scripts</div>
+    </a>
+    <a class="index-card c5" href="#memory">
+      <div class="ic-num">05</div>
+      <div class="ic-title">Memory Bank</div>
+      <div class="ic-sub">Persistent context · Project docs · State</div>
+    </a>
+    <a class="index-card c6" href="#checkpoints">
+      <div class="ic-num">06</div>
+      <div class="ic-title">Checkpoints</div>
+      <div class="ic-sub">Safe points · Rollback · Snapshots</div>
+    </a>
+    <a class="index-card c7" href="#summary">
+      <div class="ic-num">→</div>
+      <div class="ic-title">Big Picture</div>
+      <div class="ic-sub">How it all compounds together</div>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ MAIN CONTENT ══════════════════════════ -->
+<div class="main-wrap">
+
+  <!-- ════ 01 · SKILLS & MCPs ════ -->
+  <div class="topic t-green" id="skills">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">01</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">🔌 Custom Tooling</div>
+          <div class="ch-title">Skills &amp; MCPs<br>Giving Cline New Powers</div>
+          <div class="ch-desc">Plug in any capability your project needs — databases, build systems, issue trackers — through the open Model Context Protocol standard.</div>
+        </div>
+        <div class="ch-badge">Foundation</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ What is it?</span><div class="sub-head-line"></div></div>
+      <p>A <strong>Skill</strong> (powered by the <strong>Model Context Protocol</strong>) is a plug-in that gives Cline a capability it doesn't have out of the box — querying a database, calling an internal build system, inspecting binary output from your compiler, or fetching tickets from an issue tracker. MCP is an open standard; tools are composable and can be written in any language.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Why use it?</span><div class="sub-head-line"></div></div>
+      <p>Cline's defaults are generic. <strong>Your toolchain isn't.</strong> Skills close that gap. Instead of you copy-pasting tool output into the chat, Cline invokes the tool directly, reads its output, and acts on it — no context switching, no copy-paste errors. Cline can chain multiple tool calls autonomously within a single task.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ How to use it</span><div class="sub-head-line"></div></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-nw"><div class="step-n">1</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Open the MCP Servers panel inside Cline.</strong> Look for the plug icon in the top-right toolbar of the Cline panel, then click it to open the MCP Servers list.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">2</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Open the MCP Settings editor.</strong> Click "Edit MCP Settings" to open <code>cline_mcp_settings.json</code> directly in VS Code.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">3</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Add a server entry.</strong> Each MCP server is declared in the <code>mcpServers</code> object with a name, command, arguments, and any environment variables it needs.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">4</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Save and confirm the server appears.</strong> Return to the MCP Servers panel — a green dot means the server is running and its tools are now available to Cline in every task.</div>
+        </div>
+      </div>
+
+      <div class="code-wrap" style="margin-top:1.6rem;">
+        <div class="code-head">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <div class="code-lang">cline_mcp_settings.json</div>
+        </div>
+        <div class="code-body"><code>{
+  <span class="at">"mcpServers"</span>: {
+    <span class="at">"project-db"</span>: {
+      <span class="at">"command"</span>: <span class="str">"node"</span>,
+      <span class="at">"args"</span>: [<span class="str">"/path/to/db-mcp-server/index.js"</span>],
+      <span class="at">"env"</span>: { <span class="at">"DB_URL"</span>: <span class="str">"postgresql://localhost/myapp"</span> }
+    },
+    <span class="at">"jira-tracker"</span>: {
+      <span class="at">"command"</span>: <span class="str">"python"</span>,
+      <span class="at">"args"</span>: [<span class="str">"-m"</span>, <span class="str">"jira_mcp"</span>],
+      <span class="at">"env"</span>: { <span class="at">"JIRA_TOKEN"</span>: <span class="str">"${env:JIRA_API_TOKEN}"</span> }
+    }
+  }
+}</code></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Best Practices</span><div class="sub-head-line"></div></div>
+      <div class="practices">
+        <div class="prac"><div class="prac-icon">▸</div><div class="prac-body"><strong>One server per concern.</strong> Keep database tools, CI tools, and issue-tracker tools in separate servers so you can enable or disable them per project.</div></div>
+        <div class="prac"><div class="prac-icon">▸</div><div class="prac-body"><strong>Use environment variables for secrets.</strong> Never hard-code API keys in the JSON; use <code>${env:VAR}</code> syntax and store values in your shell profile.</div></div>
+        <div class="prac"><div class="prac-icon">▸</div><div class="prac-body"><strong>Write a brief tool description.</strong> Cline uses the tool's description to decide when to invoke it — a clear description means fewer mis-fires.</div></div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-icon">💡</div>
+      <div><strong>Pro tip:</strong> You can ask Cline itself to help you write an MCP server. Describe the tool you want, and Cline will scaffold the boilerplate — then test it by asking Cline to use the new tool immediately.</div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Use Cases</span><div class="sub-head-line"></div></div>
+      <div class="uc-grid">
+        <div class="uc-card"><div class="uc-icon">🗄️</div><div><div class="uc-title">Database Introspection</div><div class="uc-desc">Let Cline query your schema, run migrations, and verify data without you copy-pasting table dumps.</div></div></div>
+        <div class="uc-card"><div class="uc-icon">🐛</div><div><div class="uc-title">Issue Tracker Integration</div><div class="uc-desc">Pull ticket descriptions, acceptance criteria, and related PRs directly into the task context.</div></div></div>
+        <div class="uc-card"><div class="uc-icon">⚙️</div><div><div class="uc-title">Build System Access</div><div class="uc-desc">Invoke your build tool, read logs, and let Cline interpret compiler errors autonomously.</div></div></div>
+        <div class="uc-card"><div class="uc-icon">🔍</div><div><div class="uc-title">Custom Search & Docs</div><div class="uc-desc">Index internal wikis or API docs so Cline always has up-to-date project-specific references.</div></div></div>
+      </div>
+    </div>
+  </div><!-- /topic 01 -->
+
+  <hr class="divider">
+
+  <!-- ════ 02 · RULES ════ -->
+  <div class="topic t-violet" id="rules">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">02</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">📋 Constraints &amp; Personas</div>
+          <div class="ch-title">Rules<br>Shaping Cline's Behaviour</div>
+          <div class="ch-desc">Standing instructions that persist across every task — enforce standards, codify team conventions, and give Cline a consistent engineering persona.</div>
+        </div>
+        <div class="ch-badge">Core Config</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ What is it?</span><div class="sub-head-line"></div></div>
+      <p><strong>Rules</strong> are standing instructions you write once and Cline applies to every subsequent task. They live in a <code>.clinerules</code> file at the root of your project (project-level) or in Cline's global settings (user-level). Unlike a prompt you type each time, rules are always on.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Why use it?</span><div class="sub-head-line"></div></div>
+      <p>Without rules, you repeat the same constraints in every prompt: "use TypeScript strict mode," "no magic numbers," "always write tests." <strong>Rules encode your team's standards once</strong> and enforce them silently. They also let you give Cline a persona — a senior backend engineer, a security reviewer, a documentation writer — without re-stating it every time.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ How to use it</span><div class="sub-head-line"></div></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-nw"><div class="step-n">1</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Create <code>.clinerules</code> at your project root.</strong> This file takes plain text — write constraints in natural language, one per line or grouped by category.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">2</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Establish a coding persona first.</strong> The opening lines should describe the role Cline should adopt — this frames everything that follows.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">3</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Add language and style constraints.</strong> Specify the language, framework version, linting rules, naming conventions, and any forbidden patterns.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">4</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Commit the file to your repo.</strong> Every teammate and every CI run will now use the same rules automatically.</div>
+        </div>
+      </div>
+
+      <div class="code-wrap" style="margin-top:1.6rem;">
+        <div class="code-head">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <div class="code-lang">.clinerules</div>
+        </div>
+        <div class="code-body"><code><span class="cm"># Persona</span>
+<span class="hl">You are a senior systems engineer with deep expertise in Rust and</span>
+<span class="hl">distributed systems. Prefer correctness and clarity over cleverness.</span>
+
+<span class="cm"># Language & Style</span>
+<span class="str">- Always use Rust edition 2021</span>
+<span class="str">- Prefer Result/Option over panics; never use .unwrap() in library code</span>
+<span class="str">- All public APIs must have doc comments with at least one example</span>
+<span class="str">- Use snake_case for variables, PascalCase for types</span>
+
+<span class="cm"># Testing</span>
+<span class="str">- Write unit tests for every public function</span>
+<span class="str">- Integration tests go in tests/ directory</span>
+<span class="str">- Use property-based tests (proptest) for data transformations</span>
+
+<span class="cm"># Security</span>
+<span class="str">- Never log sensitive data; use redaction helpers</span>
+<span class="str">- Validate all external input at the boundary</span></code></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Rule Types</span><div class="sub-head-line"></div></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Scope</th><th>File Location</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td>Project</td><td><code>.clinerules</code> at repo root</td><td>Team standards, framework conventions, domain knowledge</td></tr>
+            <tr><td>Global</td><td>Cline Settings → Rules</td><td>Personal style, preferred tools, default persona</td></tr>
+            <tr><td>Folder</td><td><code>.clinerules</code> in subdirectory</td><td>Sub-package specific rules (e.g. stricter rules for <code>lib/</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Keep rules concise.</strong> Every rule costs context-window tokens on every task. Aim for high-signal constraints — things Cline genuinely violates without them — rather than listing every possible best practice.</div>
+    </div>
+  </div><!-- /topic 02 -->
+
+  <hr class="divider">
+
+  <!-- ════ 03 · WORKFLOW MODES ════ -->
+  <div class="topic t-amber" id="workflow">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">03</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">⚡ Speed vs Safety</div>
+          <div class="ch-title">Workflow Modes<br>Auto-Approve &amp; Autonomy</div>
+          <div class="ch-desc">Control exactly how much Cline does without asking — from fully supervised to full autopilot — and tune it per task type.</div>
+        </div>
+        <div class="ch-badge">Efficiency</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ What is it?</span><div class="sub-head-line"></div></div>
+      <p>Cline's <strong>Auto-Approve settings</strong> let you define which actions it can take without pausing to ask for confirmation: read files, write files, run terminal commands, use browser tools. You can enable any combination, and set safe limits like a max number of auto-approved operations per task.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ The Approval Matrix</span><div class="sub-head-line"></div></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Action Category</th><th>Risk Level</th><th>Typical Setting</th></tr></thead>
+          <tbody>
+            <tr><td>Read files / directories</td><td>Low</td><td>Always auto-approve</td></tr>
+            <tr><td>Write / edit files</td><td>Medium</td><td>Auto-approve inside project root</td></tr>
+            <tr><td>Terminal commands</td><td>High</td><td>Auto-approve safe commands (build, test, lint)</td></tr>
+            <tr><td>Browser / external calls</td><td>High</td><td>Approve manually</td></tr>
+            <tr><td>Delete operations</td><td>Very High</td><td>Always confirm</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ How to configure</span><div class="sub-head-line"></div></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-nw"><div class="step-n">1</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Open Cline Settings → Auto-Approve.</strong> Each action category has a toggle and optional sub-filters (e.g. only auto-approve <code>npm test</code> and <code>cargo build</code>).</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">2</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Set a per-task operation cap.</strong> The "Max auto-approved operations" field stops runaway tasks — Cline pauses and checks in after hitting the limit.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">3</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Create profiles for different contexts.</strong> A "safe" profile (read-only) for exploring unfamiliar code; a "build" profile for routine feature work; a "full" profile for greenfield tasks.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Best Practices</span><div class="sub-head-line"></div></div>
+      <div class="practices">
+        <div class="prac"><div class="prac-icon">▸</div><div class="prac-body"><strong>Start supervised, then expand.</strong> On a new project, approve everything manually until you trust the pattern of Cline's behaviour. Only then flip auto-approve on.</div></div>
+        <div class="prac"><div class="prac-icon">▸</div><div class="prac-body"><strong>Use Checkpoints (Ch. 06) as your safety net.</strong> When running with high auto-approval, snapshots let you rewind without losing work.</div></div>
+        <div class="prac"><div class="prac-icon">▸</div><div class="prac-body"><strong>Allowlist specific commands.</strong> Rather than approving all terminal commands, specify exactly which ones: <code>cargo test</code>, <code>npm run lint</code>, <code>make build</code>.</div></div>
+      </div>
+    </div>
+
+    <div class="callout violet">
+      <div class="callout-icon">🧠</div>
+      <div><strong>The mindset shift:</strong> Think of auto-approve not as "trusting AI" but as "defining the safe boundary." You're specifying the action space, and Cline operates inside it. Everything outside still requires you.</div>
+    </div>
+  </div><!-- /topic 03 -->
+
+  <hr class="divider">
+
+  <!-- ════ 04 · HOOKS ════ -->
+  <div class="topic t-rose" id="hooks">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">04</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">🪝 Automation</div>
+          <div class="ch-title">Hooks<br>Scripts That Run Automatically</div>
+          <div class="ch-desc">Trigger shell scripts before or after any Cline action — format code, run tests, update docs, log decisions, without ever asking Cline to do it.</div>
+        </div>
+        <div class="ch-badge">Automation</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ What is it?</span><div class="sub-head-line"></div></div>
+      <p><strong>Hooks</strong> are shell scripts (or commands) that Cline executes automatically at defined lifecycle points: before a task starts, after each file is written, after a terminal command runs, or when a task completes. They run outside Cline's reasoning loop — they always fire, regardless of what Cline decided.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Hook Event Types</span><div class="sub-head-line"></div></div>
+      <div class="tool-grid">
+        <div class="tool-card"><div class="tool-name">PreTask</div><div class="tool-desc">Runs before Cline starts. Good for pulling latest git, loading env vars, or checking prerequisites.</div></div>
+        <div class="tool-card"><div class="tool-name">PostFileWrite</div><div class="tool-desc">Fires after every file write. Format with Prettier/gofmt/rustfmt automatically.</div></div>
+        <div class="tool-card"><div class="tool-name">PostCommand</div><div class="tool-desc">Fires after terminal commands. Parse output, assert exit codes, or send Slack notifications.</div></div>
+        <div class="tool-card"><div class="tool-name">PostTask</div><div class="tool-desc">Runs when Cline marks a task complete. Run the full test suite, open a browser preview.</div></div>
+        <div class="tool-card"><div class="tool-name">OnError</div><div class="tool-desc">Fires if Cline errors or gets stuck. Capture diagnostic info, reset state, or page a human.</div></div>
+        <div class="tool-card"><div class="tool-name">PreApproval</div><div class="tool-desc">Runs before a manual approval gate. Present a diff summary to make reviewing faster.</div></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Configuration</span><div class="sub-head-line"></div></div>
+      <div class="code-wrap">
+        <div class="code-head">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <div class="code-lang">cline_hooks.json</div>
+        </div>
+        <div class="code-body"><code>{
+  <span class="at">"hooks"</span>: {
+    <span class="at">"PostFileWrite"</span>: [
+      {
+        <span class="at">"match"</span>: <span class="str">"**/*.{ts,tsx}"</span>,
+        <span class="at">"command"</span>: <span class="str">"npx prettier --write ${file}"</span>
+      },
+      {
+        <span class="at">"match"</span>: <span class="str">"**/*.rs"</span>,
+        <span class="at">"command"</span>: <span class="str">"rustfmt ${file}"</span>
+      }
+    ],
+    <span class="at">"PostTask"</span>: [
+      { <span class="at">"command"</span>: <span class="str">"npm test -- --passWithNoTests"</span> }
+    ],
+    <span class="at">"PreTask"</span>: [
+      { <span class="at">"command"</span>: <span class="str">"git pull --rebase"</span> }
+    ]
+  }
+}</code></div>
+      </div>
+    </div>
+
+    <div class="callout cyan">
+      <div class="callout-icon">⚡</div>
+      <div><strong>Hooks vs Rules:</strong> Rules tell Cline <em>how to think</em>. Hooks control <em>what happens around</em> Cline's actions. Use both together — a rule to enforce test-writing, and a PostTask hook to actually run the tests.</div>
+    </div>
+  </div><!-- /topic 04 -->
+
+  <hr class="divider">
+
+  <!-- ════ 05 · MEMORY BANK ════ -->
+  <div class="topic t-cyan" id="memory">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">05</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">🧠 Persistent Context</div>
+          <div class="ch-title">Memory Bank<br>Cline That Knows Your Project</div>
+          <div class="ch-desc">A structured set of Markdown files Cline reads at the start of every task — giving it persistent knowledge of your architecture, decisions, and current state.</div>
+        </div>
+        <div class="ch-badge">Context</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ What is it?</span><div class="sub-head-line"></div></div>
+      <p>The <strong>Memory Bank</strong> is a folder (typically <code>memory-bank/</code> at your project root) containing Markdown files that Cline reads at the start of every task. Because LLMs have no memory between sessions, the Memory Bank is how Cline maintains continuity — it's the externalised long-term memory of your collaboration.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Core Files</span><div class="sub-head-line"></div></div>
+      <div class="mem-grid">
+        <div class="mem-card">
+          <div><div class="mem-badge">Required</div></div>
+          <div>
+            <div class="mem-name">projectbrief.md</div>
+            <div class="mem-desc">The founding document. What the project does, who it's for, the core requirements. Everything else references back to this.</div>
+          </div>
+        </div>
+        <div class="mem-card">
+          <div><div class="mem-badge">Required</div></div>
+          <div>
+            <div class="mem-name">activecontext.md</div>
+            <div class="mem-desc">The current state of play: what's in progress, what changed last session, what's blocked. Updated by Cline after each task.</div>
+          </div>
+        </div>
+        <div class="mem-card">
+          <div><div class="mem-badge">Core</div></div>
+          <div>
+            <div class="mem-name">systempatterns.md</div>
+            <div class="mem-desc">Architecture decisions: how layers communicate, which patterns are canonical, where not to deviate.</div>
+          </div>
+        </div>
+        <div class="mem-card">
+          <div><div class="mem-badge">Core</div></div>
+          <div>
+            <div class="mem-name">techcontext.md</div>
+            <div class="mem-desc">The stack: language versions, key libraries, build tools, environment setup, external service contracts.</div>
+          </div>
+        </div>
+        <div class="mem-card">
+          <div><div class="mem-badge">Core</div></div>
+          <div>
+            <div class="mem-name">progress.md</div>
+            <div class="mem-desc">What's done, what's in progress, what's planned. A living changelog Cline updates and you can read at a glance.</div>
+          </div>
+        </div>
+        <div class="mem-card">
+          <div><div class="mem-badge">Optional</div></div>
+          <div>
+            <div class="mem-name">custom/*.md</div>
+            <div class="mem-desc">Add any domain-specific knowledge: API contracts, data models, deployment runbooks, regulatory constraints.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ How to bootstrap it</span><div class="sub-head-line"></div></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-nw"><div class="step-n">1</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Ask Cline to initialise the Memory Bank.</strong> Prompt: <em>"Read the codebase and create a memory-bank/ directory with projectbrief.md, systempatterns.md, techcontext.md, and activecontext.md."</em> Cline will explore and write first drafts.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">2</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Review and correct the drafts.</strong> Cline's summaries are a starting point. Edit any misunderstandings — especially in systempatterns.md where wrong assumptions compound.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">3</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Add the update instruction to your Rules.</strong> Add: <em>"At the end of every task, update activecontext.md and progress.md with what changed."</em> Now Cline maintains its own memory.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">4</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Commit the memory-bank/ directory.</strong> It's part of your project. Every collaborator (human or AI) starts with the same shared understanding.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-icon">🌱</div>
+      <div><strong>The compounding effect:</strong> A well-maintained Memory Bank means each new Cline task starts already knowing the full context. The time you invest in keeping it accurate pays back on every subsequent session — the longer the project runs, the higher the return.</div>
+    </div>
+  </div><!-- /topic 05 -->
+
+  <hr class="divider">
+
+  <!-- ════ 06 · CHECKPOINTS ════ -->
+  <div class="topic t-green" id="checkpoints">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">06</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">💾 Safe Points</div>
+          <div class="ch-title">Checkpoints<br>Rollback Without Fear</div>
+          <div class="ch-desc">Snapshot your entire workspace at any moment — files, terminal state, task context — and rewind to it if anything goes wrong.</div>
+        </div>
+        <div class="ch-badge">Safety Net</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ What is it?</span><div class="sub-head-line"></div></div>
+      <p><strong>Checkpoints</strong> are point-in-time snapshots of your project state — all files, terminal output, and Cline's task context — stored locally. They're Cline's equivalent of a git stash that includes everything, not just tracked files. You can create them manually or set Cline to create them automatically.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ When to use them</span><div class="sub-head-line"></div></div>
+      <div class="cp-grid">
+        <div class="cp-card cp-c1">
+          <div class="cp-h">Before Risky Tasks</div>
+          <div class="cp-b">Any task that touches configuration, CI, infrastructure, or existing APIs. <em>Create a checkpoint before you hit Send.</em></div>
+        </div>
+        <div class="cp-card cp-c2">
+          <div class="cp-h">During Long Tasks</div>
+          <div class="cp-b">For tasks spanning many operations, auto-checkpoint every N actions so you never lose more than a small slice of work.</div>
+        </div>
+        <div class="cp-card cp-c3">
+          <div class="cp-h">When Exploring</div>
+          <div class="cp-b">Trying a new approach or letting Cline go deep on high auto-approve? Checkpoint first and explore freely — rollback is instant.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ How to use them</span><div class="sub-head-line"></div></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-nw"><div class="step-n">1</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Create a checkpoint manually.</strong> In the Cline panel, click the camera icon before starting a significant task. Name it descriptively — <em>"before-auth-refactor"</em>.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">2</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Enable auto-checkpoints.</strong> In Cline Settings → Checkpoints, set an interval (e.g. every 5 auto-approved operations). Cline snapshots silently in the background.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">3</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Restore if needed.</strong> Open the Checkpoints panel, select the snapshot, click Restore. The workspace reverts completely — files, context, everything.</div>
+        </div>
+        <div class="step">
+          <div class="step-nw"><div class="step-n">4</div><div class="step-line"></div></div>
+          <div class="step-body"><strong>Branch from a checkpoint.</strong> Restore, then immediately create another checkpoint with a new name. Now try a different approach without losing the first.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Checkpoints ≠ git commits.</strong> They capture everything including unstaged, untracked, and gitignored files. Use both: checkpoint for instant rollback within a work session, git for version history and collaboration.</div>
+    </div>
+  </div><!-- /topic 06 -->
+
+  <hr class="divider">
+
+  <!-- ════ SUMMARY ════ -->
+  <div class="topic t-violet" id="summary">
+    <div class="ch-banner">
+      <div class="ch-bar"></div>
+      <div class="ch-inner">
+        <div class="ch-num">→</div>
+        <div class="ch-div"></div>
+        <div class="ch-text">
+          <div class="ch-label">🗺️ The Big Picture</div>
+          <div class="ch-title">How It All Compounds</div>
+          <div class="ch-desc">Each of the six features is useful alone. Together, they form a system that multiplies your output — not linearly, but exponentially.</div>
+        </div>
+        <div class="ch-badge">Summary</div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ The Compounding System</span><div class="sub-head-line"></div></div>
+      <p>Think of these six features as layers. <strong>Rules</strong> define how Cline thinks. The <strong>Memory Bank</strong> gives it project-wide context. <strong>Skills &amp; MCPs</strong> give it your toolchain. <strong>Workflow modes</strong> set how fast it operates. <strong>Hooks</strong> enforce quality gates automatically. And <strong>Checkpoints</strong> give you the safety net to let all of the above run at full speed.</p>
+      <p>The engineers who get the most from Cline aren't the ones who prompt better — they're the ones who've invested in the scaffolding. Invest once, collect returns on every task thereafter.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head"><span class="sub-label">◎ Feature Overview</span><div class="sub-head-line"></div></div>
+      <div class="cp-grid">
+        <div class="cp-card cp-c1">
+          <div class="cp-h">🔌 Skills &amp; MCPs</div>
+          <div class="cp-b">Connect Cline to your real toolchain. <em>No more copy-paste gaps.</em></div>
+        </div>
+        <div class="cp-card cp-c2">
+          <div class="cp-h">📋 Rules</div>
+          <div class="cp-b">Set standards once. <em>Enforced silently on every task.</em></div>
+        </div>
+        <div class="cp-card cp-c3">
+          <div class="cp-h">⚡ Workflow Modes</div>
+          <div class="cp-b">Operate at the speed your confidence allows. <em>Scale up as trust grows.</em></div>
+        </div>
+        <div class="cp-card cp-c1">
+          <div class="cp-h">🪝 Hooks</div>
+          <div class="cp-b">Quality gates that never forget to run. <em>Automation outside the reasoning loop.</em></div>
+        </div>
+        <div class="cp-card cp-c2">
+          <div class="cp-h">🧠 Memory Bank</div>
+          <div class="cp-b">Persistent context across every session. <em>Cline that knows your project.</em></div>
+        </div>
+        <div class="cp-card cp-c3">
+          <div class="cp-h">💾 Checkpoints</div>
+          <div class="cp-b">Rollback without fear. <em>The safety net enabling full speed.</em></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /summary -->
+
+</div><!-- /main-wrap -->
+
+<!-- ═══════════════════════════════ FOOTER ═════════════════════════════ -->
+<footer>
+  <div class="footer-logo">Cline Masterclass</div>
+  <div class="footer-sub">Advanced AI-Assisted Development · 6 Concepts · 30+ Pro Tips · VS Code + MCP</div>
+</footer>
+
+<script>
+// Intersection Observer for scroll-in animations
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
+);
+document.querySelectorAll('.topic').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
