@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Skills — On-Demand Specialist Knowledge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #f8fafc;
+  --bg2:     #ffffff;
+  --bg3:     #f1f5f9;
+  --surface: #ffffff;
+  --border:  #e2e8f0;
+  --border2: #cbd5e1;
+  --text:    #334155;
+  --text2:   #64748b;
+  --text3:   #94a3b8;
+  --head:    #0f172a;
+  --cyan:    #0ea5e9;
+  --cyan2:   #0284c7;
+  --amber:   #f59e0b;
+  --amber2:  #d97706;
+  --green:   #10b981;
+  --purple:  #8b5cf6;
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --mono:    'JetBrains Mono', monospace;
+  --display: 'Fraunces', serif;
+  --body:    'DM Sans', sans-serif;
+  --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md: 0 4px 16px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04);
+  --shadow-lg: 0 12px 40px rgba(15,23,42,0.12), 0 4px 12px rgba(15,23,42,0.06);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg3); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+ul, ol { list-style: none; }
+
+/* ── PAGE WRAPPER ── */
+.page-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 40px 80px;
+}
+
+/* ════════════════════════════════════════
+   HERO HEADING SECTION
+   ════════════════════════════════════════ */
+.skills-hero {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 55%, #ecfdf5 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 56px 60px 52px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+/* grid background */
+.skills-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(14,165,233,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14,165,233,0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.3) 70%, transparent);
+  pointer-events: none;
+}
+
+/* glow blobs */
+.skills-hero::after {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -60px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-inner { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan2);
+  background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.3);
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px rgba(14,165,233,0.6);
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.85);} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+/* ── THE HIGHLIGHTED HEADING ── */
+.hero-heading-wrap {
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+.section-num {
+  font-family: var(--display);
+  font-size: 96px;
+  font-weight: 900;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(14,165,233,0.25);
+  line-height: 1;
+  margin-bottom: -16px;
+  display: block;
+  user-select: none;
+}
+
+.hero-heading {
+  font-family: var(--display);
+  font-size: clamp(40px, 5vw, 58px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--head);
+  position: relative;
+  display: inline-block;
+}
+
+/* The glow highlight effect on "Skills" */
+.heading-highlight {
+  position: relative;
+  display: inline-block;
+  color: var(--cyan2);
+}
+
+.heading-highlight::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 2px;
+  height: 8px;
+  background: linear-gradient(90deg, rgba(14,165,233,0.18), rgba(16,185,129,0.12));
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.heading-sub {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text2);
+  margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 600px;
+  line-height: 1.8;
+  margin-top: 18px;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+
+.hero-desc strong { color: var(--text); }
+
+/* pills row */
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+  animation: fadeUp 0.5s 0.25s ease both;
+}
+
+.pill {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid;
+  letter-spacing: 0.05em;
+}
+
+.pill-cyan  { color: var(--cyan2); border-color: rgba(14,165,233,0.35); background: rgba(14,165,233,0.07); }
+.pill-green { color: #059669; border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.07); }
+.pill-amber { color: var(--amber2); border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.07); }
+.pill-plain { color: var(--text3); border-color: var(--border2); background: var(--bg3); }
+
+/* experimental badge */
+.exp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--cyan2), #0369a1);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(2,132,199,0.3);
+  animation: fadeUp 0.5s 0.3s ease both;
+}
+
+/* ── TL;DR ── */
+.tldr {
+  background: linear-gradient(135deg, rgba(14,165,233,0.05), rgba(139,92,246,0.04));
+  border: 1px solid rgba(14,165,233,0.2);
+  border-left: 4px solid var(--cyan);
+  border-radius: var(--r-md);
+  padding: 16px 22px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  animation: fadeIn 0.6s 0.3s ease both;
+}
+
+.tldr-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--cyan2);
+  padding: 3px 9px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.tldr-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.tldr-text strong { color: var(--head); }
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── CARDS GRID ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.card-full { grid-column: 1 / -1; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 26px 28px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+}
+
+.card:hover {
+  border-color: rgba(14,165,233,0.5);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.ch-what   { color: var(--cyan2); }
+.ch-why    { color: var(--amber2); }
+.ch-how    { color: var(--green); }
+.ch-best   { color: var(--purple); }
+.ch-files  { color: #ec4899; }
+.ch-storage{ color: var(--cyan2); }
+
+.card-head span:first-child { font-size: 14px; }
+
+/* desc list */
+.desc-list { display: flex; flex-direction: column; gap: 10px; }
+.desc-list li {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  padding-left: 18px;
+  position: relative;
+}
+.desc-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--cyan2);
+  font-size: 10px;
+  top: 5px;
+}
+.desc-list li strong { color: var(--head); font-weight: 600; }
+.desc-list li em { color: var(--text); font-style: normal; }
+mark { border-radius: 3px; padding: 1px 4px; font-weight: 500; }
+.hl-cyan   { background: rgba(14,165,233,0.12); color: var(--cyan2); }
+.hl-green  { background: rgba(16,185,129,0.10); color: #059669; }
+.hl-amber  { background: rgba(245,158,11,0.10); color: var(--amber2); }
+.hl-purple { background: rgba(139,92,246,0.10); color: var(--purple); }
+
+/* insight */
+.insight {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.22);
+  border-left: 4px solid var(--amber);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.insight strong { color: var(--amber2); }
+
+/* callout */
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--r-sm);
+  margin-top: 16px;
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.callout.cyan  { background: rgba(14,165,233,0.05); border: 1px solid rgba(14,165,233,0.2); border-left: 3px solid var(--cyan); }
+.callout.cyan strong { color: var(--cyan2); }
+.callout.green { background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.2); border-left: 3px solid var(--green); }
+.callout.green strong { color: #059669; }
+.callout.purple { background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.2); border-left: 3px solid var(--purple); }
+.callout.purple strong { color: var(--purple); }
+
+/* ── PROGRESSIVE LOADING TABLE ── */
+.loading-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-top: 16px;
+}
+.loading-table th {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: left;
+  padding: 8px 14px;
+  border-bottom: 2px solid var(--border);
+  background: var(--bg3);
+}
+.loading-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.loading-table tr:last-child td { border-bottom: none; }
+.loading-table tr:hover td { background: rgba(14,165,233,0.03); }
+.level-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cyan2);
+  background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.level-badge.always { color: #059669; background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
+.level-badge.triggered { color: var(--amber2); background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
+.level-badge.ondemand { color: var(--purple); background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.2); }
+
+/* ── STEPS ── */
+.steps { display: flex; flex-direction: column; gap: 18px; margin-top: 6px; }
+.step { display: flex; gap: 16px; align-items: flex-start; }
+.step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--cyan2), #0369a1);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  box-shadow: 0 2px 6px rgba(2,132,199,0.3);
+  flex-shrink: 0;
+}
+.step-body { flex: 1; }
+.step-title { font-weight: 700; color: var(--head); font-size: 14px; margin-bottom: 5px; }
+.step-desc { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+
+/* ui nav breadcrumb */
+.ui-nav {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--amber);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--text2);
+}
+.ui-nav-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber2);
+  margin-bottom: 6px;
+}
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  color: var(--head);
+  white-space: nowrap;
+}
+.arrow { color: var(--text3); margin: 0 4px; font-size: 11px; }
+
+/* ── CODE BLOCK ── */
+.code-block {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+}
+.code-dots { display: flex; gap: 6px; }
+.code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+.code-filename { font-size: 11px; color: #64748b; letter-spacing: 0.05em; }
+.code-body { padding: 18px 20px; overflow-x: auto; line-height: 1.75; color: #cbd5e1; }
+.code-body pre { white-space: pre-wrap; word-break: break-word; }
+.kw  { color: #c084fc; }
+.fn  { color: #38bdf8; }
+.str { color: #86efac; }
+.cm  { color: #475569; font-style: italic; }
+.at  { color: #f8b4d9; }
+.hl  { color: #fde68a; font-weight: 600; }
+.op  { color: #f87171; font-weight: 700; }
+
+/* ── BEST PRACTICES LIST ── */
+.bp-list { display: flex; flex-direction: column; gap: 14px; }
+.bp-item { display: flex; gap: 14px; align-items: flex-start; }
+.bp-dot {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 50%;
+  font-size: 10px;
+  color: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.bp-text { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.bp-text strong { color: var(--head); font-weight: 600; }
+
+/* ── FILE STRUCTURE CARD ── */
+.file-tree {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: var(--r-sm);
+  padding: 18px 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 2;
+  color: #94a3b8;
+  margin-top: 14px;
+}
+.ft-dir  { color: #38bdf8; }
+.ft-file { color: #86efac; }
+.ft-comment { color: #475569; font-style: italic; }
+
+/* ── NAMING CARDS ── */
+.naming-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.naming-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px 18px;
+}
+.naming-card-head {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.nc-good { color: #059669; }
+.nc-bad  { color: #dc2626; }
+.naming-list li {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 4px 0;
+  padding-left: 16px;
+  position: relative;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+}
+.naming-list li:last-child { border-bottom: none; }
+.naming-list li::before { position: absolute; left: 0; font-size: 11px; }
+.nc-good .naming-list li::before { content: '✓'; color: #059669; }
+.nc-bad  .naming-list li::before { content: '✗'; color: #dc2626; }
+
+/* ── SCRIPTS TABLE ── */
+.script-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 14px;
+}
+.script-table th {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: left;
+  padding: 8px 14px;
+  background: var(--bg3);
+  border-bottom: 2px solid var(--border);
+}
+.script-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.script-table tr:last-child td { border-bottom: none; }
+.script-table tr:hover td { background: rgba(14,165,233,0.02); }
+.st-scripts strong { color: #059669; }
+.st-inst strong { color: var(--cyan2); }
+
+/* ── FOOTER STRIP ── */
+.page-footer {
+  margin-top: 48px;
+  padding: 24px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+}
+.footer-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.8;
+}
+.footer-text a { color: var(--cyan2); text-decoration: underline; text-underline-offset: 3px; }
+.footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cyan2);
+  background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.25);
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .page-wrap { padding: 32px 20px 60px; }
+  .skills-hero { padding: 36px 28px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .naming-grid { grid-template-columns: 1fr; }
+  .section-num { font-size: 60px; }
+}
+
+/* scroll reveal */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ═══════════════════════════════════
+       HERO — HIGHLIGHTED HEADING
+       ═══════════════════════════════════ -->
+  <div class="skills-hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">🛠️ &nbsp;Cline Customization · Feature 01</div>
+
+      <div class="hero-heading-wrap">
+        <span class="section-num">01</span>
+        <h1 class="hero-heading">
+          <span class="heading-highlight">Skills</span>
+          <span class="heading-sub">On-Demand Specialist Knowledge</span>
+        </h1>
+      </div>
+
+      <p class="hero-desc">
+        Think of Skills as specialist hats Cline can wear — put one on when you need it, take it off when you don't.
+        <strong>A deployment skill stays dormant while you're writing game logic. A scaffold skill activates the moment you ask for it.</strong>
+        No token bloat. Pure focus.
+      </p>
+
+      <div class="hero-pills">
+        <span class="pill pill-cyan">On-Demand Loading</span>
+        <span class="pill pill-green">Zero Context Bloat</span>
+        <span class="pill pill-amber">SKILL.md Based</span>
+        <span class="pill pill-plain">.cline/skills/</span>
+        <span class="pill pill-plain">Git-Friendly</span>
+      </div>
+
+      <div class="exp-badge">⚗️ &nbsp;Experimental Feature — Enable in Settings → Features → Enable Skills</div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="tldr reveal">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">
+      Skills are modular instruction sets that activate <strong>only when your request matches their description</strong>.
+      At startup, Cline reads ~100 tokens of metadata per skill. Full instructions only load when triggered.
+      Anything you put in <code>scripts/</code> costs <strong>zero context tokens</strong> — only the output comes back.
+    </span>
+  </div>
+
+  <!-- ══════════════════════════
+       WHAT IS IT
+       ══════════════════════════ -->
+  <div class="section-label reveal">Understanding the concept</div>
+  <div class="cards-grid reveal">
+
+    <div class="card">
+      <div class="card-head ch-what"><span>◎</span><span>So what exactly is a Skill?</span></div>
+      <ul class="desc-list">
+        <li>A <strong>Skill</strong> is a directory containing a <code>SKILL.md</code> file — a specialist role Cline steps into: <mark class="hl-cyan">"dotnet-api-scaffold"</mark>, <mark class="hl-cyan">"aws-cdk-deploy"</mark>, <mark class="hl-cyan">"data-analysis"</mark>.</li>
+        <li>Unlike rules (which are always-on), skills are <em>lazy</em> — metadata loads at startup (~100 tokens each), but full instructions only come in when your request triggers them.</li>
+        <li><strong>Progressive loading in 3 levels:</strong> metadata → instructions (under 5k tokens) → bundled files only when you reference them.</li>
+        <li>That 500-line validation script sitting in <code>scripts/</code>? <mark class="hl-green">Zero context tokens</mark>. Only its output ("Passed ✓") enters the conversation.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-head ch-why"><span>◎</span><span>Honestly, why bother?</span></div>
+      <ul class="desc-list">
+        <li>Without Skills, you're either re-explaining your deployment workflow every single session — or you have one giant bloated rules file burning tokens on requests that don't need it.</li>
+        <li><mark class="hl-amber">Skills keep Cline sharp</mark> — Azure deployment knowledge doesn't sneak into your C++ template scaffolding, and vice versa. Context stays relevant.</li>
+        <li><strong>The real win with scripts:</strong> deterministic operations run outside the LLM entirely. Your linter runs in bash, produces clean output, and Cline acts on results without wasting tokens on the code itself.</li>
+      </ul>
+      <div class="insight">
+        <strong>🎯 Simple rule of thumb:</strong> one Skill per domain. Keep <code>cpp-game-engine</code> separate from <code>dotnet-api-scaffold</code>. Toggle them independently. Cross-domain context is noise — eliminate it.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════
+       PROGRESSIVE LOADING TABLE
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">How loading actually works</div>
+  <div class="card card-full reveal">
+    <div class="card-head ch-how"><span>◎</span><span>Progressive Loading — Three Levels</span></div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:4px;">
+      Cline doesn't dump everything into context at once. It reads only what's needed, when it's needed — that's the entire point.
+    </p>
+    <table class="loading-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>When It Loads</th>
+          <th>Token Cost</th>
+          <th>What's Included</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="level-badge always">Metadata</span></td>
+          <td>Every startup, always</td>
+          <td>~100 tokens per skill</td>
+          <td><code>name</code> and <code>description</code> from YAML frontmatter — just enough for Cline to know the skill exists</td>
+        </tr>
+        <tr>
+          <td><span class="level-badge triggered">Instructions</span></td>
+          <td>When your request matches the description</td>
+          <td>Under 5k tokens</td>
+          <td>Full SKILL.md body — the actual step-by-step guidance and patterns</td>
+        </tr>
+        <tr>
+          <td><span class="level-badge ondemand">Resources</span></td>
+          <td>Only when explicitly referenced</td>
+          <td>Effectively unlimited</td>
+          <td>Bundled files in <code>docs/</code>, templates in <code>templates/</code>, script outputs from <code>scripts/</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════
+       SKILL STRUCTURE
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">Anatomy of a Skill</div>
+  <div class="card card-full reveal">
+    <div class="card-head ch-files"><span>◎</span><span>What Goes Inside a Skill Directory</span></div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.7;">
+      Every Skill is just a folder. The only required piece is <code>SKILL.md</code> — everything else is optional but powerful.
+    </p>
+
+    <div class="file-tree">
+<span class="ft-dir">my-skill/</span>
+├── <span class="ft-file">SKILL.md</span>          <span class="ft-comment"># Required — your instructions + YAML frontmatter</span>
+├── <span class="ft-dir">docs/</span>             <span class="ft-comment"># Optional — advanced guides, platform-specific notes</span>
+│   └── <span class="ft-file">advanced.md</span>
+├── <span class="ft-dir">templates/</span>        <span class="ft-comment"># Optional — boilerplate files Cline can scaffold from</span>
+│   └── <span class="ft-file">config.yaml</span>
+└── <span class="ft-dir">scripts/</span>          <span class="ft-comment"># Optional — deterministic ops, zero context cost</span>
+    └── <span class="ft-file">validate.sh</span>
+    </div>
+
+    <div class="callout cyan" style="margin-top:16px;">
+      <span class="callout-icon">💡</span>
+      <div><strong>The two required YAML fields</strong> inside every SKILL.md: <code>name</code> (must match the directory name exactly) and <code>description</code> (max 1,024 characters — this is what Cline reads to decide whether to activate the skill).</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">SKILL.md — structure overview</span>
+      </div>
+      <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">name:</span> <span class="str">my-skill</span>              <span class="cm"># must match the directory name exactly</span>
+<span class="at">description:</span> <span class="str">Brief, specific description of what this does and WHEN to use it.
+             Max 1,024 characters. This is your trigger phrase.</span>
+<span class="cm">---</span>
+
+<span class="hl"># My Skill</span>
+
+Detailed instructions that Cline follows when this skill is activated.
+Put the most common cases first — Cline reads sequentially.
+
+<span class="hl">## Steps</span>
+1. First, do this
+2. Then do that
+3. For edge cases, see [advanced.md](docs/advanced.md)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       HOW TO CREATE ONE
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">Creating your first skill</div>
+  <div class="card card-full reveal">
+    <div class="card-head ch-how"><span>◎</span><span>Step-by-Step: Your First Skill</span></div>
+    <p style="font-size:13px;color:var(--text3);margin-bottom:20px;">
+      Scenario: You want Cline to scaffold C# ASP.NET Core controllers consistently every time — same patterns, same structure, no re-explaining.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Enable the feature first</div>
+          <div class="ui-nav">
+            <div class="ui-nav-label">🖱 Where to go</div>
+            <span class="crumb">Settings</span> <span class="arrow">›</span>
+            <span class="crumb">Features</span> <span class="arrow">›</span>
+            <span class="crumb">Enable Skills</span>
+          </div>
+          <div class="step-desc" style="margin-top:8px;">It's experimental, so it's off by default. Flip the toggle and you're good to go.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Open the Skills panel</div>
+          <div class="step-desc">Click the <strong>scale icon</strong> at the bottom of the Cline panel (left of the model selector) → switch to the <strong>Skills</strong> tab → click <strong>"New skill…"</strong> and give it a name like <code>dotnet-api-scaffold</code>.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Write your SKILL.md</div>
+          <div class="step-desc">Edit the generated file. Be specific in the description — this is literally what Cline pattern-matches against your messages. Lead with the most common use cases; Cline reads the file top to bottom.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Add supporting files (optional but powerful)</div>
+          <div class="step-desc">Drop a <code>templates/Controller.cs.tmpl</code> for boilerplate and a <code>scripts/validate-routes.sh</code> for zero-cost route validation. Cline will reference these only when needed.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Test it — does it actually trigger?</div>
+          <div class="step-desc">Say <em>"scaffold a new UserAuth API endpoint"</em>. If you see <strong>"Activating skill: dotnet-api-scaffold"</strong> in the Cline output, you nailed the description. If not, make it more specific — add exact trigger phrases you'd naturally say.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:20px;">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">SKILL.md — dotnet-api-scaffold (real example)</span>
+      </div>
+      <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">name:</span> dotnet-api-scaffold
+<span class="at">description:</span> <span class="str">Scaffold C# ASP.NET Core controllers, routes, middleware, and xUnit tests.
+Use when creating new API endpoints, adding routes, or generating controller
+boilerplate in a .NET microservice. Triggers on: "scaffold endpoint", "new
+controller", "add API route", "generate controller".</span>
+<span class="cm">---</span>
+
+<span class="hl"># .NET API Scaffold</span>
+
+<span class="hl">## 1. Create the Controller</span>
+- Place in <span class="fn">Controllers/</span> — follow <span class="fn">templates/Controller.cs.tmpl</span>
+- Use repository pattern for all DB access (never hit DB directly from controller)
+
+<span class="hl">## 2. Register Route</span>
+- Add to <span class="fn">Program.cs</span> via <span class="fn">MapControllers()</span>
+- Group by domain: auth, users, orders
+
+<span class="hl">## 3. Write xUnit Tests</span>
+- Create <span class="fn">UserControllerTests.cs</span> in <span class="fn">Tests/</span>
+- Mock repo via interface — never use a real DB in unit tests
+
+<span class="hl">## 4. Validate</span>
+<span class="kw">bash</span> scripts/validate-routes.sh    <span class="cm"># zero context cost — just output enters chat</span></pre>
+      </div>
+    </div>
+
+    <div class="callout green" style="margin-top:16px;">
+      <span class="callout-icon">✅</span>
+      <div>You can also <strong>skip the UI entirely</strong> — just create the directory structure manually and place it in <code>.cline/skills/</code>. Cline auto-discovers it. Either way works.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       NAMING CONVENTIONS
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">Naming your skills</div>
+  <div class="card card-full reveal">
+    <div class="card-head ch-what"><span>◎</span><span>Naming Conventions — Kebab-Case, Always Descriptive</span></div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.7;">
+      The name you give a skill must match the directory name <em>exactly</em>. It also shows in Cline's UI and error logs, so make it readable at a glance. Always lowercase, always hyphens — no exceptions.
+    </p>
+
+    <div class="naming-grid">
+      <div class="naming-card">
+        <div class="naming-card-head nc-good">✓ Good names</div>
+        <ul class="naming-list">
+          <li>aws-cdk-deploy</li>
+          <li>pr-review-checklist</li>
+          <li>database-migration</li>
+          <li>api-client-generator</li>
+          <li>dotnet-api-scaffold</li>
+        </ul>
+      </div>
+      <div class="naming-card">
+        <div class="naming-card-head nc-bad">✗ Avoid these patterns</div>
+        <ul class="naming-list">
+          <li>aws &nbsp;<span style="color:var(--text3);font-size:11px;">(too vague)</span></li>
+          <li>my_skill &nbsp;<span style="color:var(--text3);font-size:11px;">(underscores ≠ kebab-case)</span></li>
+          <li>DeployToAWS &nbsp;<span style="color:var(--text3);font-size:11px;">(not kebab-case)</span></li>
+          <li>misc-helpers &nbsp;<span style="color:var(--text3);font-size:11px;">(too generic)</span></li>
+          <li>mySkill &nbsp;<span style="color:var(--text3);font-size:11px;">(camelCase is wrong here)</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       WRITING DESCRIPTIONS
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">The most important field</div>
+  <div class="cards-grid reveal">
+    <div class="card">
+      <div class="card-head ch-why"><span>◎</span><span>The Description is Your Trigger</span></div>
+      <ul class="desc-list">
+        <li>Cline uses the <code>description</code> to decide whether to activate a skill. <strong>A vague description means the skill never fires when you need it.</strong></li>
+        <li>Good descriptions <em>start with action verbs</em>, include specific trigger phrases you'd naturally type, and mention the tools or file types involved.</li>
+        <li>Max <mark class="hl-amber">1,024 characters</mark> — be specific but don't ramble. Think: "what would I type to need this?"</li>
+        <li>Test it: try different phrasings of requests and watch whether the skill activates. If it doesn't, add more trigger phrases.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-head ch-why"><span>◎</span><span>Strong vs Weak Descriptions</span></div>
+      <ul class="desc-list">
+        <li><strong>✅ Strong:</strong> <em>"Deploy applications to AWS using CDK. Use when deploying, updating infrastructure, or managing AWS resources."</em></li>
+        <li><strong>✅ Strong:</strong> <em>"Generate release notes from git commits. Use when preparing releases, writing changelogs, or summarizing changes."</em></li>
+        <li><strong>❌ Weak:</strong> <em>"Helps with AWS stuff."</em> — no action verb, no trigger phrase.</li>
+        <li><strong>❌ Weak:</strong> <em>"Data analysis helper."</em> — zero specificity. Cline won't know when to fire this.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       BUNDLED FILES
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">Scripts, templates, and docs</div>
+  <div class="card card-full reveal">
+    <div class="card-head ch-files"><span>◎</span><span>Bundled Supporting Files — What Goes Where</span></div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:14px;">
+      Skills aren't just a single file — they can carry a whole folder of supporting resources. Cline loads these only when referenced, keeping context lean.
+    </p>
+
+    <ul class="desc-list" style="margin-bottom:16px;">
+      <li><strong><code>docs/</code></strong> — for information too detailed to fit in SKILL.md, or only relevant in specific situations. A deploy skill might have <code>docs/aws.md</code>, <code>docs/gcp.md</code>, and <code>docs/azure.md</code>. Cline picks the right one based on your request.</li>
+      <li><strong><code>templates/</code></strong> — for boilerplate: Dockerfiles, CI config, scaffolded components. A project setup skill might include <code>templates/docker-compose.yml</code> and <code>templates/.env.example</code> that Cline customizes per project.</li>
+      <li><strong><code>scripts/</code></strong> — the secret weapon. Validation, linting, data processing, API health checks. A 500-line linter runs completely outside the LLM and produces a clean "Passed ✓" in context. <mark class="hl-green">Zero tokens for the code, just the result.</mark></li>
+    </ul>
+
+    <table class="script-table">
+      <thead>
+        <tr>
+          <th>Use scripts/ when…</th>
+          <th>Use instructions when…</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="st-scripts"><strong>Deterministic operations</strong> — linting, validation, formatting</td>
+          <td class="st-inst"><strong>Flexible guidance</strong> that adapts to context and nuance</td>
+        </tr>
+        <tr>
+          <td class="st-scripts"><strong>Complex calculations</strong> — cost estimates, resource sizing</td>
+          <td class="st-inst"><strong>Decision-making workflows</strong> that depend on situational judgment</td>
+        </tr>
+        <tr>
+          <td class="st-scripts"><strong>Reliability matters</strong> — you want consistent, exact behavior every time</td>
+          <td class="st-inst"><strong>Best practices and patterns</strong> that might vary by team or project</td>
+        </tr>
+        <tr>
+          <td class="st-scripts"><strong>Anything you'd rather not explain</strong> — let the script handle it, just show the output</td>
+          <td class="st-inst"><strong>Steps that might vary</strong> by situation, environment, or preference</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════
+       WHERE SKILLS LIVE
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">Where to put them</div>
+  <div class="cards-grid reveal">
+    <div class="card">
+      <div class="card-head ch-storage"><span>◎</span><span>Project Skills (Team-Shared)</span></div>
+      <ul class="desc-list">
+        <li>Store in <mark class="hl-cyan">.cline/skills/</mark> at your project root (recommended).</li>
+        <li>Also supported: <code>.clinerules/skills/</code> and <code>.claude/skills/</code>.</li>
+        <li><strong>Commit them to Git.</strong> Your whole team benefits — everyone scaffolds with the same patterns, no individual drift.</li>
+        <li>Great for domain-specific skills (your company's infra patterns, project conventions, client-specific workflows).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-head ch-storage"><span>◎</span><span>Global Skills (Just for You)</span></div>
+      <ul class="desc-list">
+        <li>macOS/Linux: <mark class="hl-green">~/.cline/skills/</mark></li>
+        <li>Windows: <code>C:\Users\USERNAME\.cline\skills\</code></li>
+        <li>Available across every project. Good for personal workflows you use everywhere — PR review checklists, your preferred testing patterns, personal deploy helpers.</li>
+        <li><strong>Precedence note:</strong> when a global and project skill share the same name, the <em>global skill wins</em>. Keep this in mind when sharing project skills with teammates.</li>
+      </ul>
+
+      <div class="callout purple" style="margin-top:14px;">
+        <span class="callout-icon">🔁</span>
+        <div><strong>Toggle, don't delete.</strong> Every skill has an on/off switch in the UI. Disable a CI/CD skill when you're doing local dev, re-enable it when you need it. No need to touch the file.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       BEST PRACTICES
+       ══════════════════════════ -->
+  <div class="section-label reveal" style="margin-top:28px;">Making skills actually work well</div>
+  <div class="card card-full reveal">
+    <div class="card-head ch-best"><span>◎</span><span>Best Practices — Learned the Hard Way</span></div>
+
+    <div class="bp-list">
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>Nail the description first.</strong> Everything else is secondary. "Use when deploying to Azure using Bicep, updating ARM templates, or managing Azure resources" will trigger reliably. "Azure helper" will not. Include the exact phrases you'd type when you need this skill.
+        </div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>Offload heavy logic to <code>scripts/</code>.</strong> A 300-line validation script is a zero-token operation. Put complexity in scripts, and let the instructions focus on guidance and decision-making. That's the division of labor.
+        </div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>One skill = one domain, no exceptions.</strong> Don't cram <code>dotnet-api-scaffold</code> and <code>dotnet-db-migration</code> into one skill. Keep them separate, toggle them independently. When both are active and needed, they'll both load — but only what's relevant to your request.
+        </div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>Keep SKILL.md under 5,000 tokens.</strong> If your instructions are getting long, split detailed content into <code>docs/</code> files and reference them. Cline fetches those docs only when your request needs them — you get depth without paying for it upfront.
+        </div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>Front-load the common cases.</strong> Cline reads SKILL.md sequentially. Put the most common workflows first, edge cases and troubleshooting later (or in a <code>docs/</code> file). Think about what 80% of your requests will look like and optimize for that.
+        </div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>Include real examples, not just abstract steps.</strong> "Run the linter" is weaker than "Run <code>scripts/validate.sh</code> — it outputs a per-file report; if exit code is non-zero, list each failing file and the rule violated." Concrete beats abstract every time.
+        </div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text">
+          <strong>Commit project skills to Git.</strong> Store in <code>.cline/skills/</code> and push. Your team inherits your institutional knowledge without a single meeting. When someone improves a skill, everyone benefits on the next pull.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       CLOSING CALLOUT
+       ══════════════════════════ -->
+  <div class="card card-full reveal" style="margin-top:20px; background: linear-gradient(135deg, rgba(14,165,233,0.04), rgba(16,185,129,0.03)); border-color: rgba(14,165,233,0.25);">
+    <div style="display:flex;align-items:flex-start;gap:16px;">
+      <div style="font-size:32px;flex-shrink:0;">🛠️</div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan2);margin-bottom:8px;">The Bottom Line</div>
+        <p style="font-size:15px;color:var(--text);line-height:1.8;max-width:680px;">
+          Skills transform Cline from a general-purpose assistant into a specialist who knows exactly how your team works.
+          Start with one skill for a task you repeat every week. Test it, tweak the description until it triggers every time, add a script or two.
+          <strong style="color:var(--head);">Then watch it compound across your whole team.</strong>
+        </p>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);">
+          Source: <a href="https://docs.cline.bot/customization/skills" style="color:var(--cyan2);text-decoration:underline;text-underline-offset:3px;">docs.cline.bot/customization/skills</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer reveal">
+    <div class="footer-text">
+      Cline Masterclass · Skills Section (01/07)<br/>
+      Verified against <a href="https://docs.cline.bot/customization/skills" target="_blank">docs.cline.bot</a> · April 2026
+    </div>
+    <div class="footer-badge">🛠️ &nbsp;Skills · On-Demand Loading</div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+// Scroll-reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
