@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Masterclass — Advanced Developer Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #f8fafc;
+  --bg2:     #ffffff;
+  --bg3:     #f1f5f9;
+  --surface: #ffffff;
+  --border:  #e2e8f0;
+  --border2: #cbd5e1;
+  --text:    #334155;
+  --text2:   #64748b;
+  --text3:   #94a3b8;
+  --head:    #0f172a;
+  --cyan:    #0ea5e9;
+  --cyan2:   #0284c7;
+  --amber:   #f59e0b;
+  --amber2:  #d97706;
+  --green:   #10b981;
+  --red:     #ef4444;
+  --purple:  #8b5cf6;
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --mono:    'JetBrains Mono', monospace;
+  --display: 'Fraunces', serif;
+  --body:    'DM Sans', sans-serif;
+  --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md: 0 4px 16px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04);
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--body); font-size: 16px; line-height: 1.7; overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg3); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* ── LAYOUT ── */
+.shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  grid-row: 1 / -1; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--bg2); border-right: 1px solid var(--border);
+  padding: 32px 0; display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
+}
+.sidebar-logo { padding: 0 24px 28px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+.sidebar-logo .wordmark { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); }
+.sidebar-logo .tagline { font-size: 12px; color: var(--text3); margin-top: 4px; line-height: 1.4; }
+.nav-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); padding: 0 24px 10px; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 24px; text-decoration: none; color: var(--text2); font-size: 13px; transition: all 0.2s; border-left: 2px solid transparent; }
+.nav-item:hover { color: var(--head); background: var(--bg3); border-left-color: var(--cyan); }
+.nav-item.active { color: var(--cyan2); background: rgba(14,165,233,0.06); border-left-color: var(--cyan); }
+.nav-num { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--text3); min-width: 18px; }
+.nav-item.active .nav-num { color: var(--cyan2); }
+.nav-icon { font-size: 16px; min-width: 20px; text-align: center; }
+.sidebar-footer { margin-top: auto; padding: 24px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10px; color: var(--text3); line-height: 1.8; }
+.sidebar-footer span { color: var(--green); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; padding: 80px 72px 72px;
+  border-bottom: 1px solid var(--border); overflow: hidden;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #fafffe 100%);
+}
+.hero::before { content:''; position:absolute; top:-120px; right:-80px; width:600px; height:600px; background:radial-gradient(circle,rgba(14,165,233,0.08) 0%,transparent 65%); pointer-events:none; }
+.hero::after { content:''; position:absolute; bottom:-100px; left:40%; width:400px; height:400px; background:radial-gradient(circle,rgba(16,185,129,0.06) 0%,transparent 65%); pointer-events:none; }
+.hero-grid-bg {
+  position:absolute; inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:40px 40px; opacity:0.35; pointer-events:none;
+  mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,0.4) 30%,rgba(0,0,0,0.4) 70%,transparent);
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--cyan2);
+  background:rgba(14,165,233,0.08); border:1px solid rgba(14,165,233,0.25);
+  padding:6px 14px; border-radius:100px; margin-bottom:28px; animation:fadeUp 0.6s ease both;
+}
+.hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px rgba(14,165,233,0.5); animation:blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.hero h1 { font-family:var(--display); font-size:clamp(36px,5vw,62px); font-weight:900; color:var(--head); line-height:1.08; letter-spacing:-0.02em; max-width:700px; margin-bottom:24px; animation:fadeUp 0.6s 0.1s ease both; }
+.hero h1 em { font-style:italic; color:var(--cyan2); font-weight:300; }
+.hero-intro { font-size:17px; color:var(--text2); max-width:620px; line-height:1.75; animation:fadeUp 0.6s 0.2s ease both; }
+.hero-intro strong { color:var(--text); }
+.hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; animation:fadeUp 0.6s 0.25s ease both; }
+.htag { font-family:var(--mono); font-size:11px; padding:3px 10px; border-radius:4px; border:1px solid var(--border2); color:var(--text3); background:var(--bg3); }
+.htag.c { color:var(--cyan2); border-color:rgba(14,165,233,0.35); background:rgba(14,165,233,0.07); }
+.htag.g { color:var(--green); border-color:rgba(16,185,129,0.35); background:rgba(16,185,129,0.07); }
+.hero-meta { display:flex; gap:32px; margin-top:40px; animation:fadeUp 0.6s 0.3s ease both; }
+.meta-item { display:flex; flex-direction:column; gap:4px; }
+.meta-val { font-family:var(--mono); font-size:22px; font-weight:700; color:var(--head); }
+.meta-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:0.1em; font-family:var(--mono); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+
+/* ── TOPIC SECTIONS ── */
+.topic-section { padding:72px; border-bottom:1px solid var(--border); opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.topic-section.visible { opacity:1; transform:translateY(0); }
+.topic-section:nth-child(even) { background: #fafcff; }
+
+.topic-header { display:flex; align-items:flex-start; gap:28px; margin-bottom:48px; }
+.topic-number { font-family:var(--display); font-size:80px; font-weight:900; font-style:italic; line-height:1; color:transparent; -webkit-text-stroke:1px var(--border2); min-width:80px; margin-top:-8px; transition:-webkit-text-stroke 0.3s; user-select:none; }
+.topic-section:hover .topic-number { -webkit-text-stroke-color:var(--cyan); }
+.topic-title-block { flex:1; }
+.topic-badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; padding:4px 12px; border-radius:100px; margin-bottom:12px; }
+.badge-skills      { color:var(--cyan2);  background:rgba(14,165,233,0.08);  border:1px solid rgba(14,165,233,0.25); }
+.badge-rules       { color:var(--purple); background:rgba(139,92,246,0.08);  border:1px solid rgba(139,92,246,0.25); }
+.badge-workflows   { color:var(--amber);  background:rgba(245,158,11,0.08);  border:1px solid rgba(245,158,11,0.25); }
+.badge-hooks       { color:var(--red);    background:rgba(239,68,68,0.08);   border:1px solid rgba(239,68,68,0.25); }
+.badge-memory      { color:var(--cyan2);  background:rgba(14,165,233,0.08);  border:1px solid rgba(14,165,233,0.25); }
+.badge-checkpoints { color:var(--green);  background:rgba(16,185,129,0.08);  border:1px solid rgba(16,185,129,0.25); }
+.badge-subagents   { color:var(--purple); background:rgba(139,92,246,0.08);  border:1px solid rgba(139,92,246,0.25); }
+.topic-title { font-family:var(--display); font-size:clamp(24px,3vw,36px); font-weight:700; color:var(--head); line-height:1.15; letter-spacing:-0.01em; }
+.topic-title em { font-style:italic; font-weight:300; color:var(--cyan2); }
+.topic-desc { font-size:15px; color:var(--text2); margin-top:10px; max-width:540px; line-height:1.7; }
+.topic-meta-badge { font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#fff; background:var(--cyan2); padding:3px 10px; border-radius:3px; margin-top:12px; display:inline-block; }
+
+/* ── TL;DR BANNER ── */
+.tldr-banner {
+  background: linear-gradient(135deg, rgba(14,165,233,0.07) 0%, rgba(139,92,246,0.05) 100%);
+  border: 1px solid rgba(14,165,233,0.2); border-left: 4px solid var(--cyan);
+  border-radius: var(--r-md); padding: 14px 20px; margin-bottom: 28px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.tldr-tag {
+  font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #fff; background: var(--cyan2);
+  padding: 2px 8px; border-radius: 3px; flex-shrink: 0; margin-top: 2px;
+}
+.tldr-text { font-size: 13.5px; color: var(--text); line-height: 1.65; }
+.tldr-text strong { color: var(--head); }
+
+/* ── KEY INSIGHT ── */
+.key-insight {
+  background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2);
+  border-left: 4px solid var(--amber); border-radius: var(--r-sm);
+  padding: 12px 16px; margin: 10px 0; font-size: 13.5px; color: var(--text2); line-height: 1.65;
+}
+.key-insight strong { color: var(--amber2); }
+
+/* ── HIGHLIGHT MARK ── */
+mark.hl-cyan { background: rgba(14,165,233,0.12); color: var(--cyan2); padding: 1px 4px; border-radius: 3px; font-weight: 500; }
+mark.hl-green { background: rgba(16,185,129,0.1); color: #059669; padding: 1px 4px; border-radius: 3px; font-weight: 500; }
+mark.hl-purple { background: rgba(139,92,246,0.1); color: var(--purple); padding: 1px 4px; border-radius: 3px; font-weight: 500; }
+mark.hl-amber { background: rgba(245,158,11,0.1); color: var(--amber2); padding: 1px 4px; border-radius: 3px; font-weight: 500; }
+
+/* ── CARDS ── */
+.subsections { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.subsection-full { grid-column:1 / -1; }
+.sub-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:24px 28px; transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s; box-shadow: var(--shadow-sm); }
+.sub-card:hover { border-color:var(--cyan); transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.sub-heading { display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:14px; }
+.sh-what   { color:var(--cyan2); }
+.sh-why    { color:var(--amber2); }
+.sh-how    { color:var(--green); }
+.sh-best   { color:var(--purple); }
+.sub-card p { font-size:14.5px; color:var(--text2); line-height:1.75; }
+.sub-card p strong { color:var(--head); font-weight:600; }
+.sub-card p + p { margin-top:10px; }
+.desc-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+.desc-list li { font-size:14px; color:var(--text2); line-height:1.65; padding-left:18px; position:relative; }
+.desc-list li::before { content:'▸'; position:absolute; left:0; color:var(--cyan2); font-size:10px; top:4px; }
+.desc-list li strong { color:var(--head); font-weight:600; }
+.desc-list li em { color:var(--text); }
+
+/* ── STEPS ── */
+.steps { display:flex; flex-direction:column; gap:20px; margin-top:4px; }
+.step { display:flex; gap:16px; align-items:flex-start; }
+.step-num { flex-shrink:0; width:26px; height:26px; background:var(--cyan2); border-radius:50%; font-family:var(--mono); font-size:11px; font-weight:700; color:#fff; display:flex; align-items:center; justify-content:center; margin-top:2px; }
+.step-body { flex:1; }
+.step-title { font-weight:600; color:var(--head); font-size:14px; margin-bottom:6px; }
+.step-desc { font-size:13.5px; color:var(--text2); line-height:1.7; }
+
+/* ── UI NAV CALLOUT ── */
+.ui-nav {
+  background:#f8fafc; border:1px solid var(--border2); border-left:3px solid var(--amber);
+  border-radius:var(--r-sm); padding:14px 18px; margin:12px 0;
+  font-size:13px; color:var(--text2); line-height:1.75;
+}
+.ui-nav + .ui-nav { margin-top:6px; }
+.ui-nav-label { font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber2); margin-bottom:7px; }
+.crumb { display:inline-flex; align-items:center; gap:4px; font-family:var(--mono); font-size:11.5px; background:var(--bg3); border:1px solid var(--border2); border-radius:4px; padding:2px 8px; color:var(--head); white-space:nowrap; }
+.arrow { color:var(--text3); margin:0 2px; font-size:12px; }
+
+/* ── CALLOUT VARIANTS ── */
+.callout { display:flex; gap:12px; padding:14px 18px; border-radius:var(--r-sm); margin:14px 0; font-size:13.5px; color:var(--text2); line-height:1.7; }
+.callout-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.callout strong { font-weight:600; }
+.callout.cyan   { background:rgba(14,165,233,0.05);  border:1px solid rgba(14,165,233,0.2);  border-left:3px solid var(--cyan); }
+.callout.cyan strong { color:var(--cyan2); }
+.callout.amber  { background:rgba(245,158,11,0.05);  border:1px solid rgba(245,158,11,0.2);  border-left:3px solid var(--amber); }
+.callout.amber strong { color:var(--amber2); }
+.callout.green  { background:rgba(16,185,129,0.05);  border:1px solid rgba(16,185,129,0.2);  border-left:3px solid var(--green); }
+.callout.green strong { color:#059669; }
+.callout.purple { background:rgba(139,92,246,0.05);  border:1px solid rgba(139,92,246,0.2);  border-left:3px solid var(--purple); }
+.callout.purple strong { color:var(--purple); }
+
+/* ── CODE BLOCK (dark for contrast) ── */
+.code-block { background:#1e293b; border:1px solid #334155; border-radius:var(--r-sm); overflow:hidden; margin:14px 0; font-family:var(--mono); font-size:12.5px; box-shadow: var(--shadow-sm); }
+.code-header { display:flex; align-items:center; justify-content:space-between; padding:8px 16px; background:#0f172a; border-bottom:1px solid #334155; }
+.code-dots { display:flex; gap:6px; }
+.code-dots span { width:10px; height:10px; border-radius:50%; }
+.dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+.code-filename { font-size:11px; color:#64748b; letter-spacing:0.05em; }
+.code-body { padding:18px 20px; overflow-x:auto; line-height:1.75; color:#cbd5e1; }
+.code-body pre { white-space:pre-wrap; word-break:break-word; }
+.kw  { color:#c084fc; }
+.fn  { color:#38bdf8; }
+.str { color:#86efac; }
+.cm  { color:#475569; font-style:italic; }
+.at  { color:#fbbf24; }
+.hl  { color:#a3e635; font-weight:600; }
+.op  { color:#fb7185; }
+.tp  { color:#f0abfc; }  /* type name */
+.ns  { color:#67e8f9; }  /* namespace */
+
+/* ── INLINE CODE ── */
+p code, li code, .step-desc code { font-family:var(--mono); font-size:12px; color:var(--cyan2); background:rgba(14,165,233,0.08); border:1px solid rgba(14,165,233,0.18); padding:1px 6px; border-radius:4px; }
+.chip { display:inline-block; font-family:var(--mono); font-size:11.5px; background:var(--bg3); border:1px solid var(--border2); border-radius:4px; padding:1px 7px; color:var(--cyan2); }
+
+/* ── IMAGE PLACEHOLDER ── */
+.img-ph { background:var(--bg3); border:1px dashed var(--border2); border-radius:var(--r-md); padding:20px 24px; margin:14px 0; display:flex; align-items:flex-start; gap:14px; }
+.img-ph-emoji { font-size:22px; flex-shrink:0; margin-top:2px; }
+.img-ph-label { font-size:13px; color:var(--text3); font-family:var(--mono); line-height:1.6; }
+.img-ph-label strong { display:block; color:var(--text2); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:4px; }
+
+/* ── BEST PRACTICES ── */
+.bp-list { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
+.bp-item { display:flex; gap:12px; font-size:13.5px; color:var(--text2); line-height:1.65; }
+.bp-dot { color:var(--purple); font-family:var(--mono); font-weight:700; flex-shrink:0; margin-top:2px; }
+.bp-item strong { color:var(--head); }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x:auto; margin:14px 0; border-radius:var(--r-md); border:1px solid var(--border); box-shadow: var(--shadow-sm); }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text3); text-align:left; padding:10px 16px; background:var(--bg3); border-bottom:1px solid var(--border); }
+td { padding:10px 16px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(14,165,233,0.03); }
+td:first-child { font-family:var(--mono); font-size:12px; color:var(--amber2); font-weight:600; }
+
+/* ── MEMORY GRID ── */
+.mem-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:14px 0; }
+.mem-card { background:var(--bg3); border:1px solid var(--border); border-radius:var(--r-sm); padding:14px 16px; display:flex; gap:12px; align-items:flex-start; transition:border-color 0.2s,box-shadow 0.2s; }
+.mem-card:hover { border-color:var(--cyan); box-shadow:var(--shadow-sm); }
+.mem-badge { font-family:var(--mono); font-size:9px; font-weight:700; color:var(--amber2); background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); padding:2px 6px; border-radius:3px; white-space:nowrap; flex-shrink:0; margin-top:2px; }
+.mem-name { font-family:var(--mono); font-size:12px; color:var(--cyan2); margin-bottom:4px; font-weight:600; }
+.mem-desc { font-size:12.5px; color:var(--text3); line-height:1.55; }
+
+/* ── CHECKPOINT GRID ── */
+.cp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:14px 0; }
+.cp-card { background:var(--bg3); border:1px solid var(--border); border-radius:var(--r-sm); padding:16px; position:relative; overflow:hidden; }
+.cp-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.cp-c1::after { background:var(--green); }
+.cp-c2::after { background:var(--purple); }
+.cp-c3::after { background:var(--amber); }
+.cp-h { font-family:var(--display); font-weight:700; font-size:13px; color:var(--head); margin-bottom:6px; }
+.cp-b { font-size:12.5px; color:var(--text3); line-height:1.6; }
+.cp-b em { font-style:italic; color:var(--text2); }
+
+/* ── TOOL GRID ── */
+.tool-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0; }
+.tool-card { background:var(--bg3); border:1px solid var(--border); border-radius:var(--r-sm); padding:12px 14px; transition:border-color 0.2s,background 0.2s; }
+.tool-card:hover { border-color:var(--purple); background:rgba(139,92,246,0.03); }
+.tool-name { font-family:var(--mono); font-size:11px; color:var(--purple); margin-bottom:4px; font-weight:600; }
+.tool-desc { font-size:12px; color:var(--text3); line-height:1.5; }
+
+/* ── USE CASE GRID ── */
+.uc-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:14px 0; }
+.uc-card { background:var(--bg3); border:1px solid var(--border); border-radius:var(--r-sm); padding:14px 16px; display:flex; gap:12px; align-items:flex-start; transition:border-color 0.2s; }
+.uc-card:hover { border-color:var(--cyan); }
+.uc-icon { font-size:18px; flex-shrink:0; margin-top:2px; }
+.uc-title { font-family:var(--display); font-weight:700; font-size:13px; color:var(--head); margin-bottom:4px; }
+.uc-desc { font-size:12px; color:var(--text3); line-height:1.6; }
+
+/* ── DIVIDER ── */
+.divider { border:none; border-top:1px solid var(--border); margin:0; }
+
+/* ── SUMMARY SECTION ── */
+.summary-section { padding:72px; background:var(--bg2); border-bottom:1px solid var(--border); }
+.summary-section h2 { font-family:var(--display); font-size:34px; font-weight:700; color:var(--head); margin-bottom:8px; }
+.summary-section .sub-label-text { color:var(--text2); font-size:15px; margin-bottom:40px; }
+.feature-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:20px; transition:all 0.25s; position:relative; overflow:hidden; box-shadow:var(--shadow-sm); }
+.feature-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; }
+.fc-01::before { background:linear-gradient(90deg,var(--green),#059669); }
+.fc-02::before { background:linear-gradient(90deg,var(--purple),#7c3aed); }
+.fc-03::before { background:linear-gradient(90deg,var(--amber),var(--amber2)); }
+.fc-04::before { background:linear-gradient(90deg,var(--red),#dc2626); }
+.fc-05::before { background:linear-gradient(90deg,var(--cyan),var(--cyan2)); }
+.fc-06::before { background:linear-gradient(90deg,var(--green),var(--cyan)); }
+.fc-07::before { background:linear-gradient(90deg,var(--purple),var(--cyan)); }
+.feature-card:hover { border-color:var(--cyan); transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.fc-icon { font-size:24px; margin-bottom:12px; }
+.fc-name { font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--head); margin-bottom:6px; }
+.fc-desc { font-size:12px; color:var(--text2); line-height:1.6; }
+
+/* ── FOOTER ── */
+.page-footer { padding:48px 72px; display:flex; align-items:center; justify-content:space-between; background:var(--bg2); border-top:1px solid var(--border); }
+.footer-left { font-family:var(--mono); font-size:12px; color:var(--text3); line-height:1.8; }
+.footer-left span { color:var(--green); }
+.footer-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.footer-chip { font-family:var(--mono); font-size:10px; color:var(--text3); border:1px solid var(--border); padding:3px 10px; border-radius:100px; letter-spacing:0.06em; background:var(--bg3); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .shell { grid-template-columns:1fr; } .sidebar { display:none; }
+  .hero,.topic-section,.summary-section,.page-footer { padding:40px 28px; }
+  .subsections { grid-template-columns:1fr; }
+  .feature-grid { grid-template-columns:1fr 1fr; }
+  .cp-grid,.tool-grid { grid-template-columns:1fr; }
+  .mem-grid,.uc-grid { grid-template-columns:1fr; }
+}
+@media(max-width:560px) { .feature-grid{grid-template-columns:1fr;} .hero-meta{flex-wrap:wrap;gap:20px;} }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="wordmark">⬡ Cline Masterclass</div>
+    <div class="tagline">Advanced Developer Guide</div>
+  </div>
+  <div class="nav-label">Core Concepts</div>
+  <a class="nav-item active" href="#skills"><span class="nav-num">01</span><span class="nav-icon">🛠️</span>Skills</a>
+  <a class="nav-item" href="#rules"><span class="nav-num">02</span><span class="nav-icon">📋</span>Rules</a>
+  <a class="nav-item" href="#workflows"><span class="nav-num">03</span><span class="nav-icon">⚡</span>Workflows</a>
+  <a class="nav-item" href="#hooks"><span class="nav-num">04</span><span class="nav-icon">🪝</span>Hooks</a>
+  <a class="nav-item" href="#memory"><span class="nav-num">05</span><span class="nav-icon">🧠</span>Memory Bank</a>
+  <a class="nav-item" href="#checkpoints"><span class="nav-num">06</span><span class="nav-icon">💾</span>Checkpoints</a>
+  <a class="nav-item" href="#subagents"><span class="nav-num">07</span><span class="nav-icon">🤖</span>Subagents</a>
+  <div class="nav-label" style="margin-top:24px;">Overview</div>
+  <a class="nav-item" href="#summary"><span class="nav-num">→</span><span class="nav-icon">🗺️</span>Big Picture</a>
+  <div class="sidebar-footer"><span>●</span> Cline Extension<br/>VS Code · MCP · AI-Native<br/>7 Concepts · Production Ready</div>
+</aside>
+
+<main class="main">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-eyebrow">Advanced Concepts · 7 Core Topics · Production Mastery</div>
+  <h1>Master Cline Like<br/>a <em>Senior</em> Engineer</h1>
+  <p class="hero-intro">
+    A deep-dive masterclass into Cline's most powerful features — Skills, Rules, Workflows, Hooks, Memory Bank, Checkpoints, and Subagents. <strong>Built for engineers who move fast and build well.</strong>
+  </p>
+  <div class="hero-tags">
+    <span class="htag c">C++ / C# / .NET</span>
+    <span class="htag">Microservices</span>
+    <span class="htag">VS Code</span>
+    <span class="htag">MCP Servers</span>
+    <span class="htag c">7 Topics</span>
+    <span class="htag g">Production Ready</span>
+    <span class="htag">Subagents NEW</span>
+    <span class="htag">Best Practices</span>
+  </div>
+  <div class="hero-meta">
+    <div class="meta-item"><div class="meta-val">07</div><div class="meta-label">Chapters</div></div>
+    <div class="meta-item"><div class="meta-val">30+</div><div class="meta-label">Best Practices</div></div>
+    <div class="meta-item"><div class="meta-val">∞</div><div class="meta-label">Efficiency Gain</div></div>
+  </div>
+</section>
+
+<div class="content-area">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 01 SKILLS                               -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="skills">
+  <div class="topic-header">
+    <div class="topic-number">01</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-skills">🛠️ Custom Tools &amp; MCP</div>
+      <h2 class="topic-title">Skills<br/><em>On-Demand Specialist Knowledge</em></h2>
+      <p class="topic-desc">Give Cline specialist knowledge that loads only when needed — zero context bloat, pure focus.</p>
+      <span class="topic-meta-badge">Experimental</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">Skills are modular instruction sets that load <strong>only when triggered</strong>. Your C# deployment skill doesn't burn tokens when you're writing C++ game logic. Scripts in <code>scripts/</code> run for free — zero context cost.</span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li>A <strong>Skill</strong> is a modular instruction set — a specialist role Cline steps into: <mark class="hl-cyan">".NET API scaffolder"</mark>, "Azure deployer", "C++ build optimizer".</li>
+        <li>Unlike rules (always-on), skills load <em>on demand</em>: ~100 tokens of metadata at startup, full instructions only when your request matches.</li>
+        <li><strong>Progressive loading:</strong> metadata → instructions when triggered (&lt;5k tokens) → bundled resources only when explicitly referenced.</li>
+        <li>A 500-line script in <code>scripts/</code> costs <mark class="hl-green">zero context tokens</mark> — only its output enters context.</li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>Without skills you re-explain your deployment process every session — or maintain a bloated always-on rules file that burns tokens on every request.</li>
+        <li><mark class="hl-amber">Skills keep Cline focused</mark> — Azure knowledge doesn't load when scaffolding a C++ template library, and vice versa.</li>
+        <li><strong>Key win:</strong> Scripts run deterministically, consume zero instruction tokens, and inject only their output. All the power, none of the bloat.</li>
+      </ul>
+      <div class="key-insight"><strong>🎯 Rule of thumb:</strong> One skill per domain. Keep <code>cpp-game-engine</code> separate from <code>dotnet-api-scaffold</code>. Toggle them independently and avoid context pollution.</div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: C# microservice API — scaffold controllers, routes, and unit tests consistently every time.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Enable Skills</div><div class="ui-nav"><div class="ui-nav-label">🖱 Where to go</div><span class="crumb">Settings</span> <span class="arrow">›</span> <span class="crumb">Features</span> <span class="arrow">›</span> <span class="crumb">Enable Skills</span></div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Open Skills tab</div><div class="step-desc">Scale icon → "Skills" → "New skill…" → name it <code>dotnet-api-scaffold</code></div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Edit the SKILL.md</div><div class="step-desc">Write a focused description and step-by-step instructions. Put the most common cases first — Cline reads sequentially.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Add supporting files</div><div class="step-desc">Create <code>templates/Controller.cs.tmpl</code> and <code>scripts/validate-routes.sh</code> for zero-cost deterministic operations.</div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Test the trigger</div><div class="step-desc">Say "scaffold a new UserAuth endpoint" — if the skill fires you'll see "Activating skill: dotnet-api-scaffold" in Cline output.</div></div></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">SKILL.md — dotnet-api-scaffold</span></div>
+        <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">name:</span> dotnet-api-scaffold
+<span class="at">description:</span> <span class="str">Scaffold C# ASP.NET Core controllers, routes, middleware,
+and xUnit tests. Use when creating new API endpoints,
+adding routes, or generating controller boilerplate
+in a .NET microservice.</span>
+<span class="cm">---</span>
+
+<span class="hl"># .NET API Scaffold</span>
+
+<span class="hl">## 1. Create the Controller</span>
+- Place in <span class="fn">Controllers/</span>
+- Follow pattern in <span class="fn">templates/Controller.cs.tmpl</span>
+- Use repository pattern for all DB access
+
+<span class="cm">// Example controller structure</span>
+<span class="kw">using</span> <span class="ns">Microsoft.AspNetCore.Mvc</span>;
+
+[<span class="tp">ApiController</span>]
+[<span class="tp">Route</span>(<span class="str">"api/[controller]"</span>)]
+<span class="kw">public class</span> <span class="tp">UserController</span> : <span class="tp">ControllerBase</span>
+{
+    <span class="kw">private readonly</span> <span class="tp">IUserRepository</span> _repo;
+    <span class="kw">public</span> <span class="fn">UserController</span>(<span class="tp">IUserRepository</span> repo) => _repo = repo;
+
+    [<span class="tp">HttpGet</span>(<span class="str">"{id}"</span>)]
+    <span class="kw">public async</span> <span class="tp">Task</span>&lt;<span class="tp">IActionResult</span>&gt; <span class="fn">GetAsync</span>(<span class="kw">int</span> id)
+        => <span class="fn">Ok</span>(<span class="kw">await</span> _repo.<span class="fn">GetByIdAsync</span>(id));
+}
+
+<span class="hl">## 2. Register Route</span>
+- Add to <span class="fn">Program.cs</span> using <span class="fn">MapControllers()</span>
+- Group by domain: auth, users, orders
+
+<span class="hl">## 3. Write xUnit Tests</span>
+- Create <span class="fn">UserControllerTests.cs</span> in <span class="fn">Tests/</span>
+- Mock repo via <span class="tp">IUserRepository</span> interface — never real DB
+
+<span class="cm">// Example xUnit test</span>
+<span class="kw">public class</span> <span class="tp">UserControllerTests</span>
+{
+    [<span class="tp">Fact</span>]
+    <span class="kw">public async void</span> <span class="fn">GetAsync_ReturnsUser_WhenFound</span>()
+    {
+        <span class="kw">var</span> mock = <span class="kw">new</span> <span class="tp">Mock</span>&lt;<span class="tp">IUserRepository</span>&gt;();
+        mock.<span class="fn">Setup</span>(r => r.<span class="fn">GetByIdAsync</span>(<span class="at">1</span>))
+            .<span class="fn">ReturnsAsync</span>(<span class="kw">new</span> <span class="tp">User</span> { Id = <span class="at">1</span> });
+        <span class="kw">var</span> ctrl = <span class="kw">new</span> <span class="tp">UserController</span>(mock.<span class="fn">Object</span>);
+        <span class="kw">var</span> result = <span class="kw">await</span> ctrl.<span class="fn">GetAsync</span>(<span class="at">1</span>);
+        <span class="fn">Assert.IsType</span>&lt;<span class="tp">OkObjectResult</span>&gt;(result);
+    }
+}
+
+<span class="hl">## Validate after scaffolding:</span>
+<span class="kw">bash</span> scripts/validate-routes.sh</pre></div>
+      </div>
+      <div class="img-ph"><div class="img-ph-emoji">📸</div><div class="img-ph-label"><strong>Screenshot: Cline Skills Panel in VS Code</strong>The Cline sidebar showing the Skills tab. Three skills with toggle switches: "dotnet-api-scaffold" (ON), "azure-deploy" (ON), "cpp-game-engine" (OFF). Each shows name, description excerpt, and last-modified date.</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Nail the description — it's the trigger.</strong> Be specific: "Use when deploying to Azure using Bicep, updating ARM templates, or managing Azure resources." Vague descriptions mean the skill never fires.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Offload weight to <code>scripts/</code>.</strong> Complex logic in <code>scripts/</code> costs zero tokens. A 300-line C++ linter becomes a single "Passed" or structured error in context.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>One skill = one domain.</strong> Keep <code>dotnet-api-scaffold</code> separate from <code>dotnet-db-migration</code>. Toggle them independently. Domain isolation prevents context pollution.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Commit project skills to Git.</strong> Store in <code>.cline/skills/</code> and commit. Your whole team benefits — shared C++ competitive programming templates mean everyone scaffolds identically.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════════════════════════════════ -->
+<!-- 02 RULES                                -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="rules">
+  <div class="topic-header">
+    <div class="topic-number">02</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-rules">📋 .clinerules Context</div>
+      <h2 class="topic-title">Rules<br/><em>Persistent Context, Always Enforced</em></h2>
+      <p class="topic-desc">Define your coding standards once, enforce them everywhere — automatically, silently, consistently.</p>
+      <span class="topic-meta-badge" style="background:var(--purple);">Core Feature</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">Write rules in <code>.clinerules/</code> once. Cline follows them forever. Use <strong>YAML frontmatter paths:</strong> to scope rules to C++ or C# files — so the wrong rules never fire.</span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li><strong>Rules</strong> are Markdown files in <code>.clinerules/</code> that give Cline persistent instructions on every request — defined once, followed automatically forever.</li>
+        <li>Also supports <code>.cursorrules</code>, <code>.windsurfrules</code>, and <code>AGENTS.md</code> for cross-tool compatibility.</li>
+        <li><mark class="hl-purple">Conditional rules</mark> use YAML frontmatter <code>paths:</code> to activate only when you're in matching files — C# rules never load during C++ engine work.</li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>Without rules, every developer gets different output — one uses <code>camelCase</code>, another <code>snake_case</code>; raw SQL in controllers instead of repositories.</li>
+        <li><mark class="hl-amber">Rules enforce team-wide consistency</mark> with zero overhead — no re-explaining every session.</li>
+        <li><strong>Critical insight:</strong> Loading every rule for every request wastes tokens and dilutes focus. Conditional rules fix this — C# style rules only fire when you're actually in C# code.</li>
+      </ul>
+      <div class="key-insight"><strong>💡 Pro tip:</strong> Mention file paths explicitly in prompts — "Update <code>src/Services/UserService.cs</code>" reliably triggers path-based rules. "Update the user service" may not.</div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: C++ game engine backend + C# game services layer with distinct coding standards for each.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create the rules directory</div><div class="ui-nav"><div class="ui-nav-label">🖱 Where to go</div>Create <span class="crumb">.clinerules/</span> at project root.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Open Rules panel</div><div class="step-desc">Scale icon → "Rules" → "New rule file…" → name it <code>cpp-engine</code></div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Write the conditional C++ rule with YAML frontmatter</div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">.clinerules/cpp-engine.md</span></div>
+            <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">paths:</span>
+<span class="kw">- "engine/**"</span>
+<span class="kw">- "src/core/**"</span>
+<span class="kw">- "include/**"</span>
+<span class="cm">---</span>
+
+<span class="hl"># C++ Engine Guidelines</span>
+
+<span class="hl">## Naming</span>
+- Classes: PascalCase (<span class="str">PlayerController</span>)
+- Methods: camelCase (<span class="str">updatePosition</span>)
+- Constants: UPPER_SNAKE_CASE (<span class="str">MAX_ENTITIES</span>)
+- Member vars: <span class="fn">m_</span> prefix (<span class="str">m_velocity</span>)
+
+<span class="hl">## Architecture</span>
+- ECS pattern for all game objects
+- <span class="op">NEVER</span> allocate on hot path — use object pools
+- Prefer <span class="fn">std::unique_ptr</span> over raw pointers
+- <span class="op">DO NOT</span> modify <span class="fn">/legacy</span> (Q3 removal scheduled)
+
+<span class="hl">## Memory</span>
+- All heap allocations via <span class="fn">MemoryArena</span>
+- No <span class="fn">new</span>/<span class="fn">delete</span> in game loop — use arena allocators
+
+<span class="hl">## Testing</span>
+- GoogleTest for all public interfaces
+- Mock dependencies via pure virtual interfaces</pre></div>
+          </div>
+        </div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Add C# services rule</div><div class="step-desc"><code>.clinerules/csharp-services.md</code> with <code>paths: ["Services/**", "Controllers/**", "Models/**"]</code></div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Add universal rule</div><div class="step-desc"><code>.clinerules/universal.md</code> with no frontmatter — applies to every request (commit guidelines, PR format, etc.)</div></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Verify</div><div class="ui-nav"><div class="ui-nav-label">🖱 Expected output</div>Open a file in <code>engine/</code> → look for "Conditional rules applied: workspace:cpp-engine.md" notification.</div></div></div>
+      </div>
+      <div class="callout purple"><div class="callout-icon">💡</div><div><strong>The C# services rule example:</strong> Add <code>paths: ["Services/**", "Controllers/**"]</code> to enforce async/await patterns, nullable reference types, and repository pattern — only when working on the C# layer, not the C++ engine.</div></div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">.clinerules/csharp-services.md</span></div>
+        <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">paths:</span>
+<span class="kw">- "Services/**"</span>
+<span class="kw">- "Controllers/**"</span>
+<span class="kw">- "Models/**"</span>
+<span class="cm">---</span>
+
+<span class="hl"># C# Services Guidelines</span>
+
+<span class="hl">## Naming</span>
+- Interfaces: <span class="fn">I</span> prefix (<span class="str">IUserRepository</span>)
+- Async methods: <span class="fn">Async</span> suffix (<span class="str">GetByIdAsync</span>)
+- Private fields: <span class="fn">_camelCase</span> (not <span class="str">m_</span>)
+
+<span class="hl">## Async Rules</span>
+- <span class="op">ALWAYS</span> use <span class="kw">async</span>/<span class="kw">await</span> — never <span class="fn">.Result</span> or <span class="fn">.Wait()</span>
+- Use <span class="tp">CancellationToken</span> in all service methods
+
+<span class="hl">## Architecture</span>
+- Repository pattern for all EF Core access
+- <span class="op">NO</span> DbContext in controllers — use service layer
+- Dependency injection only — no static state
+
+<span class="hl">## Nullable</span>
+- Enable nullable reference types (<span class="fn">#nullable enable</span>)
+- Annotate all return types explicitly</pre></div>
+      </div>
+      <div class="img-ph"><div class="img-ph-emoji">📸</div><div class="img-ph-label"><strong>Screenshot: Rules Panel with Conditional Scopes</strong>Cline Rules tab showing 4 rule files: universal.md (ON, no scope), cpp-engine.md (ON, conditional — paths: engine/**, src/core/**), csharp-services.md (ON, conditional — paths: Services/**, Controllers/**), legacy-freeze.md (OFF).</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Specific over vague — always.</strong> "UPPER_SNAKE_CASE for C++ constants, PascalCase for C# classes" beats "use descriptive names." Concrete rules leave no room for drift.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Include the "why".</strong> "Don't modify /legacy (Q3 removal)" helps Cline make smarter edge-case decisions. Context = better judgment.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Point to existing code examples.</strong> "Follow the pattern in <code>src/core/MemoryArena.cpp</code>" is 10× more effective than describing it in prose. Cline reads that file directly.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>One file per concern.</strong> Separate <code>coding.md</code>, <code>testing.md</code>, <code>architecture.md</code>. Disable strict testing while prototyping, re-enable before review.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════════════════════════════════ -->
+<!-- 03 WORKFLOWS                            -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="workflows">
+  <div class="topic-header">
+    <div class="topic-number">03</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-workflows">⚡ Slash-Command Automation</div>
+      <h2 class="topic-title">Workflows<br/><em>Multi-Step Task Automation</em></h2>
+      <p class="topic-desc">Turn your 12-step release ritual into a single slash command. Type <code>/release.md</code> and walk away.</p>
+      <span class="topic-meta-badge" style="background:var(--amber);">Slash Commands</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">Workflows are Markdown files invoked with <code>/filename.md</code>. Mix <strong>precise XML tool calls</strong> with plain English steps. They encode your team's institutional knowledge as a reusable command — new hire types <code>/release-prep.md</code> and it just works.</span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li><strong>Workflows</strong> are Markdown files invoked with <code>/filename.md</code> in chat.</li>
+        <li>Steps can be plain English or precise XML tool syntax for guaranteed behavior — you can mix both freely.</li>
+        <li>The filename becomes the command: <code>release-prep.md</code> → <code>/release-prep.md</code>.</li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>Multi-step processes are where engineers waste time and make mistakes — deploying means: check git, run tests, build Docker, update K8s manifests, tag, push — <em>in the right order</em>.</li>
+        <li><mark class="hl-cyan">Workflows encode institutional knowledge as a command.</mark> New team member? They type <code>/deploy.md</code> and it just works.</li>
+      </ul>
+      <div class="key-insight"><strong>⚡ Time saver:</strong> After completing a repetitive task, tell Cline: "Create a workflow for what we just did." Cline analyzes the conversation history and <strong>generates the workflow file automatically</strong>.</div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: A release workflow for a C++ engine + C# services platform.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Create the workflow file</div><div class="ui-nav"><div class="ui-nav-label">🖱 Where to go</div>Scale icon → Workflows tab → "New workflow file…" → name it <span class="crumb">release-prep</span></div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Write the workflow file (XML for precision, prose for flexibility)</div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">.clinerules/workflows/release-prep.md</span></div>
+            <div class="code-body"><pre><span class="hl"># Release Preparation</span>
+Prepare a release: run tests, bump version, write changelog.
+
+<span class="hl">## Step 1: Verify clean working directory</span>
+<span class="kw">&lt;execute_command&gt;</span>
+<span class="fn">&lt;command&gt;</span>git status --porcelain<span class="fn">&lt;/command&gt;</span>
+<span class="kw">&lt;/execute_command&gt;</span>
+If uncommitted changes exist, ask whether to stash or abort.
+
+<span class="hl">## Step 2: Run all tests</span>
+<span class="kw">&lt;execute_command&gt;</span>
+<span class="fn">&lt;command&gt;</span>cmake --build . --config Release &amp;&amp; ctest -C Release --output-on-failure &amp;&amp; dotnet test --no-build<span class="fn">&lt;/command&gt;</span>
+<span class="kw">&lt;/execute_command&gt;</span>
+If any test fails, show failures and <span class="op">STOP</span>.
+
+<span class="hl">## Step 3: Run static analysis</span>
+<span class="kw">&lt;execute_command&gt;</span>
+<span class="fn">&lt;command&gt;</span>clang-tidy src/**/*.cpp &amp;&amp; dotnet format --verify-no-changes<span class="fn">&lt;/command&gt;</span>
+<span class="kw">&lt;/execute_command&gt;</span>
+If warnings exist, show them and ask whether to proceed.
+
+<span class="hl">## Step 4: Choose version bump</span>
+<span class="kw">&lt;ask_followup_question&gt;</span>
+<span class="fn">&lt;question&gt;</span>What version bump?<span class="fn">&lt;/question&gt;</span>
+<span class="fn">&lt;options&gt;</span>["Patch (x.x.X)","Minor (x.X.0)","Major (X.0.0)"]<span class="fn">&lt;/options&gt;</span>
+<span class="kw">&lt;/ask_followup_question&gt;</span>
+
+<span class="hl">## Step 5: Update version files</span>
+Update <span class="at">CMakeLists.txt</span> and <span class="at">Directory.Build.props</span> to the new version.
+
+<span class="hl">## Step 6: Generate changelog</span>
+<span class="kw">&lt;execute_command&gt;</span>
+<span class="fn">&lt;command&gt;</span>git log --oneline $(git describe --tags --abbrev=0)..HEAD<span class="fn">&lt;/command&gt;</span>
+<span class="kw">&lt;/execute_command&gt;</span>
+Write a CHANGELOG.md entry from these commits.</pre></div>
+          </div>
+        </div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Commit</div><div class="step-desc">Store in <code>.clinerules/workflows/</code> — team-wide instantly.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Invoke</div><div class="step-desc">Type <code>/release-prep.md</code> in Cline chat. Cline executes each step, pausing for approval at the version question.</div></div></div>
+      </div>
+      <div class="callout green"><div class="callout-icon">⚡</div><div><strong>Power tip:</strong> After completing a repetitive task, tell Cline: "Create a workflow for what we just did." Cline analyzes the conversation history and generates the workflow file automatically.</div></div>
+      <div class="img-ph"><div class="img-ph-emoji">📸</div><div class="img-ph-label"><strong>Screenshot: Workflow Slash-Command Autocomplete</strong>Cline chat input with "/" typed, showing a dropdown: deploy.md, release-prep.md, setup-db.md, test-and-commit.md — each with description. Step execution visible in the conversation above with approval gates.</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Always define failure behavior.</strong> Every failable step must say what happens: "If <code>dotnet test</code> fails, show failures and stop." Don't let Cline blunder forward after a broken build.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Compose, don't bloat.</strong> Keep <code>deploy.md</code> focused on deploying. Chain separate workflows in chat rather than one mega-workflow that does everything.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Review before running.</strong> Workflows execute with your full permissions. Always read a workflow from an external source before invoking it for the first time.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════════════════════════════════ -->
+<!-- 04 HOOKS                                -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="hooks">
+  <div class="topic-header">
+    <div class="topic-number">04</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-hooks">🪝 Lifecycle Scripts</div>
+      <h2 class="topic-title">Hooks<br/><em>Deterministic Guardrails</em></h2>
+      <p class="topic-desc">Inject determinism into AI. Validate, block, log, and augment at every step of Cline's workflow.</p>
+      <span class="topic-meta-badge" style="background:var(--red);">Programmatic</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">Hooks run shell scripts at key lifecycle moments. A <code>PreToolUse</code> hook can <strong>block a bad file write before it happens</strong>. Rules describe — hooks <em>enforce</em>. That's the difference.</span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li><strong>Hooks</strong> are executable scripts that run at key moments in Cline's task lifecycle.</li>
+        <li>They receive JSON on stdin and return JSON on stdout with three effects: <mark class="hl-green"><strong>allow</strong></mark> the operation, <mark class="hl-cyan"><strong>block</strong></mark> it with an error, or <mark class="hl-purple"><strong>inject context</strong></mark> into the conversation.</li>
+        <li>They bring programmatic enforcement to what rules can only describe.</li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>Rules are <em>suggestions</em> — Cline might still write a <code>.c</code> file in edge cases despite being told not to.</li>
+        <li>A <code>PreToolUse</code> hook <mark class="hl-amber">catches it before it happens</mark> and blocks it with a clear error. That's the difference between guidance and enforcement.</li>
+        <li>Hooks also bridge existing tooling: run your linter before saves, trigger Slack at completion, inject environment-specific context for staging vs. production.</li>
+      </ul>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>Hook Types Reference</span></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Hook Type</th><th>When It Fires</th><th>Best Used For</th></tr></thead>
+          <tbody>
+            <tr><td>TaskStart</td><td>New task begins</td><td>Inject project context, log analytics, check prerequisites</td></tr>
+            <tr><td>TaskResume</td><td>Interrupted task resumes</td><td>Refresh state, check for upstream changes</td></tr>
+            <tr><td>TaskCancel</td><td>Task is cancelled</td><td>Clean up temp files, notify Slack</td></tr>
+            <tr><td>TaskComplete</td><td>Task succeeds</td><td>Run tests, trigger CI/CD, notify stakeholders</td></tr>
+            <tr><td>PreToolUse</td><td>Before any tool fires</td><td>Block dangerous ops, validate params — <strong>most powerful hook</strong></td></tr>
+            <tr><td>PostToolUse</td><td>After tool completes</td><td>Audit logs, performance monitoring</td></tr>
+            <tr><td>UserPromptSubmit</td><td>You send a message</td><td>Analytics, prompt enrichment, safety checks</td></tr>
+            <tr><td>PreCompact</td><td>Before context truncation</td><td>Archive important conversation before removal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: Block <code>.c</code> files in a C++ project (enforce <code>.cpp</code>) + auto-inject project context at task start.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Open Hooks tab</div><div class="ui-nav"><div class="ui-nav-label">🖱 Where to go</div>Scale icon → <span class="crumb">Hooks</span> → <span class="crumb">New hook…</span> → select <span class="crumb">PreToolUse</span></div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Review and edit the generated script</div><div class="step-desc">Click the pencil icon. macOS/Linux: extensionless file. Windows: <code>PreToolUse.ps1</code></div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Write the C++ enforcement hook</div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">PreToolUse (bash) — enforce .cpp in C++ project</span></div>
+            <div class="code-body"><pre><span class="cm">#!/bin/bash</span>
+<span class="cm"># Block .c file creation — enforce .cpp in this C++ project</span>
+INPUT=$(cat)
+TOOL=$(echo <span class="str">"$INPUT"</span> | jq -r <span class="str">'.preToolUse.tool'</span>)
+FILE=$(echo <span class="str">"$INPUT"</span> | jq -r <span class="str">'.preToolUse.parameters.path // empty'</span>)
+
+<span class="kw">if</span> [[ <span class="str">"$TOOL"</span> == <span class="str">"write_to_file"</span> &amp;&amp; <span class="str">"$FILE"</span> == *.c &amp;&amp; <span class="str">"$FILE"</span> != *.cpp ]]; <span class="kw">then</span>
+  echo <span class="str">'{"cancel":true,"errorMessage":"Use .cpp — this is a C++ project. .c files are not allowed."}'</span>
+  <span class="fn">exit</span> 0
+<span class="kw">fi</span>
+echo <span class="str">'{"cancel":false}'</span></pre></div>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">TaskStart (bash) — inject project context</span></div>
+            <div class="code-body"><pre><span class="cm">#!/bin/bash</span>
+<span class="cm"># Inject .project-context into every task start</span>
+INPUT=$(cat)
+WS=$(echo <span class="str">"$INPUT"</span> | jq -r <span class="str">'.workspaceRoots[0] // empty'</span>)
+
+<span class="kw">if</span> [[ -f <span class="str">"$WS/.project-context"</span> ]]; <span class="kw">then</span>
+  CTX=$(cat <span class="str">"$WS/.project-context"</span>)
+  echo <span class="str">"{\"cancel\":false,\"contextModification\":\"$CTX\"}"</span>
+<span class="kw">else</span>
+  echo <span class="str">'{"cancel":false}'</span>
+<span class="kw">fi</span></pre></div>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">PreToolUse (PowerShell) — enforce .cs in C# project on Windows</span></div>
+            <div class="code-body"><pre><span class="cm"># Block .vb file creation — enforce .cs in this C# project</span>
+<span class="kw">$input</span> = [Console]::In.ReadToEnd() | ConvertFrom-Json
+<span class="kw">$tool</span>  = <span class="kw">$input</span>.preToolUse.tool
+<span class="kw">$file</span>  = <span class="kw">$input</span>.preToolUse.parameters.path
+
+<span class="kw">if</span> (<span class="kw">$tool</span> -eq <span class="str">"write_to_file"</span> -and <span class="kw">$file</span> -like <span class="str">"*.vb"</span>) {
+  @{ cancel = <span class="at">$true</span>; errorMessage = <span class="str">"Use .cs — this is a C# project."</span> } |
+    ConvertTo-Json
+  <span class="fn">exit</span> 0
+}
+@{ cancel = <span class="at">$false</span> } | ConvertTo-Json</pre></div>
+          </div>
+        </div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Make executable</div><div class="ui-nav"><div class="ui-nav-label">🖱 Terminal command (macOS/Linux)</div><code>chmod +x ~/.cline/hooks/PreToolUse</code></div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Enable and test</div><div class="step-desc">Toggle ON in Hooks tab. Ask Cline to create a <code>.c</code> file — it should be blocked with your custom message.</div></div></div>
+      </div>
+      <div class="callout amber"><div class="callout-icon">⚠️</div><div><strong>Always review hook code before enabling.</strong> Hooks execute automatically and can block operations or run shell commands. Use <code>stderr</code> for debug output — stdout is reserved exclusively for the JSON response.</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Keep hooks fast — no blocking I/O in PreToolUse.</strong> Every hook adds latency. Save network calls for PostToolUse or TaskComplete hooks.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Use PostToolUse for analytics.</strong> Log tool name, success, duration. Over time you'll see exactly how Cline spends effort — and optimize.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Hooks + auto-approve = fast + safe.</strong> Enable auto-approve for speed, use PreToolUse hooks as the enforcement layer. Best of both worlds.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Layer global + project hooks.</strong> Both run when they coexist (global first, then workspace). Layer team policies with personal preferences.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════════════════════════════════ -->
+<!-- 05 MEMORY BANK                          -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="memory">
+  <div class="topic-header">
+    <div class="topic-number">05</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-memory">🧠 Cross-Session Context</div>
+      <h2 class="topic-title">Memory Bank<br/><em>Long-Term Context Across Sessions</em></h2>
+      <p class="topic-desc">Turn Cline from a stateless assistant into a persistent development partner that never forgets your project.</p>
+      <span class="topic-meta-badge">Methodology</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">3 commands: <code>"initialize memory bank"</code> → setup. <code>"update memory bank"</code> → save at session end. <code>"follow your custom instructions"</code> → resume. <strong>Never re-explain your architecture again.</strong></span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li><strong>Memory Bank</strong> is a structured set of Markdown files in <code>memory-bank/</code> that give Cline persistent context across sessions.</li>
+        <li>Since every conversation starts fresh, Memory Bank re-establishes full project context with one command: <mark class="hl-cyan">"follow your custom instructions."</mark></li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>After 3 days architecting a C++ game engine + C# services platform, Day 4 you open VS Code: <em>all of that context is gone.</em></li>
+        <li>With Memory Bank: end day 3 with "update memory bank", start day 4 with "follow your custom instructions."</li>
+        <li><mark class="hl-amber">Cline reads the files, reconstructs the full picture, and picks up exactly where you left off</mark> — architecture, patterns, current focus, and all.</li>
+      </ul>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>Memory Bank File Structure</span></div>
+      <div class="mem-grid">
+        <div class="mem-card"><div class="mem-badge">.md</div><div><div class="mem-name">projectbrief.md</div><div class="mem-desc">Foundation: core requirements, goals, scope. Created once, rarely changes.</div></div></div>
+        <div class="mem-card"><div class="mem-badge">.md</div><div><div class="mem-name">productContext.md</div><div class="mem-desc">Why the project exists, problems solved, UX goals, target users.</div></div></div>
+        <div class="mem-card"><div class="mem-badge">.md</div><div><div class="mem-name">activeContext.md</div><div class="mem-desc">Current focus, recent changes, next steps. <strong>Updates every session.</strong></div></div></div>
+        <div class="mem-card"><div class="mem-badge">.md</div><div><div class="mem-name">systemPatterns.md</div><div class="mem-desc">Architecture, design patterns, component relationships, critical paths.</div></div></div>
+        <div class="mem-card"><div class="mem-badge">.md</div><div><div class="mem-name">techContext.md</div><div class="mem-desc">Tech stack (C++17, C# .NET 8, SQL Server), dev setup, constraints, build patterns.</div></div></div>
+        <div class="mem-card"><div class="mem-badge">.md</div><div><div class="mem-name">progress.md</div><div class="mem-desc">What works, what's left, milestones, known issues, direction changes.</div></div></div>
+      </div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: Initialize Memory Bank for a game platform (C++ engine + C# matchmaking services + SQL Server).</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Add custom instructions</div><div class="step-desc">Copy the Memory Bank instructions from the docs into Cline's custom instructions or a <code>.clinerules</code> file.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Initialize</div><div class="ui-nav"><div class="ui-nav-label">🖱 Prompt to use</div>Tell Cline: "initialize memory bank" — it creates <span class="crumb">memory-bank/</span> with all 6 core files.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Fill in projectbrief.md</div><div class="step-desc">The one file to invest upfront. Goals, tech stack (C++17, .NET 8, SQL Server), architectural constraints.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Add .clineignore immediately</div><div class="step-desc">Exclude <code>build/</code>, <code>bin/</code>, <code>obj/</code>, <code>packages/</code>. Drop context from 200k+ tokens to under 50k.</div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">End every significant session</div><div class="ui-nav"><div class="ui-nav-label">🖱 Prompt to use</div>"update memory bank" → Cline reviews all files and writes what changed.</div></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Start every new session</div><div class="ui-nav"><div class="ui-nav-label">🖱 Prompt to use</div>"follow your custom instructions" → Cline reads everything and continues seamlessly.</div></div></div>
+      </div>
+      <div class="callout cyan"><div class="callout-icon">🧠</div><div><strong>3 commands to memorize:</strong><br/><code>"initialize memory bank"</code> — first-time setup<br/><code>"update memory bank"</code> — save current state at end of session<br/><code>"follow your custom instructions"</code> — resume from memory at start of session</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Keep files concise — they load every session.</strong> One page for <code>projectbrief.md</code>. Current-state only for <code>activeContext.md</code>. If a file grows past two pages, split detail into a linked doc Cline reads on demand.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong><code>activeContext.md</code> is your daily driver.</strong> Update at session end: "what I just completed, what's next, decisions made." It's your developer handoff note to future-you.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Pair with Plan &amp; Act mode.</strong> Start in Plan mode: Cline reads memory bank, you align on strategy. Switch to Act mode to execute. Prevents wasted effort from misaligned assumptions.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Pair Memory Bank + Checkpoints.</strong> Memory Bank = project knowledge. Checkpoints = code state. Roll back code freely without losing the context of why you made those decisions.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════════════════════════════════ -->
+<!-- 06 CHECKPOINTS                          -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="checkpoints">
+  <div class="topic-header">
+    <div class="topic-number">06</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-checkpoints">💾 Save States &amp; Revert</div>
+      <h2 class="topic-title">Checkpoints<br/><em>Fearless Iteration</em></h2>
+      <p class="topic-desc">Every file change is snapshotted automatically. The cost of a mistake drops to nearly zero.</p>
+      <span class="topic-meta-badge" style="background:var(--green);color:#fff;">Default: ON</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">Checkpoints snapshot every file change in a <strong>shadow Git repo</strong> (separate from your actual git history). Auto-approve becomes safe. Make bold changes — <strong>one click to restore</strong> any point.</span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li><strong>Checkpoints</strong> are automatic file snapshots taken after every tool use — stored in a <em>shadow Git repository</em> completely separate from your actual Git history.</li>
+        <li>Your commits stay clean; Cline tracks everything behind the scenes.</li>
+        <li>After each tool use, a checkpoint appears in chat with <mark class="hl-green"><strong>Compare</strong></mark> and <mark class="hl-cyan"><strong>Restore</strong></mark> buttons — Compare opens a native diff, Restore offers three rollback strategies.</li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>Without checkpoints, auto-approve is risky — Cline can make 15 file changes before you notice the direction is wrong.</li>
+        <li>With checkpoints, <mark class="hl-amber">let Cline work autonomously at full speed</mark> — if it goes sideways, one click to restore. Iteration loop collapses from minutes to seconds.</li>
+        <li><strong>Key insight:</strong> You're not reviewing every change — you're reviewing the outcome, with a safety net for everything in between.</li>
+      </ul>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>Three Restore Strategies</span></div>
+      <div class="cp-grid">
+        <div class="cp-card cp-c1"><div class="cp-h">Restore Files</div><div class="cp-b">Reverts project files. <em>Keeps the conversation.</em><br/><br/>Use when: code broke but the discussion was productive.</div></div>
+        <div class="cp-card cp-c2"><div class="cp-h">Restore Task Only</div><div class="cp-b">Deletes messages after this point. <em>Keeps the code.</em><br/><br/>Use when: code is good, re-ask the question differently.</div></div>
+        <div class="cp-card cp-c3"><div class="cp-h">Restore Files &amp; Task</div><div class="cp-b">Resets both code and conversation.<br/><br/>Use when: complete do-over from a known-good state.</div></div>
+      </div>
+      <div class="img-ph"><div class="img-ph-emoji">📸</div><div class="img-ph-label"><strong>Screenshot: Checkpoint Indicators in Cline Chat</strong>A Cline conversation with 3 file edits. After each, a bookmark icon labeled "Checkpoint" appears with "Compare" / "Restore" buttons. The Restore dropdown is open on checkpoint 2, showing the 3 restore options.</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Verify checkpoints are enabled</div><div class="ui-nav"><div class="ui-nav-label">🖱 Where to go</div><span class="crumb">Cline Settings</span> <span class="arrow">›</span> <span class="crumb">Feature Settings</span> <span class="arrow">›</span> <span class="crumb">Enable Checkpoints</span> (on by default)</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Enable auto-approve for file edits</div><div class="step-desc">Checkpoints make this safe. Let Cline work at full speed.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Let Cline run</div><div class="step-desc">Watch checkpoint markers appear after each tool use in the conversation.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Click "Compare" on any checkpoint</div><div class="step-desc">See a full diff of all changed files in your native editor diff viewer.</div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">If something's wrong</div><div class="step-desc">Click "Restore" → choose the right strategy → give more specific guidance → let Cline retry.</div></div></div>
+      </div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Checkpoints unlock auto-approve.</strong> Enable auto-approve for speed; rely on checkpoints for safety. Review outcomes, restore if needed. Faster than reviewing every change manually.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Use Compare before <code>git add</code>.</strong> Before committing, click Compare on the final checkpoint. Full diff in your native editor — the cleanest review possible.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Disable on massive monorepos if needed.</strong> On 100k+ file repos, checkpoint writes can slow Cline. Re-enable for write-heavy tasks, disable for read-only exploration.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Embrace risky experiments.</strong> Want to try a completely different C++ architecture pattern — ECS vs OOP? Let Cline go for it. Worst case: one click to restore. Low downside, high upside.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════════════════════════════════ -->
+<!-- 07 SUBAGENTS                            -->
+<!-- ════════════════════════════════════════ -->
+<section class="topic-section" id="subagents">
+  <div class="topic-header">
+    <div class="topic-number">07</div>
+    <div class="topic-title-block">
+      <div class="topic-badge badge-subagents">🤖 Parallel Research Agents</div>
+      <h2 class="topic-title">Subagents<br/><em>Explore Without Context Bloat</em></h2>
+      <p class="topic-desc">Explore entire codebases simultaneously without filling the main agent's context window. Broad insight, zero bloat.</p>
+      <span class="topic-meta-badge" style="background:var(--purple);">Experimental</span>
+    </div>
+  </div>
+
+  <div class="tldr-banner">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">Subagents are <strong>read-only research agents</strong> that run in parallel. Each gets its own context window. The main agent receives synthesized reports — <strong>its context stays clean for actual work.</strong> Use before big refactors or when onboarding to unfamiliar C++/C# codebases.</span>
+  </div>
+
+  <div class="subsections">
+    <div class="sub-card">
+      <div class="sub-heading sh-what"><span>◎</span><span>What is it?</span></div>
+      <ul class="desc-list">
+        <li><strong>Subagents</strong> are focused research agents Cline spawns in parallel — each gets its own prompt and an independent context window.</li>
+        <li>Each subagent explores the codebase independently, then returns a focused report to the main agent — which receives synthesized findings, not raw file sprawl.</li>
+        <li>Subagents are <mark class="hl-green"><strong>read-only researchers</strong></mark> — they can read, search, and run read-only commands, but cannot edit files, access MCP servers, use the browser, or spawn nested subagents.</li>
+      </ul>
+    </div>
+    <div class="sub-card">
+      <div class="sub-heading sh-why"><span>◎</span><span>Why use it?</span></div>
+      <ul class="desc-list">
+        <li>Reading files sequentially in a large C++/C# codebase burns through the main agent's context window fast.</li>
+        <li><mark class="hl-amber">Three subagents explore three areas simultaneously</mark>, each with their own context budget.</li>
+        <li>The main agent receives three concise reports and synthesizes them — with its context window still largely intact for actual editing work.</li>
+      </ul>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>Available Subagent Tools</span></div>
+      <div class="tool-grid">
+        <div class="tool-card"><div class="tool-name">read_file</div><div class="tool-desc">Read full file contents from the codebase</div></div>
+        <div class="tool-card"><div class="tool-name">list_files</div><div class="tool-desc">List directory contents and structure</div></div>
+        <div class="tool-card"><div class="tool-name">search_files</div><div class="tool-desc">Regex search across files in the project</div></div>
+        <div class="tool-card"><div class="tool-name">list_code_definition_names</div><div class="tool-desc">List top-level classes, functions, methods</div></div>
+        <div class="tool-card"><div class="tool-name">execute_command</div><div class="tool-desc">Read-only: ls, grep, git log, git diff</div></div>
+        <div class="tool-card"><div class="tool-name">use_skill</div><div class="tool-desc">Load and activate skills during research</div></div>
+      </div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>How to Use It — Step by Step</span></div>
+      <p style="margin-bottom:20px;font-size:13px;color:var(--text3);">Scenario: You've inherited a large C++ engine + C# services codebase. Before making changes, you want a full architectural map.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Enable Subagents</div><div class="ui-nav"><div class="ui-nav-label">🖱 Where to go</div><span class="crumb">Cline Settings</span> <span class="arrow">›</span> <span class="crumb">Features</span> <span class="arrow">›</span> Agent section <span class="arrow">›</span> toggle <span class="crumb">Subagents</span> ON (disabled by default — experimental)</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Configure auto-approve (optional)</div><div class="step-desc">If "Read project files" is enabled in Auto Approve, subagent launches are auto-approved. In YOLO mode: always auto-approved.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Invoke with an explicit subagent prompt</div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div><span class="code-filename">Example Subagent Prompts — C++/C# Codebase</span></div>
+            <div class="code-body"><pre><span class="cm">// Onboarding to an unfamiliar codebase</span>
+<span class="str">"Use subagents to map out the architecture, main entry
+points, and data flow patterns in this C++ engine +
+C# services project. Run them in parallel."</span>
+
+<span class="cm">// Pre-edit research before a major change</span>
+<span class="str">"Before we modify the rendering system, spin up subagents to
+investigate: (1) how the C++ render pipeline currently works,
+(2) where the ECS component definitions are, and
+(3) how the C# services communicate with the engine."</span>
+
+<span class="cm">// Cross-cutting concern analysis</span>
+<span class="str">"Use subagents to simultaneously trace how error handling,
+logging, and telemetry are implemented across all
+C++ and C# layers — I want to standardize all three."</span>
+
+<span class="cm">// Use command pipelines to narrow scope first</span>
+<span class="str">"Use subagents with 'grep -r IRepository --include=*.cs -l'
+to find all repository implementations, then deep-dive
+the top 5 most complex ones."</span></pre></div>
+          </div>
+        </div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Review the approval prompt</div><div class="step-desc">If auto-approve is off, Cline shows you the exact prompts it will send to each subagent before launching.</div></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Monitor parallel execution</div><div class="step-desc">Each subagent shows tool call count, token usage, and cost in real time in the Cline UI.</div></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Review the synthesized report</div><div class="step-desc">The main agent combines all findings into a coherent response — architecture map, key file paths, and recommended next steps.</div></div></div>
+      </div>
+      <div class="callout purple"><div class="callout-icon">💡</div><div><strong>Subagents need explicit invocation.</strong> Cline does not automatically use subagents — you must ask for them. Mention "subagents" or describe parallel exploration in your prompt. Each subagent prompt should cover a focused, distinct research area.</div></div>
+      <div class="img-ph"><div class="img-ph-emoji">📸</div><div class="img-ph-label"><strong>Screenshot: Parallel Subagents Running in Cline</strong>Cline chat showing 3 subagents launched simultaneously, each with a progress indicator showing tool call count and token cost. Each subagent tracks its own token and cost usage, rolled into the task total.</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-how"><span>◎</span><span>When to Use Subagents</span></div>
+      <div class="uc-grid">
+        <div class="uc-card"><div class="uc-icon">🗺️</div><div><div class="uc-title">Onboarding to Unfamiliar Code</div><div class="uc-desc">Map C++ architecture, entry points, and data flow in parallel — complete picture in one shot, not sequential exploration.</div></div></div>
+        <div class="uc-card"><div class="uc-icon">🔀</div><div><div class="uc-title">Cross-Cutting Concern Analysis</div><div class="uc-desc">Trace auth, logging, and error handling simultaneously across all C# services. See system-wide patterns at once.</div></div></div>
+        <div class="uc-card"><div class="uc-icon">🔬</div><div><div class="uc-title">Pre-Edit Research</div><div class="uc-desc">Before major C++ refactors, gather context from all related files. Main agent makes informed edits without burning context on exploration.</div></div></div>
+        <div class="uc-card"><div class="uc-icon">🏗️</div><div><div class="uc-title">Large Codebase Navigation</div><div class="uc-desc">When sequential reading would exhaust the main context window, subagents let you explore broadly without the tradeoff.</div></div></div>
+      </div>
+      <div class="callout amber"><div class="callout-icon">⚠️</div><div><strong>Skip subagents for small, focused tasks.</strong> If you already know which files to look at, subagents add unnecessary overhead and API spend. They shine for <em>broad exploration</em>, not targeted edits. Use command pipelines like <code>grep -r --include=*.cpp | sort | uniq</code> to help subagents narrow output efficiently before deep-diving.</div></div>
+    </div>
+
+    <div class="sub-card subsection-full">
+      <div class="sub-heading sh-best"><span>◎</span><span>Best Practices for High Efficiency</span></div>
+      <div class="bp-list">
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>One focused question per subagent.</strong> "How does the C++ render pipeline work?" is a good subagent prompt. "Explore the whole codebase" is too broad — split into 3 specific research questions, one per agent.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Monitor per-subagent costs.</strong> Each subagent has its own token budget tracked separately. Check the cost breakdown before launching many agents on a large C++/C# codebase to avoid surprise API spend.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Pair with Skills.</strong> Subagents can activate skills via <code>use_skill</code>. A "cpp-architecture-analyzer" skill used by subagents delivers structured, consistent, domain-specific research at scale.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Leverage command pipelines.</strong> Tell subagents to filter first: "Use <code>grep -r 'class.*Repository' --include=*.cs -l</code> to find relevant files, then read the top 5." Narrow before deep-diving — faster and cheaper.</span></div>
+        <div class="bp-item"><span class="bp-dot">▸</span><span><strong>Use before large refactors.</strong> Before a big architectural change (e.g., migrating from raw pointers to smart pointers), launch subagents to map all affected files and dependencies. Main agent then has complete context for safe, informed edits.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SUMMARY                                 -->
+<!-- ════════════════════════════════════════ -->
+<section class="summary-section" id="summary">
+  <h2>Putting It All Together</h2>
+  <p class="sub-label-text">These seven features aren't isolated — they form a compounding system. Each one plays a distinct role.</p>
+  <div class="feature-grid">
+    <div class="feature-card fc-01"><div class="fc-icon">🛠️</div><div class="fc-name">Skills</div><div class="fc-desc">On-demand specialist knowledge. Zero context bloat — loads only when triggered by your request.</div></div>
+    <div class="feature-card fc-02"><div class="fc-icon">📋</div><div class="fc-name">Rules</div><div class="fc-desc">Persistent coding standards in .clinerules. Conditional scoping keeps context focused.</div></div>
+    <div class="feature-card fc-03"><div class="fc-icon">⚡</div><div class="fc-name">Workflows</div><div class="fc-desc">Multi-step institutional knowledge encoded as slash commands. Type once, execute perfectly.</div></div>
+    <div class="feature-card fc-04"><div class="fc-icon">🪝</div><div class="fc-name">Hooks</div><div class="fc-desc">Programmatic enforcement at every lifecycle stage. Block, inject, or audit — automatically.</div></div>
+    <div class="feature-card fc-05"><div class="fc-icon">🧠</div><div class="fc-name">Memory Bank</div><div class="fc-desc">Persistent project context across sessions. Cline arrives already knowing your architecture.</div></div>
+    <div class="feature-card fc-06"><div class="fc-icon">💾</div><div class="fc-name">Checkpoints</div><div class="fc-desc">Safety net for every significant change. Explore aggressively — roll back cleanly, any time.</div></div>
+    <div class="feature-card fc-07"><div class="fc-icon">🤖</div><div class="fc-name">Subagents</div><div class="fc-desc">Parallel research agents that explore broadly without exhausting the main context window.</div></div>
+  </div>
+  <div style="margin-top:40px;padding:28px 32px;background:linear-gradient(135deg,rgba(14,165,233,0.05),rgba(139,92,246,0.04));border:1px solid var(--border);border-radius:var(--r-md);border-left:4px solid var(--cyan);box-shadow:var(--shadow-sm);">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--cyan2);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;">The Full Picture</div>
+    <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--cyan2);">▸</span><strong style="color:var(--cyan2);">Memory Bank</strong> — Cline arrives already knowing your architecture. No re-explaining.</li>
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--purple);">▸</span><strong style="color:var(--purple);">Rules</strong> — Every generated line respects your C++/C# constraints, automatically.</li>
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--green);">▸</span><strong style="color:var(--green);">Skills</strong> — Specialist knowledge loads on demand, zero context bloat.</li>
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--amber2);">▸</span><strong style="color:var(--amber2);">Workflows</strong> — Repetitive rituals become single slash commands.</li>
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--red);">▸</span><strong style="color:var(--red);">Hooks</strong> — Policies enforced programmatically, not just described.</li>
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--green);">▸</span><strong style="color:var(--green);">Checkpoints</strong> — Attempt bold refactors knowing you can always return to solid ground.</li>
+      <li style="font-size:14px;color:var(--text2);line-height:1.7;padding-left:18px;position:relative;"><span style="position:absolute;left:0;color:var(--purple);">▸</span><strong style="color:var(--purple);">Subagents</strong> — Explore vast codebases in parallel without bloating your context.</li>
+    </ul>
+    <p style="margin-top:16px;font-size:15px;color:var(--text3);line-height:1.8;">That's not just AI-assisted development. <strong style="color:var(--head)">That's a system. And now you know how to build it.</strong></p>
+  </div>
+</section>
+
+</div><!-- /content-area -->
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="page-footer">
+  <div class="footer-left">Cline Masterclass · Advanced Developer Guide<br/>Built from official documentation at <span>docs.cline.bot</span> · All content accurate as of March 2026</div>
+  <div class="footer-chips">
+    <span class="footer-chip">01 · Skills</span>
+    <span class="footer-chip">02 · Rules</span>
+    <span class="footer-chip">03 · Workflows</span>
+    <span class="footer-chip">04 · Hooks</span>
+    <span class="footer-chip">05 · Memory Bank</span>
+    <span class="footer-chip">06 · Checkpoints</span>
+    <span class="footer-chip">07 · Subagents</span>
+  </div>
+</footer>
+
+</main>
+</div><!-- /shell -->
+
+<script>
+// Scroll-in animation
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.topic-section').forEach(t => io.observe(t));
+
+// Active nav highlight
+const navItems = document.querySelectorAll('.nav-item');
+const navIo = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.getAttribute('id');
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + id) item.classList.add('active');
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+document.querySelectorAll('[id]').forEach(s => navIo.observe(s));
+</script>
+</body>
+</html>
