@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Skills — Email Banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
+</head>
+<body style="margin:0;padding:40px 20px;background:#f0f4f8;font-family:Georgia,serif;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+
+<div style="width:100%;max-width:620px;margin:0 auto;">
+
+  <!-- ── MAIN CARD ── -->
+  <div style="
+    background:#ffffff;
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid #e2e8f0;
+    box-shadow:0 4px 32px rgba(15,23,42,0.07),0 1px 4px rgba(15,23,42,0.04);
+  ">
+
+    <!-- top accent bar -->
+    <div style="height:3px;background:linear-gradient(90deg,#0ea5e9,#06b6d4,#10b981);"></div>
+
+    <!-- ── HEADER AREA ── -->
+    <div style="padding:40px 44px 32px;background:linear-gradient(150deg,#f8fbff 0%,#f0f9ff 60%,#f0fdf8 100%);border-bottom:1px solid #e8f4fd;position:relative;overflow:hidden;">
+
+      <!-- faint grid -->
+      <div style="position:absolute;inset:0;pointer-events:none;">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="g" width="32" height="32" patternUnits="userSpaceOnUse">
+              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(14,165,233,0.07)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#g)"/>
+        </svg>
+      </div>
+
+      <!-- subtle glow -->
+      <div style="position:absolute;top:-60px;right:-40px;width:240px;height:240px;background:radial-gradient(circle,rgba(14,165,233,0.08) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+      <div style="position:relative;z-index:1;">
+
+        <!-- top row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:28px;height:28px;background:linear-gradient(135deg,#0ea5e9,#0284c7);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">⬡</div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#0284c7;">Cline</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#0284c7;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.22);padding:4px 12px;border-radius:100px;">
+            ⚗️ &nbsp;Experimental Feature
+          </div>
+        </div>
+
+        <!-- ghost number -->
+        <div style="font-family:'Fraunces',serif;font-size:88px;font-weight:900;font-style:italic;color:transparent;-webkit-text-stroke:1.5px rgba(14,165,233,0.15);line-height:1;margin-bottom:-18px;user-select:none;">01</div>
+
+        <!-- headline -->
+        <h1 style="font-family:'Fraunces',serif;font-size:46px;font-weight:900;line-height:1.05;letter-spacing:-0.025em;color:#0f172a;margin:0 0 4px;">Skills</h1>
+        <h2 style="font-family:'Fraunces',serif;font-size:20px;font-weight:300;font-style:italic;color:#0284c7;margin:0 0 18px;letter-spacing:-0.01em;">On-Demand Specialist Knowledge</h2>
+
+        <!-- thin divider -->
+        <div style="height:1px;background:linear-gradient(90deg,rgba(14,165,233,0.3),transparent);margin-bottom:20px;"></div>
+
+        <!-- description -->
+        <p style="font-family:Georgia,serif;font-size:14.5px;color:#475569;line-height:1.8;margin:0;">
+          Give Cline specialist knowledge that loads <strong style="color:#0f172a;">only when you need it.</strong> A deploy skill stays dormant while you write game logic — a scaffold skill fires the moment you ask. No token bloat. Pure focus.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- ── BODY AREA ── -->
+    <div style="padding:32px 44px 36px;">
+
+      <!-- three feature pills -->
+      <div style="display:flex;gap:10px;margin-bottom:28px;">
+
+        <div style="flex:1;background:#f8fbff;border:1px solid #dbeafe;border-radius:10px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:8px;">⚡</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#0284c7;margin-bottom:5px;">Progressive Load</div>
+          <div style="font-size:12px;color:#64748b;line-height:1.55;">~100 tokens at startup. Full instructions only when triggered.</div>
+        </div>
+
+        <div style="flex:1;background:#f0fdf9;border:1px solid #d1fae5;border-radius:10px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:8px;">🟢</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#059669;margin-bottom:5px;">Zero Bloat</div>
+          <div style="font-size:12px;color:#64748b;line-height:1.55;">Scripts in <code style="background:#ecfdf5;color:#059669;padding:1px 4px;border-radius:3px;font-size:11px;">scripts/</code> cost 0 context tokens.</div>
+        </div>
+
+        <div style="flex:1;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:8px;">📁</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#d97706;margin-bottom:5px;">Git-Friendly</div>
+          <div style="font-size:12px;color:#64748b;line-height:1.55;">Commit to <code style="background:#fef3c7;color:#b45309;padding:1px 4px;border-radius:3px;font-size:11px;">.cline/skills/</code> — whole team shares.</div>
+        </div>
+
+      </div>
+
+      <!-- code snippet -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;">
+          <div style="display:flex;gap:5px;">
+            <span style="width:9px;height:9px;border-radius:50%;background:#ff5f57;display:inline-block;"></span>
+            <span style="width:9px;height:9px;border-radius:50%;background:#febc2e;display:inline-block;"></span>
+            <span style="width:9px;height:9px;border-radius:50%;background:#28c840;display:inline-block;"></span>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#94a3b8;letter-spacing:0.05em;">SKILL.md — dotnet-api-scaffold</span>
+        </div>
+        <div style="padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.9;overflow-x:auto;">
+          <div style="color:#94a3b8;">---</div>
+          <div><span style="color:#be185d;">name:</span> <span style="color:#059669;">dotnet-api-scaffold</span></div>
+          <div><span style="color:#be185d;">description:</span> <span style="color:#059669;">Scaffold C# ASP.NET Core controllers,</span></div>
+          <div><span style="color:#059669;">&nbsp;&nbsp;routes and xUnit tests. Use when creating</span></div>
+          <div><span style="color:#059669;">&nbsp;&nbsp;new API endpoints or generating boilerplate.</span></div>
+          <div style="color:#94a3b8;">---</div>
+          <div style="margin-top:6px;color:#b45309;font-weight:700;"># .NET API Scaffold</div>
+          <div><span style="color:#0284c7;">## 1. Create Controller</span> <span style="color:#94a3b8;font-style:italic;">→ Controllers/</span></div>
+          <div><span style="color:#0284c7;">## 2. Register Route</span> <span style="color:#94a3b8;font-style:italic;">→ Program.cs</span></div>
+          <div><span style="color:#0284c7;">## 3. Write xUnit Tests</span> <span style="color:#94a3b8;font-style:italic;">→ Tests/</span></div>
+          <div style="margin-top:4px;"><span style="color:#7c3aed;">bash</span> <span style="color:#0284c7;">scripts/validate-routes.sh</span> <span style="color:#94a3b8;font-style:italic;"># zero tokens</span></div>
+        </div>
+      </div>
+
+      <!-- how it works steps -->
+      <div style="margin-bottom:28px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#94a3b8;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+          <span>How it works</span>
+          <span style="flex:1;height:1px;background:#e2e8f0;display:inline-block;"></span>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:0;">
+
+          <div style="flex:1;text-align:center;padding:0 6px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(14,165,233,0.25);">1</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#0284c7;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;">Open Panel</div>
+            <div style="font-size:11px;color:#94a3b8;line-height:1.5;">Scale icon → Skills tab → New skill…</div>
+          </div>
+
+          <div style="padding-top:16px;color:#cbd5e1;font-size:16px;">→</div>
+
+          <div style="flex:1;text-align:center;padding:0 6px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(14,165,233,0.25);">2</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#0284c7;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;">Write SKILL.md</div>
+            <div style="font-size:11px;color:#94a3b8;line-height:1.5;">Sharp description = reliable trigger</div>
+          </div>
+
+          <div style="padding-top:16px;color:#cbd5e1;font-size:16px;">→</div>
+
+          <div style="flex:1;text-align:center;padding:0 6px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(14,165,233,0.25);">3</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#0284c7;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;">Add Scripts</div>
+            <div style="font-size:11px;color:#94a3b8;line-height:1.5;">Heavy logic in scripts/, zero token cost</div>
+          </div>
+
+          <div style="padding-top:16px;color:#cbd5e1;font-size:16px;">→</div>
+
+          <div style="flex:1;text-align:center;padding:0 6px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#fff;box-shadow:0 3px 10px rgba(16,185,129,0.25);">✓</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;">Commit & Share</div>
+            <div style="font-size:11px;color:#94a3b8;line-height:1.5;">Team inherits your knowledge instantly</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- pull quote -->
+      <div style="background:#f8fbff;border:1px solid #dbeafe;border-left:4px solid #0ea5e9;border-radius:0 10px 10px 0;padding:18px 22px;margin-bottom:28px;">
+        <p style="font-family:'Fraunces',serif;font-size:15px;font-style:italic;color:#334155;line-height:1.7;margin:0 0 8px;">
+          "Skills transform Cline from a general-purpose assistant into a specialist who knows exactly how your team works."
+        </p>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#94a3b8;letter-spacing:0.08em;">— docs.cline.bot/customization/skills</div>
+      </div>
+
+      <!-- CTA row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:4px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#94a3b8;margin-bottom:5px;">Enable in VS Code</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#64748b;">Settings → Features → <span style="color:#0284c7;">Enable Skills</span></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#0ea5e9,#0284c7);border-radius:9px;padding:11px 26px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:#fff;letter-spacing:0.06em;box-shadow:0 3px 14px rgba(14,165,233,0.3);white-space:nowrap;">
+          docs.cline.bot →
+        </div>
+      </div>
+
+    </div>
+
+    <!-- bottom bar -->
+    <div style="padding:14px 44px;background:#f8fafc;border-top:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#cbd5e1;letter-spacing:0.12em;text-transform:uppercase;">Cline Masterclass · Feature 01 of 07</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#0ea5e9;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e2e8f0;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e2e8f0;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e2e8f0;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e2e8f0;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e2e8f0;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e2e8f0;display:inline-block;"></span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
