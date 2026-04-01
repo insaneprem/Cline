@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Skills — Tizen Code Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #f4f6ff;
+  --bg3:     #eef1fb;
+  --surface: #ffffff;
+  --border:  #dde3f5;
+  --border2: #c8d1ef;
+  --text:    #2d3561;
+  --text2:   #5a6490;
+  --text3:   #9aa3c8;
+  --head:    #0d1340;
+  --g-blue:   #4f8ef7;
+  --g-blue2:  #2563eb;
+  --g-violet: #7c3aed;
+  --g-pink:   #ec4899;
+  --g-cyan:   #06b6d4;
+  --g-teal:   #0d9488;
+  --g-green:  #10b981;
+  --r-sm: 6px; --r-md: 14px; --r-lg: 22px;
+  --mono:    'JetBrains Mono', monospace;
+  --display: 'Fraunces', serif;
+  --body:    'DM Sans', sans-serif;
+  --shadow-sm: 0 2px 8px rgba(79,142,247,0.08), 0 1px 3px rgba(79,142,247,0.05);
+  --shadow-md: 0 6px 24px rgba(79,142,247,0.12), 0 2px 8px rgba(79,142,247,0.06);
+  --shadow-lg: 0 16px 48px rgba(79,142,247,0.16), 0 4px 16px rgba(79,142,247,0.08);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg3); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+ul { list-style: none; }
+.page-wrap { max-width: 1000px; margin: 0 auto; padding: 60px 40px 80px; }
+
+/* ══ HERO ══ */
+.skills-hero {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff 0%, #eef4ff 40%, #f0ebff 70%, #edfdf8 100%);
+  border: 1px solid rgba(124,58,237,0.15);
+  border-radius: var(--r-lg);
+  padding: 58px 64px 54px;
+  margin-bottom: 36px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.skills-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(79,142,247,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(79,142,247,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.25) 70%, transparent);
+  pointer-events: none;
+}
+.skills-hero::after {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(124,58,237,0.09) 0%, rgba(79,142,247,0.06) 40%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
+
+.hero-breadcrumb {
+  display: inline-flex; align-items: center; gap: 0;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.5s ease both;
+}
+.crumb-pill { padding: 5px 14px; border-radius: 100px; border: 1px solid; white-space: nowrap; }
+.crumb-pill.blue   { color: var(--g-blue2); border-color: rgba(79,142,247,0.4); background: rgba(79,142,247,0.09); }
+.crumb-pill.violet { color: var(--g-violet); border-color: rgba(124,58,237,0.35); background: rgba(124,58,237,0.08); }
+.crumb-pill.teal   { color: var(--g-teal); border-color: rgba(13,148,136,0.35); background: rgba(13,148,136,0.08); }
+.crumb-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text3); margin: 0 10px; flex-shrink: 0; }
+
+.hero-h1 {
+  font-family: var(--display); font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900; line-height: 1.06; letter-spacing: -0.03em;
+  color: var(--head); display: block;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+.hero-h1 .grad-word {
+  background: linear-gradient(120deg, var(--g-blue2) 0%, var(--g-violet) 50%, var(--g-pink) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-subline {
+  display: block; margin-top: 12px;
+  font-family: var(--display); font-size: clamp(18px, 2.8vw, 28px);
+  font-weight: 300; font-style: italic; color: var(--text2); letter-spacing: -0.01em;
+  animation: fadeUp 0.5s 0.15s ease both;
+}
+.hero-subline .skill-word {
+  font-weight: 700; font-style: normal;
+  background: linear-gradient(90deg, var(--g-cyan), var(--g-teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-tagline {
+  margin-top: 20px; font-size: 15.5px; color: var(--text2);
+  max-width: 620px; line-height: 1.8;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+.hero-tagline strong { color: var(--text); }
+
+.hero-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; animation: fadeUp 0.5s 0.25s ease both; }
+.pill { font-family: var(--mono); font-size: 10.5px; font-weight: 600; padding: 4px 13px; border-radius: 100px; border: 1px solid; letter-spacing: 0.04em; }
+.pill-blue   { color: var(--g-blue2); border-color: rgba(79,142,247,0.38); background: rgba(79,142,247,0.08); }
+.pill-violet { color: var(--g-violet); border-color: rgba(124,58,237,0.3); background: rgba(124,58,237,0.07); }
+.pill-teal   { color: var(--g-teal); border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.07); }
+.pill-pink   { color: var(--g-pink); border-color: rgba(236,72,153,0.3); background: rgba(236,72,153,0.07); }
+.pill-plain  { color: var(--text3); border-color: var(--border2); background: var(--bg3); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+
+/* ══ HOW IT WORKS FLOWCHART ══ */
+.how-it-works {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 36px 44px 40px;
+  margin-bottom: 36px; box-shadow: var(--shadow-sm);
+}
+.how-label {
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--text3);
+  margin-bottom: 32px; display: flex; align-items: center; gap: 12px;
+}
+.how-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+.flow-row { display: flex; align-items: flex-start; justify-content: center; }
+
+.flow-step { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; max-width: 190px; }
+
+.flow-circle {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 20px; font-weight: 700; color: #fff;
+  margin-bottom: 16px; flex-shrink: 0; position: relative;
+}
+.fc-1 { background: linear-gradient(135deg, #60a5fa, #2563eb); box-shadow: 0 5px 18px rgba(79,142,247,0.4); }
+.fc-2 { background: linear-gradient(135deg, #a78bfa, #7c3aed); box-shadow: 0 5px 18px rgba(124,58,237,0.4); }
+.fc-3 { background: linear-gradient(135deg, #22d3ee, #0d9488); box-shadow: 0 5px 18px rgba(6,182,212,0.4); }
+.fc-4 { background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 5px 18px rgba(16,185,129,0.4); }
+
+.flow-step-title { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
+.fst-1 { color: var(--g-blue2); }
+.fst-2 { color: var(--g-violet); }
+.fst-3 { color: var(--g-cyan); }
+.fst-4 { color: var(--g-green); }
+
+.flow-step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; max-width: 135px; }
+
+.flow-arrow {
+  flex-shrink: 0; width: 40px;
+  display: flex; align-items: center; justify-content: center;
+  padding-bottom: 36px; color: var(--border2);
+}
+
+/* ══ SECTION LABEL ══ */
+.section-label {
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--text3);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+
+/* ══ SKILL.md STRUCTURE BLOCK ══ */
+.skillmd-note {
+  margin-top: 4px;
+  font-family: var(--mono); font-size: 11px; color: var(--text3);
+  letter-spacing: 0.04em; line-height: 1.6;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+/* ══ CARDS ══ */
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+.card-full { grid-column: 1 / -1; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 28px 30px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; border-radius: var(--r-md) var(--r-md) 0 0;
+  opacity: 0; transition: opacity 0.22s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card:hover::before { opacity: 1; }
+.card.accent-blue::before  { background: linear-gradient(90deg, var(--g-blue), var(--g-cyan)); }
+.card.accent-violet::before { background: linear-gradient(90deg, var(--g-violet), var(--g-pink)); }
+.card.accent-teal::before  { background: linear-gradient(90deg, var(--g-teal), var(--g-green)); }
+.card.accent-pink::before  { background: linear-gradient(90deg, var(--g-pink), var(--g-violet)); }
+
+.card-head { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13.5px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 18px; }
+.card-head span:first-child { font-size: 16px; flex-shrink: 0; }
+.ch-what { color: var(--g-blue2); }
+.ch-why  { color: var(--g-violet); }
+.ch-how  { color: var(--g-teal); }
+.ch-best { color: var(--g-pink); }
+.ch-files{ color: var(--g-cyan); }
+.ch-storage { color: var(--g-blue2); }
+
+.desc-list { display: flex; flex-direction: column; gap: 11px; }
+.desc-list li { font-size: 14px; color: var(--text2); line-height: 1.7; padding-left: 20px; position: relative; }
+.desc-list li::before { content: '▸'; position: absolute; left: 0; font-size: 10px; top: 5px; }
+.card.accent-blue .desc-list li::before   { color: var(--g-blue2); }
+.card.accent-violet .desc-list li::before { color: var(--g-violet); }
+.card.accent-teal .desc-list li::before   { color: var(--g-teal); }
+.card.accent-pink .desc-list li::before   { color: var(--g-pink); }
+.desc-list li strong { color: var(--head); font-weight: 600; }
+.desc-list li em { color: var(--text); font-style: normal; }
+
+mark { border-radius: 3px; padding: 1px 5px; font-weight: 500; }
+.hl-blue   { background: rgba(79,142,247,0.12); color: var(--g-blue2); }
+.hl-violet { background: rgba(124,58,237,0.1);  color: var(--g-violet); }
+.hl-teal   { background: rgba(13,148,136,0.1);  color: var(--g-teal); }
+
+.insight {
+  background: linear-gradient(135deg, rgba(124,58,237,0.05), rgba(236,72,153,0.04));
+  border: 1px solid rgba(124,58,237,0.2); border-left: 4px solid var(--g-violet);
+  border-radius: var(--r-sm); padding: 13px 17px; margin-top: 16px;
+  font-size: 13.5px; color: var(--text2); line-height: 1.65;
+}
+.insight strong { color: var(--g-violet); }
+
+.callout { display: flex; gap: 12px; padding: 14px 18px; border-radius: var(--r-sm); margin-top: 16px; font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.callout.blue   { background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.2); border-left: 3px solid var(--g-blue); }
+.callout.blue strong { color: var(--g-blue2); }
+.callout.teal   { background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.2); border-left: 3px solid var(--g-teal); }
+.callout.teal strong { color: var(--g-teal); }
+.callout.violet { background: rgba(124,58,237,0.05); border: 1px solid rgba(124,58,237,0.2); border-left: 3px solid var(--g-violet); }
+.callout.violet strong { color: var(--g-violet); }
+
+/* ══ STEPS ══ */
+.steps { display: flex; flex-direction: column; gap: 20px; margin-top: 8px; }
+.step { display: flex; gap: 16px; align-items: flex-start; }
+.step-num {
+  flex-shrink: 0; width: 30px; height: 30px;
+  background: linear-gradient(135deg, var(--g-blue2), var(--g-violet));
+  border-radius: 50%; font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  margin-top: 1px; box-shadow: 0 3px 10px rgba(79,142,247,0.35);
+}
+.step-body { flex: 1; }
+.step-title { font-weight: 700; color: var(--head); font-size: 14px; margin-bottom: 5px; }
+.step-desc { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+
+/* ══ FILE TREE ══ */
+.file-tree { background: #12172b; border: 1px solid #252f4a; border-radius: var(--r-sm); padding: 20px 22px; font-family: var(--mono); font-size: 12.5px; line-height: 1.85; color: #8892ba; margin-top: 14px; white-space: pre; overflow-x: auto; }
+.ft-dir  { color: #60a5fa; }
+.ft-file { color: #6ee7b7; }
+.ft-comment { color: #3d4f7c; font-style: italic; }
+
+/* ══ CODE BLOCK ══ */
+.code-block { background: #12172b; border: 1px solid #252f4a; border-radius: var(--r-sm); overflow: hidden; margin-top: 14px; font-family: var(--mono); font-size: 12px; }
+.code-header { display: flex; align-items: center; justify-content: space-between; padding: 9px 16px; background: #0b0f1e; border-bottom: 1px solid #252f4a; }
+.code-dots { display: flex; gap: 6px; }
+.code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+.code-filename { font-size: 11px; color: #3d4f7c; letter-spacing: 0.06em; }
+.code-body { padding: 18px 22px; overflow-x: auto; line-height: 1.8; color: #b4bdd8; }
+.code-body pre { white-space: pre-wrap; word-break: break-word; }
+.kw  { color: #c084fc; }
+.fn  { color: #60a5fa; }
+.str { color: #6ee7b7; }
+.cm  { color: #3d4f7c; font-style: italic; }
+.at  { color: #f9a8d4; }
+.hl  { color: #fde68a; font-weight: 600; }
+
+/* ══ TABLE ══ */
+.script-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
+.script-table th { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); text-align: left; padding: 9px 14px; background: var(--bg3); border-bottom: 2px solid var(--border); }
+.script-table th code { font-size: 9.5px; background: rgba(79,142,247,0.1); color: var(--g-blue2); padding: 1px 5px; border-radius: 3px; text-transform: none; letter-spacing: 0; }
+.script-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; line-height: 1.6; }
+.script-table tr:last-child td { border-bottom: none; }
+.script-table tr:hover td { background: rgba(79,142,247,0.03); }
+.st-scripts strong { color: var(--g-teal); }
+.st-inst strong { color: var(--g-violet); }
+
+/* ══ BEST PRACTICES ══ */
+.bp-list { display: flex; flex-direction: column; gap: 15px; }
+.bp-item { display: flex; gap: 14px; align-items: flex-start; }
+.bp-dot { flex-shrink: 0; width: 24px; height: 24px; background: linear-gradient(135deg, rgba(236,72,153,0.1), rgba(124,58,237,0.1)); border: 1px solid rgba(236,72,153,0.3); border-radius: 50%; font-size: 10px; color: var(--g-pink); display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.bp-text { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.bp-text strong { color: var(--head); font-weight: 600; }
+
+/* ══ STORAGE GRID ══ */
+.storage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+
+/* ══ CLOSING ══ */
+.closing-card { margin-top: 24px; padding: 30px 34px; background: linear-gradient(135deg, rgba(79,142,247,0.05), rgba(124,58,237,0.04), rgba(13,148,136,0.04)); border: 1px solid rgba(124,58,237,0.2); border-radius: var(--r-md); display: flex; align-items: flex-start; gap: 18px; box-shadow: var(--shadow-sm); }
+.closing-icon { font-size: 34px; flex-shrink: 0; }
+.closing-label { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; background: linear-gradient(90deg, var(--g-blue2), var(--g-violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; }
+.closing-text { font-size: 15px; color: var(--text); line-height: 1.8; max-width: 660px; }
+.closing-text strong { color: var(--head); }
+
+/* ══ FOOTER ══ */
+.page-footer { margin-top: 48px; padding: 24px 32px; background: linear-gradient(135deg, rgba(79,142,247,0.04), rgba(124,58,237,0.03)); border: 1px solid rgba(124,58,237,0.15); border-radius: var(--r-md); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.footer-text { font-family: var(--mono); font-size: 11px; color: var(--text3); line-height: 1.8; }
+.footer-text a { color: var(--g-blue2); text-decoration: underline; text-underline-offset: 3px; }
+.footer-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--g-violet); background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.25); padding: 5px 14px; border-radius: 100px; }
+
+@media (max-width: 720px) {
+  .page-wrap { padding: 32px 20px 60px; }
+  .skills-hero { padding: 36px 28px; }
+  .cards-grid, .storage-grid { grid-template-columns: 1fr; }
+  .flow-row { flex-direction: column; align-items: center; gap: 4px; }
+  .flow-arrow { transform: rotate(90deg); padding-bottom: 0; }
+}
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="skills-hero">
+    <div class="hero-inner">
+      <div class="hero-breadcrumb">
+        <span class="crumb-pill blue">Advanced Concepts</span>
+        <span class="crumb-dot"></span>
+        <span class="crumb-pill violet">Core Topics</span>
+        <span class="crumb-dot"></span>
+        <span class="crumb-pill teal">Production Mastery</span>
+      </div>
+      <span class="hero-h1">Master Cline Like a <span class="grad-word">Senior Engineer</span></span>
+      <span class="hero-subline">Today we will learn <span class="skill-word">Skills</span></span>
+      <p class="hero-tagline">
+        Without Skills, you re-explain your review standards on every session — or keep a bloated always-on rules file that <strong>burns tokens whether you need those rules or not.</strong>
+      </p>
+      <div class="hero-pills">
+        <span class="pill pill-blue">On-Demand Loading</span>
+        <span class="pill pill-teal">SKILL.md Based</span>
+        <span class="pill pill-violet">Tizen C / C++ / C#</span>
+        <span class="pill pill-pink">Code Review</span>
+        <span class="pill pill-plain">.cline/skills/</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS FLOWCHART -->
+  <div class="how-it-works reveal">
+    <div class="how-label">How It Works</div>
+    <div class="flow-row">
+
+      <div class="flow-step">
+        <div class="flow-circle fc-1">1</div>
+        <div class="flow-step-title fst-1">Open Panel</div>
+        <div class="flow-step-desc">Scale icon → Skills tab → New skill… — or just create the folder manually</div>
+      </div>
+
+      <div class="flow-arrow">
+        <svg width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="0" y1="7" x2="19" y2="7"/>
+          <polyline points="12,1 19,7 12,13"/>
+        </svg>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-circle fc-2">2</div>
+        <div class="flow-step-title fst-2">Write SKILL.md</div>
+        <div class="flow-step-desc">Nail the description in your own words — that's what decides when it fires</div>
+      </div>
+
+      <div class="flow-arrow">
+        <svg width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="0" y1="7" x2="19" y2="7"/>
+          <polyline points="12,1 19,7 12,13"/>
+        </svg>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-circle fc-3">3</div>
+        <div class="flow-step-title fst-3">Add Docs &amp; Templates</div>
+        <div class="flow-step-desc">Language guides, checklists, boilerplate — loaded only when needed</div>
+      </div>
+
+      <div class="flow-arrow">
+        <svg width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="0" y1="7" x2="19" y2="7"/>
+          <polyline points="12,1 19,7 12,13"/>
+        </svg>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-circle fc-4">✓</div>
+        <div class="flow-step-title fst-4">Commit &amp; Share</div>
+        <div class="flow-step-desc">One pull and the whole team is on the same standards — no meeting needed</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WHAT + WHY -->
+  <div class="section-label reveal">What &amp; Why</div>
+  <div class="cards-grid reveal">
+    <div class="card accent-blue">
+      <div class="card-head ch-what"><span>◎</span><span>What exactly is a Skill?</span></div>
+      <ul class="desc-list">
+        <li>A <strong>Skill</strong> is just a folder with a <code>SKILL.md</code> file inside — think of it as a specialist role Cline steps into on demand: <mark class="hl-blue">tizen-c-review</mark>, <mark class="hl-blue">tizen-cpp-review</mark>, <mark class="hl-blue">tizen-csharp-nui</mark>. Nothing magic — just structured knowledge that loads when you need it.</li>
+        <li>Unlike rules (which are always-on and always burning context), Skills activate <em>only when your request matches their description</em>. Everything else stays completely out of the way.</li>
+        <li>Bundled <code>docs/</code> and <code>templates/</code> load only when Cline actually needs them — so you're never paying token cost for context you didn't ask for.</li>
+      </ul>
+    </div>
+    <div class="card accent-violet">
+      <div class="card-head ch-why"><span>◎</span><span>Why bother with Skills?</span></div>
+      <ul class="desc-list">
+        <li>Here's what happens without Skills: you either re-explain your Tizen review standards on every single session, or you cram everything into a rules file that fires unconditionally — whether you're doing a C memory audit or just tweaking a string constant.</li>
+        <li><mark class="hl-violet">Skills keep Cline genuinely focused</mark> — Tizen C memory rules stay out of C# NUI sessions, and C# NUI patterns don't leak into bare-metal C reviews. The right context, at the right time.</li>
+        <li>One <code>SKILL.md</code> per domain. Toggle independently. You get a specialist, not a generalist — exactly when you need one, silent when you don't.</li>
+      </ul>
+      <div class="insight">
+        <strong>🎯 The real payoff:</strong> once you write the <code>SKILL.md</code> once, you never explain those standards again — to Cline or to any teammate who pulls your repo.
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT GOES INSIDE -->
+  <div class="section-label reveal" style="margin-top:28px;">Anatomy of a Skill</div>
+  <div class="card card-full accent-blue reveal">
+    <div class="card-head ch-files"><span>◎</span><span>What Goes Inside a Skill Directory</span></div>
+    <p style="font-size:14.5px;color:var(--text2);line-height:1.75;">
+      Every Skill is literally just a folder. <code>SKILL.md</code> is the only file Cline actually requires — it holds both the trigger description and your core review instructions. Everything else is optional support material that Cline pulls in only when relevant.
+    </p>
+
+    <!-- SKILL.md structure — hand-coded snippet -->
+    <div class="code-block" style="margin-top:18px;">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">SKILL.md — structure overview</span>
+      </div>
+      <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">name:</span>        <span class="str">my-skill</span>       <span class="cm"># must match the directory name exactly</span>
+<span class="at">description:</span> <span class="str">Brief, specific description of what this does and WHEN to use it.</span>
+             <span class="str">Max 1,024 characters. This is your trigger phrase.</span>
+<span class="cm">---</span>
+
+<span class="hl"># My Skill</span>
+
+Detailed instructions that Cline follows when this skill is activated.
+Put the most common cases first — Cline reads sequentially.
+
+<span class="hl">## Steps</span>
+1. First, do this
+2. Then do that
+3. For edge cases, see <span class="fn">[advanced.md](docs/advanced.md)</span></pre>
+      </div>
+    </div>
+
+    <div class="file-tree" style="margin-top:20px;">
+<span class="ft-dir">tizen-code-review/</span>
+├── <span class="ft-file">SKILL.md</span>                  <span class="ft-comment"># Required — trigger description + core review instructions</span>
+├── <span class="ft-dir">docs/</span>                     <span class="ft-comment"># Optional — language-specific review guides</span>
+│   ├── <span class="ft-file">c-native-review.md</span>        <span class="ft-comment"># Tizen C: memory safety, privilege APIs, error handling</span>
+│   ├── <span class="ft-file">cpp-review.md</span>             <span class="ft-comment"># C++: RAII, EFL patterns, threading rules</span>
+│   └── <span class="ft-file">csharp-nui-review.md</span>      <span class="ft-comment"># C# NUI: View lifecycle, async/await, data binding</span>
+└── <span class="ft-dir">templates/</span>                <span class="ft-comment"># Optional — review report boilerplate</span>
+    └── <span class="ft-file">review-report.md</span>
+    </div>
+    <div class="callout blue" style="margin-top:16px;">
+      <span class="callout-icon">💡</span>
+      <div><strong>Two required fields in SKILL.md:</strong> <code>name</code> (must match the folder name exactly — case sensitive) and <code>description</code> (what Cline reads to decide when to activate). Write the description in your own words — the exact phrases you'd actually type in the chat.</div>
+    </div>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">SKILL.md — tizen-code-review</span>
+      </div>
+      <div class="code-body"><pre><span class="cm">---</span>
+<span class="at">name:</span> tizen-code-review
+<span class="at">description:</span> <span class="str">Review Tizen native C, C++, or C# NUI code for correctness,
+             memory safety, privilege usage, TIDL interface validity,
+             and EFL/NUI patterns. Use when asked to review, audit,
+             inspect, or validate generated Tizen source code.</span>
+<span class="cm">---</span>
+
+<span class="hl"># Tizen Code Review</span>
+
+Review all Tizen code against platform conventions before marking complete.
+Route to the correct language doc based on what is being reviewed.
+
+<span class="hl">## Language Routing</span>
+- <span class="fn">C native</span>        → see [docs/c-native-review.md](docs/c-native-review.md)
+- <span class="fn">C++ / EFL</span>      → see [docs/cpp-review.md](docs/cpp-review.md)
+- <span class="fn">C# NUI / .NET</span>  → see [docs/csharp-nui-review.md](docs/csharp-nui-review.md)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP BY STEP -->
+  <div class="section-label reveal" style="margin-top:28px;">Creating your first skill</div>
+  <div class="card card-full accent-teal reveal">
+    <div class="card-head ch-how"><span>◎</span><span>Step-by-Step: Your First Skill</span></div>
+    <p style="font-size:13px;color:var(--text3);margin-bottom:22px;">
+      Scenario: You're a Tizen code reviewer. You're tired of pasting the same C memory rules into every chat. You want Cline to enforce C memory safety, C++ EFL patterns, and C# NUI standards — automatically, without re-explaining anything.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Open the Skills panel</div>
+          <div class="step-desc">Click the <strong>scale icon</strong> at the bottom of the Cline panel → <strong>Skills</strong> tab → <strong>"New skill…"</strong> → name it <code>tizen-code-review</code>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Write your SKILL.md</div>
+          <div class="step-desc">Add YAML frontmatter with a precise <code>description</code> in your <code>SKILL.md</code>. Include the exact phrases you'd naturally type: <em>"review this Tizen C file"</em>, <em>"audit the NUI code"</em>, <em>"check my TIDL interface"</em>. Then route each language to its own doc file so SKILL.md stays lean.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Add language-specific review docs</div>
+          <div class="step-desc">Create <code>docs/c-native-review.md</code> (memory, privilege APIs), <code>docs/cpp-review.md</code> (RAII, EFL), <code>docs/csharp-nui-review.md</code> (View lifecycle, async). Cline loads only the one relevant to the current file.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Test: does it trigger?</div>
+          <div class="step-desc">Say <em>"review this Tizen C file for memory leaks"</em>. You should see <strong>"Activating skill: tizen-code-review"</strong> in the Cline panel. If it doesn't trigger — don't overthink it, just add more of your own natural phrases to the description in <code>SKILL.md</code> and try again.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:24px;">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">docs/c-native-review.md — Tizen C Review</span>
+      </div>
+      <div class="code-body"><pre><span class="hl"># Tizen Native C — Review Checklist</span>
+
+<span class="hl">## Memory Safety</span>
+- Every <span class="fn">malloc()</span> / <span class="kw">calloc()</span> must have a matching <span class="fn">free()</span> on ALL exit paths
+- Prefer <span class="fn">g_malloc()</span> / <span class="fn">g_free()</span> for GLib-managed objects
+- Flag unbounded <span class="fn">strcpy()</span>, <span class="fn">sprintf()</span> — require <span class="fn">strncpy()</span> / <span class="fn">snprintf()</span>
+
+<span class="hl">## Privilege &amp; API Usage</span>
+- Cross-check every <span class="fn">app_control_*()</span>, <span class="fn">location_*()</span> call against <span class="fn">tizen-manifest.xml</span>
+- <span class="str">http://tizen.org/privilege/network.get</span> required for any socket call
+- No direct <span class="fn">syscall()</span> — use Tizen CAPI wrappers only
+
+<span class="hl">## Error Handling</span>
+- Every Tizen CAPI call returns <span class="fn">int</span> — check against <span class="fn">TIZEN_ERROR_NONE</span>
+- Use <span class="kw">dlog_print()</span> with correct log level; no bare <span class="fn">printf()</span> in production</pre>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:12px;">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">docs/cpp-review.md — Tizen C++ / EFL Review</span>
+      </div>
+      <div class="code-body"><pre><span class="hl"># Tizen C++ / EFL — Review Checklist</span>
+
+<span class="hl">## Object Lifecycle (RAII)</span>
+- Evas objects via <span class="fn">elm_*()</span> are parent-owned — do NOT <span class="fn">delete</span> them manually
+- Eina containers: always call <span class="fn">eina_list_free()</span> with a data-free callback
+- Pair every <span class="fn">evas_object_smart_callback_add()</span> with a matching <span class="fn">del</span> callback
+
+<span class="hl">## Threading</span>
+- UI updates MUST run on the main thread — wrap with <span class="fn">ecore_main_loop_thread_safe_call_async()</span>
+- Flag any <span class="fn">std::thread</span> that touches <span class="fn">Evas_Object</span> directly
+
+<span class="hl">## TIDL Interface</span>
+- Verify all <span class="fn">.tidl</span> type definitions match the implementation — flag any mismatch</pre>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:12px;">
+      <div class="code-header">
+        <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+        <span class="code-filename">docs/csharp-nui-review.md — Tizen C# NUI Review</span>
+      </div>
+      <div class="code-body"><pre><span class="hl"># Tizen C# NUI — Review Checklist</span>
+
+<span class="hl">## View Lifecycle</span>
+- Override <span class="fn">Dispose(bool)</span> for any <span class="kw">View</span> that holds unmanaged resources
+- <span class="fn">Animation</span> objects: call <span class="fn">.Stop()</span> and <span class="fn">.Dispose()</span> before removing associated views
+- Do NOT hold strong references to <span class="fn">Window.Instance</span> in long-lived objects
+
+<span class="hl">## Async / Await</span>
+- All <span class="fn">async</span> methods touching NUI must resume on the UI thread
+- Flag <span class="fn">async void</span> (except event handlers) — require <span class="fn">async Task</span>
+
+<span class="hl">## Data Binding</span>
+- Confirm <span class="fn">INotifyPropertyChanged</span> on all bound ViewModels
+- Two-way bindings on <span class="fn">TextField</span>: <span class="fn">BindingMode.TwoWay</span> must be explicit
+
+<span class="hl">## Privilege</span>
+- Match <span class="fn">tizen-manifest.xml</span> against all <span class="fn">Tizen.Security.PrivacyPrivilegeManager</span> calls</pre>
+      </div>
+    </div>
+
+    <div class="callout teal" style="margin-top:16px;">
+      <span class="callout-icon">✅</span>
+      <div>Skip the UI — create the folder manually and drop it in <code>.cline/skills/</code>. <strong>Cline auto-discovers it on startup.</strong></div>
+    </div>
+  </div>
+
+  <!-- BUNDLED FILES -->
+  <div class="section-label reveal" style="margin-top:28px;">Docs, templates, and support files</div>
+  <div class="card card-full accent-pink reveal">
+    <div class="card-head ch-files"><span>◎</span><span>Bundled Supporting Files — What Goes Where</span></div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:16px;">
+      Skills carry a full folder of resources alongside <code>SKILL.md</code>. Cline loads each file only when it's actually referenced — so you can bundle as much detail as you want without paying for it on every session.
+    </p>
+    <ul class="desc-list" style="margin-bottom:18px;">
+      <li><strong><code>docs/</code></strong> — content too detailed for <code>SKILL.md</code>, or only relevant in specific situations. The review skill routes to the right language doc automatically. You never have to tell Cline which one to open.</li>
+      <li><strong><code>templates/</code></strong> — review report boilerplate, TIDL stubs, manifest snippets. A <code>templates/review-report.md</code> gives every review a consistent structure with zero manual setup on your part.</li>
+      <li><strong>Keep <code>SKILL.md</code> under 5,000 words.</strong> Route the heavy detail into <code>docs/</code> files. Your <code>SKILL.md</code> stays fast and scannable — the rest only loads when it's actually needed.</li>
+    </ul>
+    <table class="script-table">
+      <thead>
+        <tr>
+          <th>Put in <code>docs/</code> when…</th>
+          <th>Put directly in <code>SKILL.md</code> when…</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="st-scripts"><strong>Language-specific detail</strong> — C memory rules, C# NUI lifecycle, EFL threading patterns</td>
+          <td class="st-inst"><strong>Universal rules</strong> that apply to all Tizen code regardless of language</td>
+        </tr>
+        <tr>
+          <td class="st-scripts"><strong>Platform variants</strong> — mobile vs TV vs wearable specific guidelines</td>
+          <td class="st-inst"><strong>Routing logic</strong> — which doc to load based on the file type under review</td>
+        </tr>
+        <tr>
+          <td class="st-scripts"><strong>Deep checklists</strong> that would make SKILL.md too long to scan</td>
+          <td class="st-inst"><strong>Trigger phrases</strong> and quick-reference steps used on every review</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WHERE TO PUT THEM -->
+  <div class="section-label reveal" style="margin-top:28px;">Where to put them</div>
+  <div class="storage-grid reveal">
+    <div class="card accent-blue">
+      <div class="card-head ch-storage"><span>◎</span><span>Project Skills — Team-Shared</span></div>
+      <ul class="desc-list">
+        <li>Store in <mark class="hl-blue">.cline/skills/</mark> at your project root. That's the only path you really need to remember.</li>
+        <li><strong>Commit to Git.</strong> Every reviewer picks up the same Tizen standards automatically. When someone tightens the C# checklist in <code>SKILL.md</code>, the whole team gets it on the next pull — no Slack message required.</li>
+        <li>Also works with: <code>.clinerules/skills/</code> and <code>.claude/skills/</code> if your project already uses those conventions.</li>
+      </ul>
+    </div>
+    <div class="card accent-violet">
+      <div class="card-head ch-storage"><span>◎</span><span>Global Skills — Personal</span></div>
+      <ul class="desc-list">
+        <li>macOS / Linux: <mark class="hl-violet">~/.cline/skills/</mark></li>
+        <li>Windows: <code>C:\Users\USERNAME\.cline\skills\</code></li>
+        <li>Available across every project on your machine — handy for personal review preferences or opinionated defaults that aren't really the team's business.</li>
+        <li><strong>Heads up:</strong> when a global Skill and a project Skill share the same name, the <em>global one wins</em>. Worth knowing before you wonder why the team version isn't loading.</li>
+      </ul>
+      <div class="callout violet" style="margin-top:14px;">
+        <span class="callout-icon">🔁</span>
+        <div><strong>Toggle, don't delete.</strong> Every Skill has an on/off switch in the panel. Disable the C++ review <code>SKILL.md</code> during a pure C# sprint — flip it back on when you need it. No file editing, no context menu hunting.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEST PRACTICES -->
+  <div class="section-label reveal" style="margin-top:28px;">Making skills actually work well</div>
+  <div class="card card-full accent-pink reveal">
+    <div class="card-head ch-best"><span>◎</span><span>Best Practices — Learned the Hard Way</span></div>
+    <div class="bp-list">
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text"><strong>Nail the description in your <code>SKILL.md</code> first.</strong> "Review Tizen C or C++ code for memory leaks, privilege misuse, or TIDL errors" fires reliably every time. "Tizen helper" never fires. Write it the way you'd actually type the request — Cline matches on your words, not on ideal phrasing.</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text"><strong>Route, don't cram.</strong> Your <code>SKILL.md</code> should route to the right doc — not contain every rule itself. <code>docs/c-native-review.md</code> handles C. <code>docs/csharp-nui-review.md</code> handles C#. Cline reads only whichever one actually applies, so neither bleeds into the other's session.</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text"><strong>One Skill = one domain.</strong> Keep <code>tizen-c-review</code> and <code>tizen-csharp-nui</code> as separate folders with separate <code>SKILL.md</code> files. Toggle them independently. When a request genuinely needs both, both load — otherwise they stay completely silent and out of context.</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text"><strong>Front-load the common cases in your <code>SKILL.md</code>.</strong> Cline reads it top to bottom. Put the C native path first — it's the most common Tizen code path. Wearable-specific edge cases go last, or better yet, move them into a <code>docs/</code> file entirely.</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text"><strong>Be concrete, not abstract.</strong> "Check <code>tizen-manifest.xml</code> for every privilege the code calls" gets followed. "Check privileges" gets interpreted loosely. The more specific your <code>SKILL.md</code> instructions are, the more reliably Cline acts on them.</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-dot">▸</div>
+        <div class="bp-text"><strong>Commit your Skills to Git — seriously.</strong> Store in <code>.cline/skills/</code> and push. Every reviewer on the team inherits the same standards from that moment on. No onboarding doc, no Slack thread, no meeting. Just a pull.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing-card reveal">
+    <div class="closing-icon">🛠️</div>
+    <div>
+      <div class="closing-label">The Bottom Line</div>
+      <p class="closing-text">
+        Skills turn Cline into a genuine Tizen specialist — C memory rules, C++ EFL patterns, C# NUI lifecycle — on-demand, exactly when you need them, silent when you don't.
+        Start small: one <code>SKILL.md</code> for your most-repeated review type. Tweak the description until it triggers every time. Then add the language docs.
+        <strong>Commit it to Git and let the whole team benefit — one pull and everyone's on the same standards.</strong>
+      </p>
+      <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);">
+        Source: <a href="https://docs.cline.bot/customization/skills" style="color:var(--g-blue2);text-decoration:underline;text-underline-offset:3px;">docs.cline.bot/customization/skills</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer reveal">
+    <div class="footer-text">
+      Cline Masterclass · Skills — Tizen Edition<br/>
+      Verified against <a href="https://docs.cline.bot/customization/skills" target="_blank">docs.cline.bot</a> · April 2026
+    </div>
+    <div class="footer-badge">⚗️ &nbsp;Skills · SKILL.md</div>
+  </div>
+
+</div>
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
