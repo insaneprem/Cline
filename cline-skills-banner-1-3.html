@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cline Skills — Tizen Edition Banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #eef4ff;
+    background-image:
+      radial-gradient(ellipse at 10% 0%,   rgba(59,130,246,0.28) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 0%,   rgba(56,189,248,0.22) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 100%, rgba(99,102,241,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 15% 100%, rgba(14,165,233,0.16) 0%, transparent 40%);
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<div style="width:100%;max-width:640px;margin:0 auto;">
+
+  <!-- MAIN CARD -->
+  <div style="
+    background:#ffffff;
+    border-radius:22px;
+    overflow:hidden;
+    border:1px solid rgba(56,189,248,0.25);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.9) inset,
+      0 8px 50px rgba(37,99,235,0.12),
+      0 2px 12px rgba(56,189,248,0.10);
+  ">
+
+    <!-- top accent bar: deep blue → royal → sky → ice -->
+    <div style="height:4px;background:linear-gradient(90deg,#1d4ed8,#3b82f6,#38bdf8,#7dd3fc,#bae6fd);"></div>
+
+    <!-- HEADER AREA -->
+    <div style="
+      padding:42px 46px 34px;
+      background:linear-gradient(145deg,#f0f6ff 0%,#dbeafe 30%,#e0f2fe 70%,#f0f9ff 100%);
+      border-bottom:1px solid rgba(56,189,248,0.18);
+      position:relative;overflow:hidden;
+    ">
+
+      <!-- dot grid -->
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:0.5;">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="rgba(59,130,246,0.18)"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots)"/>
+        </svg>
+      </div>
+
+      <!-- glows -->
+      <div style="position:absolute;top:-80px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(56,189,248,0.24) 0%,transparent 65%);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%);pointer-events:none;"></div>
+
+      <div style="position:relative;z-index:1;">
+
+        <!-- logo -->
+        <div style="display:flex;align-items:center;margin-bottom:30px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="
+              width:30px;height:30px;
+              background:linear-gradient(135deg,#1d4ed8,#38bdf8);
+              border-radius:8px;display:flex;align-items:center;justify-content:center;
+              font-size:15px;box-shadow:0 3px 10px rgba(29,78,216,0.35);
+            ">⬡</div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;background:linear-gradient(90deg,#1d4ed8,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Cline</span>
+          </div>
+        </div>
+
+        <!-- 01 hero number -->
+        <div style="position:relative;display:inline-block;line-height:1;margin-bottom:-18px;user-select:none;">
+          <div style="
+            position:absolute;inset:0;
+            background:linear-gradient(120deg,#1d4ed8,#38bdf8);
+            filter:blur(32px);opacity:0.42;border-radius:16px;
+            transform:scale(1.15);
+          "></div>
+          <div style="
+            position:relative;
+            font-family:'Fraunces',serif;font-size:108px;font-weight:900;font-style:italic;
+            background:linear-gradient(120deg,#1e3a8a 0%,#2563eb 30%,#38bdf8 65%,#bae6fd 100%);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            letter-spacing:-0.04em;
+            filter:drop-shadow(0 4px 22px rgba(37,99,235,0.38));
+          ">01</div>
+        </div>
+
+        <!-- headline -->
+        <h1 style="
+          font-family:'Fraunces',serif;font-size:52px;font-weight:900;
+          line-height:1.04;letter-spacing:-0.03em;
+          background:linear-gradient(120deg,#1e3a8a 0%,#2563eb 45%,#0ea5e9 100%);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+          margin:0 0 6px;
+        ">Skills</h1>
+        <h2 style="
+          font-family:'Fraunces',serif;font-size:20px;font-weight:300;font-style:italic;
+          color:#38bdf8;margin:0 0 20px;letter-spacing:-0.01em;
+          text-shadow:0 0 40px rgba(56,189,248,0.35);
+        ">On-Demand Specialist Knowledge for Tizen</h2>
+
+        <!-- divider -->
+        <div style="height:1px;background:linear-gradient(90deg,rgba(37,99,235,0.5),rgba(56,189,248,0.4),transparent);margin-bottom:22px;"></div>
+
+        <!-- description -->
+        <p style="font-family:'DM Sans',sans-serif;font-size:14.5px;color:#4b5563;line-height:1.8;margin:0;">
+          Without Skills, you re-explain your Tizen review standards on every session — or keep a bloated rules file that fires <strong style="color:#1d4ed8;">whether you're auditing C memory or just fixing a typo.</strong> Skills load only when the request matches. Silence the rest.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- BODY AREA -->
+    <div style="padding:34px 46px 38px;background:#fff;">
+
+      <!-- three insight cards -->
+      <div style="display:flex;gap:12px;margin-bottom:30px;">
+
+        <!-- card 1 — deep royal blue -->
+        <div style="
+          flex:1;
+          background:linear-gradient(145deg,#eff6ff,#dbeafe);
+          border:1px solid rgba(59,130,246,0.35);
+          border-radius:12px;padding:16px 15px;
+          position:relative;overflow:hidden;
+        ">
+          <div style="position:absolute;top:-20px;right:-14px;font-size:48px;opacity:0.06;line-height:1;user-select:none;">◎</div>
+          <div style="font-size:19px;margin-bottom:9px;">🎯</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#2563eb;margin-bottom:6px;">One Skill, One Domain</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#1d4ed8;line-height:1.6;">
+            <code style="background:rgba(59,130,246,0.15);color:#2563eb;padding:1px 5px;border-radius:3px;font-size:10.5px;">tizen-c-review</code> stays separate from <code style="background:rgba(59,130,246,0.15);color:#2563eb;padding:1px 5px;border-radius:3px;font-size:10.5px;">tizen-csharp-nui</code>. Toggle independently. Right context, every time.
+          </div>
+        </div>
+
+        <!-- card 2 — sky blue -->
+        <div style="
+          flex:1;
+          background:linear-gradient(145deg,#f0f9ff,#e0f2fe);
+          border:1px solid rgba(14,165,233,0.35);
+          border-radius:12px;padding:16px 15px;
+          position:relative;overflow:hidden;
+        ">
+          <div style="position:absolute;top:-20px;right:-14px;font-size:48px;opacity:0.06;line-height:1;user-select:none;">◎</div>
+          <div style="font-size:19px;margin-bottom:9px;">🗂️</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#0ea5e9;margin-bottom:6px;">Route, Don't Cram</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#0369a1;line-height:1.6;">
+            <code style="background:rgba(56,189,248,0.15);color:#0ea5e9;padding:1px 5px;border-radius:3px;font-size:10.5px;">SKILL.md</code> routes to <code style="background:rgba(56,189,248,0.15);color:#0ea5e9;padding:1px 5px;border-radius:3px;font-size:10.5px;">docs/</code> files. Cline reads only what the current file needs — C or C# never bleed into each other.
+          </div>
+        </div>
+
+        <!-- card 3 — indigo-sky mix -->
+        <div style="
+          flex:1;
+          background:linear-gradient(145deg,#eef2ff,#e0f2fe);
+          border:1px solid rgba(99,102,241,0.3);
+          border-radius:12px;padding:16px 15px;
+          position:relative;overflow:hidden;
+        ">
+          <div style="position:absolute;top:-20px;right:-14px;font-size:48px;opacity:0.06;line-height:1;user-select:none;">◎</div>
+          <div style="font-size:19px;margin-bottom:9px;">✍️</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#6366f1;margin-bottom:6px;">Write How You'd Type It</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#4338ca;line-height:1.6;">
+            "Review Tizen C for memory leaks" fires every time. "Tizen helper" never does. Your natural phrasing is your trigger.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SKILL.md code snippet -->
+      <div style="background:#0a0f1e;border:1px solid #1a2744;border-radius:12px;overflow:hidden;margin-bottom:28px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:#060b16;border-bottom:1px solid #1a2744;">
+          <div style="display:flex;gap:6px;">
+            <span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;display:inline-block;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#febc2e;display:inline-block;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#28c840;display:inline-block;"></span>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#3d5a8a;letter-spacing:0.06em;">SKILL.md — tizen-code-review</span>
+        </div>
+        <div style="padding:18px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2;overflow-x:auto;">
+          <div style="color:#3d5a8a;font-style:italic;">---</div>
+          <div><span style="color:#93c5fd;">name:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7dd3fc;">tizen-code-review</span></div>
+          <div><span style="color:#93c5fd;">description:</span> <span style="color:#7dd3fc;">Review Tizen native C, C++, or C# NUI code</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#7dd3fc;">for memory safety, privilege usage &amp; TIDL validity.</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#7dd3fc;">Use when asked to review, audit, or inspect.</span></div>
+          <div style="color:#3d5a8a;font-style:italic;">---</div>
+          <div style="margin-top:4px;"><span style="color:#93c5fd;font-weight:700;"># Tizen Code Review</span></div>
+          <div style="margin-top:2px;color:#bae6fd;">## Language Routing</div>
+          <div><span style="color:#7dd3fc;">C native</span>&nbsp;&nbsp;&nbsp; <span style="color:#3d5a8a;">→</span> <span style="color:#60a5fa;">docs/c-native-review.md</span>&nbsp;&nbsp; <span style="color:#3d5a8a;font-style:italic;"># malloc, privilege CAPI</span></div>
+          <div><span style="color:#7dd3fc;">C++ / EFL</span>&nbsp; <span style="color:#3d5a8a;">→</span> <span style="color:#60a5fa;">docs/cpp-review.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3d5a8a;font-style:italic;"># RAII, ecore threading</span></div>
+          <div><span style="color:#7dd3fc;">C# NUI</span>&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:#3d5a8a;">→</span> <span style="color:#60a5fa;">docs/csharp-nui-review.md</span> <span style="color:#3d5a8a;font-style:italic;"># View lifecycle, async</span></div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div style="margin-bottom:28px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#9ca3af;margin-bottom:18px;display:flex;align-items:center;gap:10px;">
+          <span>How it works</span>
+          <span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(37,99,235,0.5),rgba(56,189,248,0.3),transparent);display:inline-block;"></span>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:0;">
+
+          <div style="flex:1;text-align:center;padding:0 5px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,#2563eb);display:flex;align-items:center;justify-content:center;margin:0 auto 9px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(29,78,216,0.4);">1</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Open Panel</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#9ca3af;line-height:1.5;">Scale icon → Skills tab → New skill…</div>
+          </div>
+
+          <div style="padding-top:17px;color:#93c5fd;font-size:14px;flex-shrink:0;">→</div>
+
+          <div style="flex:1;text-align:center;padding:0 5px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#0ea5e9);display:flex;align-items:center;justify-content:center;margin:0 auto 9px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(14,165,233,0.35);">2</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#0ea5e9;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Write SKILL.md</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#9ca3af;line-height:1.5;">Nail the description in your own words</div>
+          </div>
+
+          <div style="padding-top:17px;color:#7dd3fc;font-size:14px;flex-shrink:0;">→</div>
+
+          <div style="flex:1;text-align:center;padding:0 5px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#38bdf8);display:flex;align-items:center;justify-content:center;margin:0 auto 9px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(56,189,248,0.38);">3</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#0ea5e9;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Add Docs</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#9ca3af;line-height:1.5;">Route languages to their own review files</div>
+          </div>
+
+          <div style="padding-top:17px;color:#7dd3fc;font-size:14px;flex-shrink:0;">→</div>
+
+          <div style="flex:1;text-align:center;padding:0 5px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#bae6fd);display:flex;align-items:center;justify-content:center;margin:0 auto 9px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:#0c4a6e;box-shadow:0 4px 14px rgba(56,189,248,0.4);">✓</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#38bdf8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Commit &amp; Share</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:11.5px;color:#9ca3af;line-height:1.5;">One pull. Whole team on the same standards.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- pull quote -->
+      <div style="
+        background:linear-gradient(135deg,rgba(219,234,254,0.5),rgba(224,242,254,0.5));
+        border:1px solid rgba(56,189,248,0.22);
+        border-left:4px solid;
+        border-image:linear-gradient(180deg,#2563eb,#38bdf8) 1;
+        border-radius:0 12px 12px 0;
+        padding:18px 22px;margin-bottom:28px;
+      ">
+        <p style="font-family:'Fraunces',serif;font-size:15px;font-style:italic;color:#374151;line-height:1.75;margin:0 0 9px;">
+          "Once you write the <code style="font-family:'JetBrains Mono',monospace;font-size:13px;font-style:normal;color:#2563eb;background:rgba(37,99,235,0.08);padding:1px 6px;border-radius:4px;">SKILL.md</code> once, you never explain those standards again — to Cline or to any teammate who pulls your repo."
+        </p>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#9ca3af;letter-spacing:0.08em;">— docs.cline.bot/customization/skills</div>
+      </div>
+
+      <!-- CTA row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#9ca3af;margin-bottom:6px;">Enable in VS Code</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6b7280;">Settings → Features → <span style="color:#2563eb;font-weight:700;">Enable Skills</span></div>
+        </div>
+        <div style="
+          background:linear-gradient(135deg,#1d4ed8,#2563eb,#0ea5e9,#38bdf8);
+          border-radius:10px;padding:12px 28px;
+          font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;
+          color:#fff;letter-spacing:0.06em;
+          box-shadow:0 4px 20px rgba(29,78,216,0.38),0 2px 8px rgba(56,189,248,0.22);
+          white-space:nowrap;
+        ">
+          docs.cline.bot →
+        </div>
+      </div>
+
+    </div>
+
+    <!-- bottom bar -->
+    <div style="
+      padding:14px 46px;
+      background:linear-gradient(90deg,rgba(219,234,254,0.6),rgba(224,242,254,0.5),rgba(240,249,255,0.4));
+      border-top:1px solid rgba(56,189,248,0.18);
+      display:flex;align-items:center;justify-content:space-between;
+    ">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#38bdf8;letter-spacing:0.12em;text-transform:uppercase;">Cline Masterclass · Feature 01 of 07</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#38bdf8);display:inline-block;box-shadow:0 0 8px rgba(37,99,235,0.7);"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block;"></span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
