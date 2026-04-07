@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cline + MCP Integration Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --surface2:  #1f2937;
+      --border:    #30363d;
+      --accent:    #7c3aed;
+      --accent2:   #a78bfa;
+      --green:     #10b981;
+      --amber:     #f59e0b;
+      --red:       #ef4444;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --code-bg:   #0d1117;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* ── EMAIL WRAPPER ─────────────────────────────── */
+    .email-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--bg);
+    }
+
+    /* ── HEADER ────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, #1a0a2e 0%, #0d1117 50%, #0a1628 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(124,58,237,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header-tag {
+      display: inline-block;
+      background: rgba(124,58,237,.15);
+      border: 1px solid rgba(124,58,237,.4);
+      color: var(--accent2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 18px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .header h1 span { color: var(--accent2); }
+    .header-sub {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .header-meta {
+      margin-top: 24px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .meta-pill .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+    .meta-pill .dot.amber { background: var(--amber); }
+
+    /* ── TOC ───────────────────────────────────────── */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      margin: 32px 40px;
+      border-radius: 8px;
+      padding: 22px 26px;
+    }
+    .toc-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .toc ol {
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .toc ol li { margin-bottom: 5px; }
+    .toc a { color: var(--text); text-decoration: none; }
+    .toc a:hover { color: var(--accent2); }
+
+    /* ── SECTION ───────────────────────────────────── */
+    .section {
+      padding: 36px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+    .section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 24px 0 10px;
+      color: var(--accent2);
+    }
+    .section p {
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    /* ── ADVANTAGE CARDS ───────────────────────────── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card-body {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── STEP BLOCK ────────────────────────────────── */
+    .steps { margin-top: 20px; }
+    .step {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px; top: 36px;
+      bottom: -14px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-content { flex: 1; }
+    .step-title {
+      font-weight: 600;
+      font-size: 14.5px;
+      margin-bottom: 6px;
+    }
+    .step-body {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    /* ── IMAGE PLACEHOLDER ─────────────────────────── */
+    .img-placeholder {
+      background: var(--surface2);
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 30px 20px;
+      text-align: center;
+      margin: 12px 0;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .img-placeholder:hover { border-color: var(--accent2); background: #1a1f2e; }
+    .img-placeholder .img-icon { font-size: 28px; margin-bottom: 8px; }
+    .img-placeholder .img-label { color: var(--accent2); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .06em; }
+    .img-placeholder .img-hint { margin-top: 4px; font-size: 11px; color: #555; }
+
+    /* ── SECURITY LIST ─────────────────────────────── */
+    .security-list { list-style: none; margin-top: 16px; }
+    .security-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .security-list li .sec-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .security-list li strong { color: var(--text); }
+
+    /* ── WARNING / INFO CALLOUT ────────────────────── */
+    .callout {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 13px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout.warning {
+      background: rgba(245,158,11,.08);
+      border-left: 3px solid var(--amber);
+      color: #d4a017;
+    }
+    .callout.info {
+      background: rgba(124,58,237,.08);
+      border-left: 3px solid var(--accent);
+      color: var(--accent2);
+    }
+    .callout.danger {
+      background: rgba(239,68,68,.08);
+      border-left: 3px solid var(--red);
+      color: #f87171;
+    }
+    .callout-icon { font-size: 16px; flex-shrink: 0; }
+    .callout-body { line-height: 1.6; }
+    .callout-body strong { display: block; margin-bottom: 2px; }
+
+    /* ── CODE INLINE ───────────────────────────────── */
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--accent2);
+    }
+
+    /* ── TOOL TABLE ────────────────────────────────── */
+    .tool-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+    .tool-table thead tr {
+      background: var(--surface2);
+    }
+    .tool-table th {
+      text-align: left;
+      padding: 10px 14px;
+      color: var(--accent2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .tool-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      vertical-align: top;
+    }
+    .tool-table tr:hover td { background: var(--surface); }
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(124,58,237,.15);
+      border: 1px solid rgba(124,58,237,.3);
+      color: var(--accent2);
+    }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer strong { color: var(--text); }
+
+    /* ── DIVIDER ───────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    /* sub-steps */
+    .sub-steps {
+      margin: 10px 0 0 0;
+      padding-left: 16px;
+      list-style: none;
+    }
+    .sub-steps li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .sub-steps li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent2);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="email-wrap">
+
+  <!-- ══ HEADER ══════════════════════════════════════════ -->
+  <div class="header">
+    <div class="header-tag">Internal Dev Guide</div>
+    <h1>Cline + <span>MCP Integration</span><br/>Getting Started Guide</h1>
+    <p class="header-sub">A step-by-step walkthrough for connecting our organisation's MCP servers within Cline</p>
+    <div class="header-meta">
+      <div class="meta-pill"><span class="dot"></span> For Internal Use Only</div>
+      <div class="meta-pill"><span class="dot amber"></span> Version 1.0 &nbsp;·&nbsp; April 2026</div>
+      <div class="meta-pill">🛠 Cline + VS Code</div>
+    </div>
+  </div>
+
+  <!-- ══ TABLE OF CONTENTS ═══════════════════════════════ -->
+  <div class="toc">
+    <div class="toc-title">// Table of Contents</div>
+    <ol>
+      <li><a href="#what-is-mcp">What is MCP? &amp; Its Advantages</a></li>
+      <li><a href="#where-tools">Where to Find Available MCP Tools</a></li>
+      <li><a href="#add-mcp">How to Add MCP Tools in Cline</a></li>
+      <li><a href="#use-mcp">How to Use an MCP Tool</a></li>
+      <li><a href="#security">Security Precautions</a></li>
+    </ol>
+  </div>
+
+  <!-- ══ SECTION 1 · WHAT IS MCP ═════════════════════════ -->
+  <div class="section" id="what-is-mcp">
+    <div class="section-label">// Section 01</div>
+    <h2>What is MCP?</h2>
+    <p>
+      <strong style="color:var(--text)">Model Context Protocol (MCP)</strong> is an open standard that allows AI assistants like Cline to securely connect to external tools, data sources, and services. Think of it as a universal plug — instead of writing custom integrations for every tool, MCP provides one consistent interface that any compatible AI can use.
+    </p>
+    <p>
+      In our organisation, MCP servers expose internal capabilities — such as [<em>describe your tools here, e.g. project management, internal APIs, databases</em>] — directly to Cline inside your IDE, making your AI assistant organisation-aware.
+    </p>
+
+    <!-- Image placeholder -->
+    <div class="img-placeholder">
+      <div class="img-icon">🖼️</div>
+      <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+      <div class="img-hint">Replace with: Architecture diagram showing MCP client ↔ server flow</div>
+    </div>
+
+    <h3>Advantages of MCP</h3>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <div class="card-title">Plug &amp; Play</div>
+        <div class="card-body">No custom code needed per tool. One protocol, many servers.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Secure Access</div>
+        <div class="card-body">Permissions are scoped — Cline only accesses what the server exposes.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Real-time Context</div>
+        <div class="card-body">Your AI gets live data instead of relying on outdated training.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">Org-Aware AI</div>
+        <div class="card-body">Cline can interact with internal systems, wikis, and pipelines.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">Extensible</div>
+        <div class="card-body">New tools can be added server-side without reconfiguring Cline.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Auditable</div>
+        <div class="card-body">All tool calls are logged and traceable through the MCP layer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2 · WHERE TO FIND TOOLS ════════════════ -->
+  <div class="section" id="where-tools">
+    <div class="section-label">// Section 02</div>
+    <h2>Where to Find Available MCP Tools</h2>
+    <p>Our organisation maintains a curated set of MCP servers. Below is an overview of where you can discover and browse available tools:</p>
+
+    <table class="tool-table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Description</th>
+          <th>Access</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--text)">[Internal Portal Name]</strong></td>
+          <td>Organisation's central MCP server registry — browse all approved tools</td>
+          <td><span class="badge">Internal VPN</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--text)">[Confluence / Wiki Page]</strong></td>
+          <td>Documentation for each MCP server including usage examples</td>
+          <td><span class="badge">Internal VPN</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--text)">[Slack Channel]</strong></td>
+          <td>Community-driven tips, new tool announcements, and support</td>
+          <td><span class="badge">Internal Slack</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--text)">Public MCP Registry</strong></td>
+          <td>Open-source MCP servers at <code>modelcontextprotocol.io</code></td>
+          <td><span class="badge">Public</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info" style="margin-top:20px">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Tip</strong>
+        Only use MCP servers listed in the approved internal registry. Always verify with your team lead before adding external/third-party servers.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3 · HOW TO ADD MCP IN CLINE ════════════ -->
+  <div class="section" id="add-mcp">
+    <div class="section-label">// Section 03</div>
+    <h2>How to Add MCP Tools in Cline</h2>
+    <p>Follow the steps below carefully. Each step may include a screenshot for reference — replace the placeholders with your actual screenshots.</p>
+
+    <div class="steps">
+
+      <!-- STEP 1 -->
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Open Cline in VS Code</div>
+          <div class="step-body">
+            Launch VS Code and open the Cline panel from the sidebar or use the command palette (<code>Ctrl+Shift+P</code> → <em>Cline: Open</em>).
+          </div>
+          <ul class="sub-steps">
+            <li>Ensure Cline extension is installed and up-to-date</li>
+            <li>Sign in with your organisation account if prompted</li>
+          </ul>
+          <div class="img-placeholder">
+            <div class="img-icon">🖼️</div>
+            <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+            <div class="img-hint">Replace with: Screenshot of VS Code with Cline panel open</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Navigate to MCP Settings</div>
+          <div class="step-body">
+            In the Cline panel, click the <strong style="color:var(--text)">Settings</strong> icon (⚙️) or navigate to <code>Cline → MCP Servers</code> from the top menu.
+          </div>
+          <ul class="sub-steps">
+            <li>Look for the "MCP Servers" or "Integrations" tab</li>
+            <li>Click <strong style="color:var(--text)">"Add New Server"</strong> or the <code>+</code> button</li>
+          </ul>
+          <div class="img-placeholder">
+            <div class="img-icon">🖼️</div>
+            <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+            <div class="img-hint">Replace with: Screenshot of Cline MCP settings page</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Enter the MCP Server Configuration</div>
+          <div class="step-body">
+            Fill in the server details provided by your team. You will typically need the server URL, authentication token, and server name.
+          </div>
+          <ul class="sub-steps">
+            <li><strong style="color:var(--text)">Server Name:</strong> A friendly label (e.g., <code>[Your Tool Name]</code>)</li>
+            <li><strong style="color:var(--text)">Server URL / Command:</strong> Provided by your IT/DevOps team</li>
+            <li><strong style="color:var(--text)">Auth Token:</strong> Obtain from [internal portal / team lead]</li>
+            <li>Select transport type: <code>stdio</code> or <code>SSE</code> (check with your team)</li>
+          </ul>
+          <div class="img-placeholder">
+            <div class="img-icon">🖼️</div>
+            <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+            <div class="img-hint">Replace with: Screenshot of server configuration form in Cline</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Save &amp; Verify the Connection</div>
+          <div class="step-body">
+            Click <strong style="color:var(--text)">"Save"</strong> or <strong style="color:var(--text)">"Connect"</strong>. Cline will attempt to connect to the MCP server and list available tools.
+          </div>
+          <ul class="sub-steps">
+            <li>A green status indicator confirms a successful connection</li>
+            <li>Available tools from the server will appear in the tools list</li>
+            <li>If connection fails, verify your token and network/VPN status</li>
+          </ul>
+          <div class="img-placeholder">
+            <div class="img-icon">🖼️</div>
+            <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+            <div class="img-hint">Replace with: Screenshot showing successful MCP server connection with tool list</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Enable / Disable Specific Tools</div>
+          <div class="step-body">
+            You can toggle individual tools on or off. Enable only what you need for your workflow.
+          </div>
+          <ul class="sub-steps">
+            <li>Click the toggle next to each tool name to enable/disable</li>
+            <li>Disabled tools won't appear in Cline's suggestions</li>
+          </ul>
+          <div class="img-placeholder">
+            <div class="img-icon">🖼️</div>
+            <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+            <div class="img-hint">Replace with: Screenshot of tool toggle list</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+  </div>
+
+  <!-- ══ SECTION 4 · HOW TO USE MCP TOOL ════════════════ -->
+  <div class="section" id="use-mcp">
+    <div class="section-label">// Section 04</div>
+    <h2>How to Use an MCP Tool</h2>
+    <p>
+      Once connected, MCP tools integrate seamlessly into your Cline conversations. You don't need to call tools manually — Cline automatically identifies when a tool is relevant and asks your permission before executing it.
+    </p>
+
+    <h3>Starting a Tool-Assisted Task</h3>
+    <p>Simply describe your task in natural language in the Cline chat. If a connected MCP tool can help, Cline will suggest using it.</p>
+
+    <div class="img-placeholder">
+      <div class="img-icon">🖼️</div>
+      <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+      <div class="img-hint">Replace with: Screenshot of Cline chat with a tool-use suggestion appearing</div>
+    </div>
+
+    <h3>Approving a Tool Call</h3>
+    <p>
+      Cline will show a confirmation prompt before executing any MCP tool. Review the proposed action, then click <strong style="color:var(--text)">"Approve"</strong> or <strong style="color:var(--text)">"Deny"</strong>.
+    </p>
+    <ul class="sub-steps" style="margin-bottom:14px">
+      <li>Always review what data the tool will access or modify</li>
+      <li>You can edit parameters before approving if needed</li>
+      <li>Results are returned directly into the Cline conversation</li>
+    </ul>
+
+    <div class="img-placeholder">
+      <div class="img-icon">🖼️</div>
+      <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+      <div class="img-hint">Replace with: Screenshot of Cline tool approval dialog</div>
+    </div>
+
+    <h3>Viewing Tool Results</h3>
+    <p>After execution, results appear inline in the chat. Cline uses the output to continue helping with your task.</p>
+
+    <div class="img-placeholder">
+      <div class="img-icon">🖼️</div>
+      <div class="img-label">[ IMAGE PLACEHOLDER ]</div>
+      <div class="img-hint">Replace with: Screenshot of tool result displayed in Cline chat</div>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Always Review Before Approving</strong>
+        Never auto-approve tool calls that write data, trigger deployments, or access sensitive records. When in doubt — deny and consult your team.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5 · SECURITY ════════════════════════════ -->
+  <div class="section" id="security">
+    <div class="section-label">// Section 05</div>
+    <h2>Security Precautions</h2>
+    <p>Using MCP tools in an organisational context comes with responsibilities. Please follow these guidelines at all times:</p>
+
+    <ul class="security-list">
+      <li>
+        <span class="sec-icon">🔐</span>
+        <div><strong>Never share your auth tokens.</strong> Your MCP access tokens are personal credentials. Do not paste them in Slack, emails, or code commits. Store them securely using your OS keychain or a secrets manager.</div>
+      </li>
+      <li>
+        <span class="sec-icon">✅</span>
+        <div><strong>Only use approved MCP servers.</strong> Do not add external or third-party MCP servers without IT approval. Unapproved servers may exfiltrate data or inject malicious instructions.</div>
+      </li>
+      <li>
+        <span class="sec-icon">👁️</span>
+        <div><strong>Review every tool call before approving.</strong> Inspect the parameters Cline proposes. A manipulated prompt could trigger unintended data access or actions.</div>
+      </li>
+      <li>
+        <span class="sec-icon">📵</span>
+        <div><strong>Disable unused tools.</strong> Only keep tools enabled that you actively need. Reducing the active tool surface lowers the risk of accidental or malicious misuse.</div>
+      </li>
+      <li>
+        <span class="sec-icon">🌐</span>
+        <div><strong>Use VPN when connecting to internal MCP servers.</strong> All internal servers require you to be on the corporate VPN. Do not attempt to access them over public networks.</div>
+      </li>
+      <li>
+        <span class="sec-icon">🚨</span>
+        <div><strong>Report suspicious behaviour immediately.</strong> If Cline suggests unusual tool calls, accesses unexpected data, or behaves anomalously — disconnect the server and contact [IT Security Contact / Slack channel].</div>
+      </li>
+      <li>
+        <span class="sec-icon">📝</span>
+        <div><strong>All tool calls are logged.</strong> MCP interactions are audited. Use tools only for legitimate work purposes in line with our Acceptable Use Policy.</div>
+      </li>
+    </ul>
+
+    <div class="callout danger" style="margin-top:22px">
+      <span class="callout-icon">🛑</span>
+      <div class="callout-body">
+        <strong>Prompt Injection Warning</strong>
+        Be cautious when using MCP tools on content from untrusted sources (emails, web pages, user-generated text). Malicious content may attempt to hijack Cline's tool calls. Always verify context before approving.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ═══════════════════════════════════════════ -->
+  <div class="footer">
+    <p><strong>[Organisation Name]</strong> &nbsp;·&nbsp; Internal AI Tooling Team</p>
+    <p style="margin-top:6px">Questions? Reach out on <strong>[Slack Channel]</strong> or email <strong>[team@yourorg.com]</strong></p>
+    <p style="margin-top:10px; font-size:11px; color:#444">
+      This document is for internal use only and contains confidential information. Do not distribute externally.
+    </p>
+  </div>
+
+</div><!-- /email-wrap -->
+</body>
+</html>
