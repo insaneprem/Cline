@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cline Workflows — Master Like a Senior Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+
+/* ════════════════════════════════════════════════════
+   DESIGN: "Coastal Executive"
+   
+   FONTS:
+   • Fraunces — editorial serif for headings (professional,
+     distinctive, used by top-tier publications)
+   • Plus Jakarta Sans — clean humanist sans for body
+   • IBM Plex Mono — IBM's professional monospace for code
+   
+   COLOR: Navy + Teal + Warm Coral on White/Pearl
+   • Base: #FAFBFD (pearl white)  
+   • Navy: #0B1F3A (deep trust)
+   • Teal: #0D9488 (action / highlight)
+   • Coral: #E8563A (warm accent)
+   • Slate: #64748B (secondary text)
+   
+   Gradient: Teal→Emerald, Navy→Teal, Coral→Amber
+   MOBILE FIRST — 375px → up
+════════════════════════════════════════════════════ */
+
+:root {
+  /* Base */
+  --pearl:    #FAFBFD;
+  --white:    #FFFFFF;
+  --pearl2:   #F1F4F8;
+  --pearl3:   #E8EDF4;
+
+  /* Ink */
+  --navy:     #0B1F3A;
+  --navy2:    #1A3355;
+  --slate:    #64748B;
+  --slate2:   #94A3B8;
+  --faint:    #CBD5E1;
+
+  /* Accents */
+  --teal:     #0D9488;
+  --teal2:    #14B8A8;
+  --teal3:    #CCFBF1;
+  --coral:    #E8563A;
+  --coral2:   #FB7C62;
+  --coral3:   #FEE4DD;
+  --amber:    #D97706;
+  --amber2:   #FEF3C7;
+  --emerald:  #059669;
+  --emerald2: #D1FAE5;
+
+  /* Gradients */
+  --g-teal:   linear-gradient(135deg, #0D9488 0%, #059669 100%);
+  --g-navy:   linear-gradient(135deg, #0B1F3A 0%, #1E3A5F 100%);
+  --g-coral:  linear-gradient(135deg, #E8563A 0%, #F59E0B 100%);
+  --g-hero:   linear-gradient(135deg, #0D9488 0%, #0B1F3A 60%, #1E3A5F 100%);
+  --g-warm:   linear-gradient(135deg, #E8563A 0%, #D97706 100%);
+  --g-sky:    linear-gradient(135deg, #0284C7 0%, #0D9488 100%);
+
+  /* Section washes — light, airy */
+  --wash-teal:  linear-gradient(160deg, #F0FDFB 0%, #F8FAFC 100%);
+  --wash-coral: linear-gradient(160deg, #FFF8F6 0%, #FAFBFD 100%);
+  --wash-navy:  linear-gradient(160deg, #F1F5F9 0%, #F8FAFC 100%);
+  --wash-warm:  linear-gradient(160deg, #FFFBEB 0%, #FFF8F6 100%);
+
+  /* Borders */
+  --border:   rgba(11,31,58,0.08);
+  --border2:  rgba(11,31,58,0.14);
+
+  /* Shadows */
+  --s-xs: 0 1px 3px rgba(11,31,58,0.06);
+  --s-sm: 0 2px 8px rgba(11,31,58,0.08), 0 1px 2px rgba(11,31,58,0.04);
+  --s-md: 0 4px 20px rgba(11,31,58,0.10), 0 2px 6px rgba(11,31,58,0.05);
+  --s-lg: 0 12px 40px rgba(11,31,58,0.12), 0 4px 12px rgba(11,31,58,0.06);
+  --s-xl: 0 24px 64px rgba(11,31,58,0.14), 0 8px 20px rgba(11,31,58,0.07);
+  --glow-teal:  0 6px 28px rgba(13,148,136,0.30);
+  --glow-coral: 0 6px 28px rgba(232,86,58,0.28);
+
+  --r: 14px;
+  --rs: 8px;
+  --rp: 100px;
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--pearl);
+  color: var(--navy);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── LAYOUT ── */
+.wrap { width:100%; max-width:1140px; margin:0 auto; padding:0 1.15rem; }
+@media(min-width:600px)  { .wrap { padding:0 2rem; } }
+@media(min-width:1024px) { .wrap { padding:0 2.5rem; } }
+section { padding:4.5rem 0; }
+@media(min-width:768px) { section { padding:7.5rem 0; } }
+.divider { height:1px; background:var(--border); }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  background:rgba(250,251,253,0.90);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+}
+.nav-wrap {
+  display:flex; align-items:center; justify-content:space-between;
+  height:56px; padding:0 1.15rem;
+  max-width:1140px; margin:0 auto;
+}
+@media(min-width:600px) { .nav-wrap { height:64px; padding:0 2rem; } }
+
+.nav-brand {
+  display:flex; align-items:center; gap:9px; text-decoration:none;
+}
+.nav-mark {
+  width:32px; height:32px; border-radius:8px;
+  background: var(--g-teal);
+  display:flex; align-items:center; justify-content:center;
+  color:white; font-family:'Fraunces',serif; font-weight:900;
+  font-size:.88rem; letter-spacing:-0.02em;
+  box-shadow: var(--glow-teal);
+}
+.nav-label {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700; font-size:.95rem;
+  color:var(--navy); letter-spacing:-0.02em;
+}
+.nav-label em {
+  font-style:normal; color:var(--teal);
+}
+.nav-links { display:none; gap:2.2rem; list-style:none; }
+@media(min-width:780px) { .nav-links { display:flex; } }
+.nav-links a {
+  font-size:.82rem; font-weight:600; color:var(--slate);
+  text-decoration:none; letter-spacing:.01em; transition:color .2s;
+}
+.nav-links a:hover { color:var(--teal); }
+.nav-pill {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:.42rem 1rem; border-radius:var(--rp);
+  background:var(--g-teal); color:white;
+  font-size:.78rem; font-weight:700; text-decoration:none;
+  box-shadow:var(--glow-teal);
+  transition:opacity .2s, transform .2s;
+  letter-spacing:.01em;
+}
+.nav-pill:hover { opacity:.9; transform:translateY(-1px); }
+
+/* ════════════ HERO ════════════ */
+#hero {
+  min-height:100svh;
+  padding-top:56px;
+  display:flex; align-items:center;
+  background:var(--white);
+  position:relative; overflow:hidden;
+}
+@media(min-width:600px) { #hero { padding-top:64px; } }
+
+/* Soft gradient blobs */
+.blob {
+  position:absolute; border-radius:50%;
+  filter:blur(80px); pointer-events:none;
+  animation:floatBlob 10s ease-in-out infinite alternate;
+}
+.b1 {
+  width:min(70vw,520px); height:min(70vw,520px);
+  background:linear-gradient(135deg,rgba(13,148,136,.15),rgba(5,150,105,.10));
+  top:-15%; right:-10%;
+}
+.b2 {
+  width:min(55vw,400px); height:min(55vw,400px);
+  background:linear-gradient(135deg,rgba(232,86,58,.10),rgba(217,119,6,.08));
+  bottom:-10%; left:-8%; animation-delay:-4s;
+}
+.b3 {
+  width:min(40vw,280px); height:min(40vw,280px);
+  background:linear-gradient(135deg,rgba(11,31,58,.06),rgba(30,58,95,.04));
+  top:35%; left:35%; animation-delay:-7s;
+}
+
+.hero-grid {
+  display:flex; flex-direction:column; gap:2.8rem;
+  padding:3rem 0; position:relative; z-index:1;
+}
+@media(min-width:900px) {
+  .hero-grid { flex-direction:row; align-items:center; gap:5rem; padding:5.5rem 0; }
+  .hero-left,.hero-right { flex:1; }
+}
+
+/* Hero chip */
+.chip {
+  display:inline-flex; align-items:center; gap:7px;
+  background:var(--teal3); border:1.5px solid rgba(13,148,136,.25);
+  border-radius:var(--rp); padding:.3rem 1rem;
+  margin-bottom:1.4rem;
+  animation:riseUp .5s ease both;
+}
+.chip-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--g-teal);
+  animation:pulse 2s ease-in-out infinite;
+}
+.chip-label {
+  font-size:.68rem; font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--teal);
+}
+
+.hero-h {
+  font-family:'Fraunces',serif;
+  font-weight:900;
+  font-size:clamp(2.6rem,7.5vw,5.4rem);
+  line-height:1.0; letter-spacing:-0.03em;
+  color:var(--navy);
+  margin-bottom:1.2rem;
+  animation:riseUp .6s .07s ease both;
+}
+.hero-h .hl {
+  background:var(--g-teal);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  font-style:italic; display:block;
+}
+
+.hero-p {
+  font-size:clamp(.9rem,2.5vw,1.06rem);
+  color:var(--slate); line-height:1.78; max-width:460px;
+  margin-bottom:2rem;
+  animation:riseUp .6s .14s ease both;
+}
+
+.hero-btns {
+  display:flex; gap:.7rem; flex-wrap:wrap;
+  animation:riseUp .6s .21s ease both;
+}
+.btn-teal {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:.75rem 1.5rem; border-radius:var(--rp);
+  background:var(--g-teal); color:white;
+  font-weight:700; font-size:.88rem; text-decoration:none;
+  box-shadow:var(--glow-teal);
+  transition:transform .2s, box-shadow .2s;
+}
+.btn-teal:hover { transform:translateY(-2px); box-shadow:0 14px 36px rgba(13,148,136,.40); }
+.btn-outline {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:.75rem 1.4rem; border-radius:var(--rp);
+  background:white; color:var(--navy-soft, var(--navy2));
+  border:1.5px solid var(--border2);
+  font-weight:600; font-size:.88rem; text-decoration:none;
+  box-shadow:var(--s-sm);
+  transition:border-color .2s, color .2s, transform .2s, box-shadow .2s;
+}
+.btn-outline:hover { border-color:var(--teal); color:var(--teal); transform:translateY(-2px); box-shadow:var(--s-md); }
+
+/* Terminal card */
+.term-card {
+  background:white; border:1.5px solid var(--border2);
+  border-radius:var(--r); overflow:hidden;
+  box-shadow:var(--s-xl);
+  animation:riseUp .7s .28s ease both;
+  position:relative;
+}
+.term-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--g-teal); z-index:1;
+}
+.tbar {
+  display:flex; align-items:center; gap:6px;
+  padding:.75rem 1rem; background:var(--pearl2);
+  border-bottom:1px solid var(--border);
+}
+.dd { width:11px; height:11px; border-radius:50%; }
+.d-r{background:#FF6057;} .d-y{background:#FFBD2E;} .d-g{background:#28C840;}
+.tbar-name {
+  flex:1; text-align:center;
+  font-family:'IBM Plex Mono',monospace; font-size:.67rem; color:var(--faint);
+}
+.tbody {
+  padding:1.3rem; background:#FBFCFE;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(.7rem,2vw,.79rem); line-height:1.9;
+}
+.tc  { color:var(--faint); }
+.tp  { color:var(--teal); font-weight:500; }
+.tcmd{ color:var(--navy2); }
+.tok { color:var(--emerald); }
+.tgr {
+  font-weight:600; font-family:'Fraunces',serif; font-style:italic;
+  background:var(--g-coral);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.cur {
+  display:inline-block; width:7px; height:.9em;
+  background:var(--teal); border-radius:1px;
+  vertical-align:text-bottom; margin-left:1px;
+  animation:blink 1s step-end infinite;
+}
+
+/* ════════════ SECTION COMMON ════════════ */
+.eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.67rem; font-weight:700; letter-spacing:.11em;
+  text-transform:uppercase; margin-bottom:.9rem;
+}
+.ew-bar { width:20px; height:2px; border-radius:2px; }
+.ew-t { color:var(--teal); }  .ew-t .ew-bar { background:var(--g-teal); }
+.ew-c { color:var(--coral); } .ew-c .ew-bar { background:var(--g-coral); }
+.ew-n { color:var(--navy2); } .ew-n .ew-bar { background:var(--g-navy); }
+.ew-a { color:var(--amber); } .ew-a .ew-bar { background:var(--g-warm); }
+.ew-e { color:var(--emerald); }.ew-e .ew-bar { background:linear-gradient(90deg,var(--emerald),var(--teal)); }
+
+.sec-h {
+  font-family:'Fraunces',serif;
+  font-weight:900; letter-spacing:-0.035em;
+  font-size:clamp(1.9rem,4.5vw,3.1rem);
+  line-height:1.08; color:var(--navy);
+  margin-bottom:.9rem;
+}
+.sec-h em { font-style:italic; color:var(--teal); }
+.sec-p {
+  font-size:clamp(.88rem,2vw,1rem);
+  color:var(--slate); max-width:520px; line-height:1.8;
+}
+
+/* ════════════ HOW IT WORKS ════════════ */
+#how { background:var(--wash-teal); }
+
+.how-grid {
+  margin-top:2.8rem;
+  display:grid; gap:1rem; grid-template-columns:1fr;
+}
+@media(min-width:600px) { .how-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:900px) { .how-grid { grid-template-columns:repeat(4,1fr); } }
+
+.how-card {
+  background:white; border:1.5px solid var(--border);
+  border-radius:var(--r); padding:1.6rem 1.3rem;
+  position:relative; overflow:hidden;
+  transition:transform .3s, box-shadow .3s, border-color .3s;
+  box-shadow:var(--s-xs);
+}
+.how-card:hover { transform:translateY(-5px); box-shadow:var(--s-lg); border-color:var(--border2); }
+.how-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  border-radius:0 0 var(--r) var(--r); opacity:0; transition:opacity .3s;
+}
+.hc-t::after { background:var(--g-teal); }
+.hc-c::after { background:var(--g-coral); }
+.hc-s::after { background:var(--g-sky); }
+.hc-w::after { background:var(--g-warm); }
+.how-card:hover::after { opacity:1; }
+
+.hnum {
+  width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-size:.67rem; font-weight:500;
+  margin-bottom:.9rem;
+}
+.hn-t{background:var(--teal3);color:var(--teal);}
+.hn-c{background:var(--coral3);color:var(--coral);}
+.hn-s{background:#E0F2FE;color:#0284C7;}
+.hn-w{background:var(--amber2);color:var(--amber);}
+
+.hicon { font-size:1.6rem; display:block; margin-bottom:.75rem; }
+.htitle {
+  font-family:'Fraunces',serif; font-weight:700;
+  font-size:1.02rem; color:var(--navy);
+  margin-bottom:.45rem; letter-spacing:-0.02em;
+}
+.htext { font-size:.85rem; color:var(--slate); line-height:1.72; }
+.htag {
+  display:inline-flex; margin-top:.7rem;
+  font-family:'IBM Plex Mono',monospace; font-size:.67rem;
+  background:var(--teal3); color:var(--teal);
+  border:1px solid rgba(13,148,136,.2); border-radius:5px; padding:.18rem .55rem;
+}
+
+/* ════════════ WHAT'S INSIDE ════════════ */
+#inside { background:white; }
+
+.tab-row { display:flex; gap:.45rem; flex-wrap:wrap; margin-top:2.5rem; }
+.tab {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:.42rem .95rem; border-radius:var(--rp);
+  font-size:.79rem; font-weight:600; cursor:pointer;
+  border:1.5px solid var(--border); background:white; color:var(--slate);
+  transition:all .2s; font-family:'Plus Jakarta Sans',sans-serif;
+}
+.tab:hover { border-color:var(--teal); color:var(--teal); }
+.tab.on-t { background:var(--g-teal); color:white; border-color:transparent; box-shadow:var(--glow-teal); }
+.tab.on-c { background:var(--g-coral); color:white; border-color:transparent; box-shadow:var(--glow-coral); }
+.tab.on-s { background:var(--g-sky); color:white; border-color:transparent; box-shadow:0 6px 24px rgba(2,132,199,.25); }
+.tab.on-w { background:var(--g-warm); color:white; border-color:transparent; box-shadow:0 6px 24px rgba(217,119,6,.25); }
+
+.panels { margin-top:1.5rem; }
+.panel { display:none; }
+.panel.on {
+  display:grid; gap:1.5rem; grid-template-columns:1fr;
+}
+@media(min-width:768px) { .panel.on { grid-template-columns:1fr 1fr; align-items:start; } }
+
+.pbadge {
+  display:inline-flex; align-items:center;
+  font-size:.66rem; font-weight:700; letter-spacing:.07em;
+  padding:.23rem .75rem; border-radius:var(--rp); margin-bottom:1rem;
+}
+.pb-t { background:var(--teal3); color:var(--teal); border:1px solid rgba(13,148,136,.22); }
+.pb-c { background:var(--coral3); color:var(--coral); border:1px solid rgba(232,86,58,.22); }
+.pb-s { background:#E0F2FE; color:#0284C7; border:1px solid rgba(2,132,199,.2); }
+.pb-w { background:var(--amber2); color:var(--amber); border:1px solid rgba(217,119,6,.22); }
+
+.ptitle {
+  font-family:'Fraunces',serif; font-weight:700;
+  font-size:1.3rem; color:var(--navy);
+  margin-bottom:.5rem; letter-spacing:-0.025em;
+}
+.pdesc { font-size:.9rem; color:var(--slate); line-height:1.8; }
+.ppts { margin-top:1.25rem; display:flex; flex-direction:column; gap:.55rem; }
+.ppt {
+  display:flex; align-items:flex-start; gap:.65rem;
+  font-size:.85rem; color:var(--navy2);
+}
+.ppt-dot { width:6px; height:6px; border-radius:50%; margin-top:.42rem; flex-shrink:0; }
+.pd-t{background:var(--teal);} .pd-c{background:var(--coral);}
+.pd-s{background:#0284C7;}     .pd-w{background:var(--amber);}
+
+.codeblock {
+  background:var(--pearl); border:1.5px solid var(--border);
+  border-radius:var(--r); overflow:hidden; box-shadow:var(--s-md);
+}
+.cb-bar {
+  display:flex; align-items:center; gap:6px;
+  padding:.65rem 1rem; background:white; border-bottom:1px solid var(--border);
+}
+.cb-dots { display:flex; gap:5px; }
+.cb-name { flex:1; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:.65rem; color:var(--faint); }
+.cb-body {
+  padding:1.15rem 1.2rem;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(.68rem,2vw,.76rem); line-height:1.85; overflow-x:auto;
+}
+/* syntax */
+.sk { color:#6D28D9; }  /* tag/keyword — violet */
+.ss { color:#059669; }  /* string — emerald */
+.sa { color:#0369A1; }  /* attribute — blue */
+.sc { color:var(--faint); }  /* comment */
+.sl { color:var(--teal); }   /* special */
+.sw { color:var(--navy2); }  /* normal */
+
+/* ════════════ CREATE ════════════ */
+#create { background:var(--wash-coral); }
+
+.create-layout {
+  margin-top:2.8rem;
+  display:flex; flex-direction:column; gap:2.5rem;
+}
+@media(min-width:900px) { .create-layout { flex-direction:row; gap:5rem; align-items:start; } }
+
+.csteps { flex:1; display:flex; flex-direction:column; gap:.75rem; }
+.cstep {
+  display:flex; gap:.95rem; align-items:flex-start;
+  background:white; border:1.5px solid var(--border);
+  border-radius:var(--rs); padding:1.1rem;
+  box-shadow:var(--s-xs);
+  transition:border-color .25s, box-shadow .25s, transform .25s;
+}
+.cstep:hover { border-color:var(--border2); box-shadow:var(--s-sm); transform:translateX(4px); }
+.csn {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-size:.68rem; font-weight:500;
+  color:white;
+}
+.cn1{background:var(--g-teal);}  .cn2{background:var(--g-coral);}
+.cn3{background:var(--g-sky);}   .cn4{background:var(--g-warm);}
+.cn5{background:var(--g-navy);}
+
+.csbody h4 { font-weight:700; font-size:.93rem; color:var(--navy); margin-bottom:.22rem; letter-spacing:-0.01em; }
+.csbody p  { font-size:.83rem; color:var(--slate); line-height:1.68; }
+.csbody code {
+  font-family:'IBM Plex Mono',monospace; font-size:.8em;
+  background:var(--teal3); color:var(--teal);
+  border:1px solid rgba(13,148,136,.22); border-radius:4px; padding:.04rem .35rem;
+}
+.cs-pro {
+  display:flex; gap:.95rem; align-items:flex-start;
+  background:linear-gradient(135deg,#FFFBEB,#FFF8F6);
+  border:1.5px solid rgba(217,119,6,.2);
+  border-radius:var(--rs); padding:1.1rem;
+}
+.cs-pro h4 { font-weight:700; font-size:.93rem; color:#92400E; margin-bottom:.22rem; }
+.cs-pro p  { font-size:.83rem; color:#A16207; line-height:1.68; }
+
+.preview { flex:1; }
+.preview-card {
+  background:white; border:1.5px solid var(--border2);
+  border-radius:var(--r); overflow:hidden;
+  box-shadow:var(--s-xl); position:sticky; top:74px;
+}
+.preview-card::before { content:''; display:block; height:3px; background:var(--g-coral); }
+.pvbar {
+  display:flex; align-items:center; gap:6px;
+  padding:.7rem 1rem; background:var(--pearl2); border-bottom:1px solid var(--border);
+}
+.pvdots { display:flex; gap:5px; }
+.pvname { flex:1; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:.67rem; color:var(--faint); }
+.pvbody {
+  padding:1.4rem; background:#FDFCFC;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(.69rem,2vw,.76rem); line-height:2;
+}
+.ph1 { color:var(--navy); font-weight:600; font-size:.88rem; display:block; margin-bottom:.2rem; }
+.ph2 { color:var(--coral); display:block; margin-top:1rem; }
+.pt  { color:var(--faint); display:block; }
+.pc  { background:var(--coral3); color:var(--coral); padding:.04rem .38rem; border-radius:3px; font-size:.9em; }
+
+/* ════════════ LOCATIONS ════════════ */
+#locations { background:var(--wash-navy); }
+
+.loc-intro { font-size:.95rem; color:var(--slate); line-height:1.8; margin-top:1.4rem; max-width:600px; }
+.loc-intro strong { color:var(--navy); font-weight:600; }
+.loc-note { margin-top:1rem; font-size:.85rem; color:var(--teal); font-weight:600; }
+
+.loc-grid {
+  margin-top:2.5rem;
+  display:grid; gap:1rem; grid-template-columns:1fr;
+}
+@media(min-width:600px) { .loc-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:960px) { .loc-grid { grid-template-columns:repeat(4,1fr); } }
+
+.lc {
+  background:white; border:1.5px solid var(--border);
+  border-radius:var(--r); padding:1.4rem 1.2rem;
+  box-shadow:var(--s-xs); position:relative; overflow:hidden;
+  transition:transform .3s, box-shadow .3s, border-color .3s;
+}
+.lc::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  border-radius:var(--r) 0 0 var(--r); opacity:0; transition:opacity .3s;
+}
+.lc-p::before { background:var(--g-warm); }
+.lc-1::before { background:var(--g-sky); }
+.lc-2::before { background:var(--g-teal); }
+.lc-3::before { background:var(--g-navy); }
+.lc:hover { transform:translateY(-4px); box-shadow:var(--s-md); border-color:var(--border2); }
+.lc:hover::before { opacity:1; }
+
+.lc-em { font-size:1.8rem; display:block; margin-bottom:.85rem; }
+.lc-name { font-family:'Fraunces',serif; font-weight:700; font-size:.95rem; color:var(--navy); margin-bottom:.4rem; letter-spacing:-0.015em; }
+.lc-path {
+  font-family:'IBM Plex Mono',monospace; font-size:.64rem;
+  color:var(--teal); background:var(--teal3);
+  border:1px solid rgba(13,148,136,.2); border-radius:4px;
+  padding:.18rem .5rem; display:inline-block; word-break:break-all; margin-bottom:.5rem;
+}
+.lc-scope { display:inline-flex; font-size:.6rem; font-weight:700; letter-spacing:.07em; padding:.17rem .6rem; border-radius:20px; }
+.ls-p { background:var(--amber2); color:#92400E; border:1px solid rgba(217,119,6,.22); }
+.ls-g { background:var(--teal3); color:var(--teal); border:1px solid rgba(13,148,136,.22); }
+
+/* ════════════ INVOKE ════════════ */
+#invoke { background:white; }
+
+.invoke-layout {
+  margin-top:2.8rem;
+  display:flex; flex-direction:column; gap:2.5rem;
+}
+@media(min-width:900px) { .invoke-layout { flex-direction:row; gap:5rem; align-items:center; } }
+
+.invoke-copy { flex:1; }
+.invoke-copy > p { font-size:.95rem; color:var(--slate); line-height:1.8; margin-bottom:1.5rem; }
+.invoke-pts { display:flex; flex-direction:column; gap:.7rem; }
+.ipt {
+  display:flex; align-items:flex-start; gap:.75rem;
+  background:var(--pearl); border:1.5px solid var(--border);
+  border-radius:var(--rs); padding:.85rem 1rem;
+  font-size:.85rem; color:var(--navy2);
+  transition:border-color .2s;
+}
+.ipt:hover { border-color:var(--teal); }
+.ipt-dot {
+  width:20px; height:20px; border-radius:50%; flex-shrink:0; margin-top:.07rem;
+  background:var(--g-teal); color:white;
+  display:flex; align-items:center; justify-content:center; font-size:.55rem;
+}
+
+.invoke-demo { flex:1; }
+.ac-card {
+  background:white; border:1.5px solid var(--border2);
+  border-radius:var(--r); overflow:hidden; box-shadow:var(--s-xl);
+}
+.ac-card::before { content:''; display:block; height:3px; background:var(--g-teal); }
+.ac-top {
+  display:flex; align-items:center; gap:8px;
+  padding:.85rem 1rem; background:var(--pearl2); border-bottom:1px solid var(--border);
+}
+.ac-sl { font-family:'IBM Plex Mono',monospace; font-size:1.1rem; color:var(--teal); font-weight:600; }
+.ac-ty { font-family:'IBM Plex Mono',monospace; font-size:.84rem; color:var(--navy2); flex:1; }
+.ac-c  { display:inline-block; width:7px; height:15px; background:var(--teal); border-radius:1px; vertical-align:text-bottom; animation:blink 1s step-end infinite; }
+
+.ac-list { padding:.35rem 0; }
+.ac-row {
+  display:flex; align-items:center; gap:10px;
+  padding:.7rem 1rem; transition:background .15s; cursor:pointer;
+}
+.ac-row:hover, .ac-row.hl { background:var(--teal3); }
+.ac-row.hl .ac-rn { color:var(--teal); }
+
+.ac-ico {
+  width:32px; height:32px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:.9rem;
+}
+.ai-t{background:var(--teal3);} .ai-c{background:var(--coral3);}
+.ai-s{background:#E0F2FE);}     .ai-w{background:var(--amber2);}
+
+/* fix paren typo inline */
+.ai-s { background:#E0F2FE; }
+
+.ac-inf { flex:1; min-width:0; }
+.ac-rn { font-family:'IBM Plex Mono',monospace; font-size:.77rem; color:var(--navy2); font-weight:500; }
+.ac-rd { font-size:.7rem; color:var(--slate2); }
+.ac-rt {
+  font-family:'IBM Plex Mono',monospace; font-size:.6rem;
+  background:var(--pearl2); color:var(--slate2);
+  border:1px solid var(--border); border-radius:4px; padding:.1rem .42rem; flex-shrink:0;
+}
+
+/* ════════════ BEST PRACTICES ════════════ */
+#best { background:var(--wash-teal); }
+
+.tips-grid {
+  margin-top:2.8rem;
+  display:grid; gap:1rem; grid-template-columns:1fr;
+}
+@media(min-width:600px) { .tips-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:960px) { .tips-grid { grid-template-columns:repeat(3,1fr); } }
+
+.tip {
+  background:white; border:1.5px solid var(--border);
+  border-radius:var(--r); padding:1.5rem; box-shadow:var(--s-xs);
+  position:relative; overflow:hidden;
+  transition:transform .3s, box-shadow .3s, border-color .3s;
+}
+.tip::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  border-radius:var(--r) var(--r) 0 0; opacity:0; transition:opacity .3s;
+}
+.tip:nth-child(1)::before,.tip:nth-child(4)::before { background:var(--g-teal); }
+.tip:nth-child(2)::before,.tip:nth-child(5)::before { background:var(--g-coral); }
+.tip:nth-child(3)::before,.tip:nth-child(6)::before { background:var(--g-sky); }
+.tip:hover { transform:translateY(-5px); box-shadow:var(--s-lg); border-color:var(--border2); }
+.tip:hover::before { opacity:1; }
+
+.tip-iw {
+  width:44px; height:44px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem; margin-bottom:1rem;
+}
+.ti-t{background:linear-gradient(135deg,var(--teal3),#F0FDFA);}
+.ti-c{background:linear-gradient(135deg,var(--coral3),#FFF5F5);}
+.ti-s{background:linear-gradient(135deg,#E0F2FE,#F0F9FF);}
+.ti-w{background:linear-gradient(135deg,var(--amber2),#FFFDF0);}
+
+.tip-h { font-family:'Fraunces',serif; font-weight:700; font-size:1.02rem; color:var(--navy); margin-bottom:.42rem; letter-spacing:-0.02em; }
+.tip-p { font-size:.84rem; color:var(--slate); line-height:1.76; }
+.tip-p code {
+  font-family:'IBM Plex Mono',monospace; font-size:.8em;
+  background:var(--teal3); color:var(--teal);
+  border:1px solid rgba(13,148,136,.2); border-radius:4px; padding:.03rem .35rem;
+}
+
+/* ════════════ EXAMPLE ════════════ */
+#example { background:white; }
+
+.ex-card {
+  margin-top:2.8rem;
+  background:var(--pearl); border:1.5px solid var(--border2);
+  border-radius:var(--r); overflow:hidden; box-shadow:var(--s-xl);
+}
+.ex-card::before { content:''; display:block; height:3px; background:var(--g-hero); }
+.ex-top {
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:.5rem;
+  padding:.8rem 1.2rem; background:white; border-bottom:1px solid var(--border);
+}
+.ex-dots { display:flex; gap:5px; }
+.ex-fn { font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--slate); }
+.ex-badge {
+  font-family:'IBM Plex Mono',monospace; font-size:.67rem; font-weight:500;
+  background:var(--teal3); color:var(--teal);
+  border:1px solid rgba(13,148,136,.25); border-radius:20px; padding:.2rem .8rem;
+}
+.ex-body {
+  padding:1.3rem; background:#FAFCFC;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:clamp(.68rem,2vw,.77rem); line-height:2; overflow-x:auto;
+}
+@media(min-width:768px) { .ex-body { padding:1.8rem 2rem; } }
+.xh1 { color:var(--navy); font-weight:600; font-size:.9rem; display:block; margin-bottom:.2rem; }
+.xh2 { color:var(--teal); font-weight:500; display:block; margin-top:1.2rem; }
+.xt  { color:var(--faint); display:block; }
+.xtag{ color:#6D28D9; display:block; }
+.xcmd{ color:#0369A1; display:block; padding-left:1.2rem; }
+.xq  { color:var(--amber); display:block; padding-left:1.2rem; }
+
+/* ════════════ CTA ════════════ */
+#cta {
+  background:var(--navy);
+  padding:6rem 0 7rem; position:relative; overflow:hidden;
+}
+.cta-b1 {
+  position:absolute; width:min(100vw,700px); height:min(100vw,700px);
+  background:radial-gradient(circle,rgba(13,148,136,.20) 0%,transparent 70%);
+  top:-30%; left:-10%; pointer-events:none;
+}
+.cta-b2 {
+  position:absolute; width:min(80vw,500px); height:min(80vw,500px);
+  background:radial-gradient(circle,rgba(232,86,58,.14) 0%,transparent 70%);
+  bottom:-20%; right:-8%; pointer-events:none;
+}
+.cta-b3 {
+  position:absolute; width:min(60vw,380px); height:min(60vw,380px);
+  background:radial-gradient(circle,rgba(255,255,255,.03) 0%,transparent 70%);
+  top:25%; right:25%; pointer-events:none;
+}
+.cta-inner { text-align:center; position:relative; z-index:1; }
+.cta-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.67rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:rgba(255,255,255,.4); margin-bottom:1.4rem;
+}
+.cta-tag::before,.cta-tag::after { content:''; display:block; width:22px; height:1px; background:rgba(255,255,255,.15); }
+.cta-h {
+  font-family:'Fraunces',serif; font-weight:900; letter-spacing:-0.035em;
+  font-size:clamp(2.3rem,7vw,5rem);
+  line-height:1.02; color:white; margin-bottom:1.1rem;
+}
+.cta-h em {
+  font-style:italic;
+  background:var(--g-teal);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  display:block;
+}
+.cta-p { font-size:clamp(.88rem,2vw,1rem); color:rgba(255,255,255,.55); max-width:440px; margin:0 auto 2.5rem; line-height:1.8; }
+.cta-btns { display:flex; justify-content:center; gap:.7rem; flex-wrap:wrap; }
+.btn-white {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:.78rem 1.6rem; border-radius:var(--rp);
+  background:white; color:var(--navy);
+  font-weight:700; font-size:.88rem; text-decoration:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+  transition:transform .2s, box-shadow .2s;
+}
+.btn-white:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:.78rem 1.4rem; border-radius:var(--rp);
+  background:transparent; color:rgba(255,255,255,.75);
+  border:1.5px solid rgba(255,255,255,.18);
+  font-weight:600; font-size:.88rem; text-decoration:none;
+  transition:background .2s, color .2s, transform .2s;
+}
+.btn-ghost:hover { background:rgba(255,255,255,.07); color:white; transform:translateY(-2px); }
+
+/* ════════════ FOOTER ════════════ */
+footer {
+  background:var(--navy2); border-top:1px solid rgba(255,255,255,.07);
+  padding:1.8rem 1.1rem; text-align:center;
+  font-family:'IBM Plex Mono',monospace; font-size:.67rem;
+  color:rgba(255,255,255,.3);
+}
+footer a { color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s; }
+footer a:hover { color:rgba(255,255,255,.85); }
+
+/* ════════════ SCROLL REVEAL ════════════ */
+.sr { opacity:0; transform:translateY(22px); transition:opacity .65s ease, transform .65s ease; }
+.sr.v { opacity:1; transform:none; }
+.sr.d1{transition-delay:.1s;} .sr.d2{transition-delay:.2s;}
+.sr.d3{transition-delay:.3s;} .sr.d4{transition-delay:.4s;}
+
+/* ════════════ KEYFRAMES ════════════ */
+@keyframes riseUp   { from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;} }
+@keyframes floatBlob{ from{transform:translateY(0) scale(1);}to{transform:translateY(-20px) scale(1.05);} }
+@keyframes pulse    { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.75);} }
+@keyframes blink    { 0%,100%{opacity:1;}50%{opacity:0;} }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-wrap">
+    <a class="nav-brand" href="#">
+      <div class="nav-mark">C</div>
+      <span class="nav-label">Cline <em>Workflows</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#inside">What's Inside</a></li>
+      <li><a href="#create">Create</a></li>
+      <li><a href="#best">Best Practices</a></li>
+    </ul>
+    <a class="nav-pill" href="https://docs.cline.bot/customization/workflows" target="_blank">Docs ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="chip">
+          <span class="chip-dot"></span>
+          <span class="chip-label">Today we learn · Cline Workflows</span>
+        </div>
+        <h1 class="hero-h">
+          Master Cline<br>Like a
+          <span class="hl">Senior Engineer</span>
+        </h1>
+        <p class="hero-p">Stop repeating yourself. Turn any multi-step developer process into a single <strong style="color:var(--teal)">/slash-command</strong>. Cline executes — you stay in control.</p>
+        <div class="hero-btns">
+          <a class="btn-teal" href="#how">Start Learning →</a>
+          <a class="btn-outline" href="https://docs.cline.bot/customization/workflows" target="_blank">📄 Official Docs</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="term-card">
+          <div class="tbar">
+            <div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div>
+            <span class="tbar-name">release-prep.md — Cline</span>
+          </div>
+          <div class="tbody">
+            <div><span class="tc"># 12 manual steps → 1 command</span></div>
+            <div>&nbsp;</div>
+            <div><span class="tp">you@cline</span> <span class="tc">›</span> <span class="tcmd">/release-prep.md</span></div>
+            <div>&nbsp;</div>
+            <div><span class="tok">✔</span> <span class="tcmd">Check clean working dir</span></div>
+            <div><span class="tok">✔</span> <span class="tcmd">npm run test — 87 passed</span></div>
+            <div><span class="tok">✔</span> <span class="tcmd">npm run build</span></div>
+            <div><span class="tok">✔</span> <span class="tcmd">Bump version → 2.4.0</span></div>
+            <div><span class="tok">✔</span> <span class="tcmd">Generate changelog (14 commits)</span></div>
+            <div><span class="tok">✔</span> <span class="tcmd">Commit · Tag · Push</span></div>
+            <div>&nbsp;</div>
+            <div><span class="tgr">Release v2.4.0 is live ✨</span><span class="cur"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-t"><div class="ew-bar"></div>How It Works</div></div>
+    <h2 class="sec-h sr d1">One command.<br><em>Infinite</em> consistency.</h2>
+    <p class="sec-p sr d2">Workflows are Markdown files that guide Cline through any process — with your approval at every stage.</p>
+    <div class="how-grid">
+      <div class="how-card hc-t sr d1">
+        <div class="hnum hn-t">01</div>
+        <span class="hicon">📝</span>
+        <div class="htitle">Write a Markdown File</div>
+        <p class="htext">Author a <span class="htag">.md</span> file with a title and numbered steps. Plain English, XML tools, or CLI — your choice.</p>
+      </div>
+      <div class="how-card hc-c sr d2">
+        <div class="hnum hn-c">02</div>
+        <span class="hicon">⚡</span>
+        <div class="htitle">Invoke with /name.md</div>
+        <p class="htext">Type <span class="htag">/</span> in Cline's chat. Live autocomplete shows all workflows. Select, press Enter — begins immediately.</p>
+      </div>
+      <div class="how-card hc-s sr d3">
+        <div class="hnum hn-s">03</div>
+        <span class="hicon">🤖</span>
+        <div class="htitle">Cline Executes Step by Step</div>
+        <p class="htext">Each step runs in sequence with approval checkpoints. Reject any step to stop immediately. You stay in control.</p>
+      </div>
+      <div class="how-card hc-w sr d4">
+        <div class="hnum hn-w">04</div>
+        <span class="hicon">♻️</span>
+        <div class="htitle">Reuse, Share, Evolve</div>
+        <p class="htext">Commit to git, share with your team, review in PRs. Toggle on/off without deleting. Automation lives forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHAT'S INSIDE -->
+<section id="inside">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-c"><div class="ew-bar"></div>What Goes Inside Workflows</div></div>
+    <h2 class="sec-h sr d1">Four languages.<br><em>Endless</em> flexibility.</h2>
+    <p class="sec-p sr d2">Mix and match. Start with plain English, tighten with XML where precision matters.</p>
+    <div class="tab-row sr d2" id="tabRow">
+      <button class="tab on-t" data-p="0" data-c="t">Natural Language</button>
+      <button class="tab" data-p="1" data-c="c">XML Tools</button>
+      <button class="tab" data-p="2" data-c="s">CLI Commands</button>
+      <button class="tab" data-p="3" data-c="w">MCP Tools</button>
+    </div>
+    <div class="panels">
+      <!-- Panel 0 -->
+      <div class="panel on" id="p0">
+        <div>
+          <span class="pbadge pb-t">Natural Language</span>
+          <div class="ptitle">Plain English Instructions</div>
+          <p class="pdesc">Write steps as you'd explain them to a colleague. Cline picks the right tools automatically — great for context-aware, adaptive automation.</p>
+          <div class="ppts">
+            <div class="ppt"><div class="ppt-dot pd-t"></div><span>No special syntax — just describe the goal</span></div>
+            <div class="ppt"><div class="ppt-dot pd-t"></div><span>Cline adapts intelligently to context changes</span></div>
+            <div class="ppt"><div class="ppt-dot pd-t"></div><span>Great for conditional and branching logic</span></div>
+          </div>
+        </div>
+        <div class="codeblock">
+          <div class="cb-bar"><div class="cb-dots"><div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div></div><span class="cb-name">natural-steps.md</span></div>
+          <div class="cb-body">
+<span class="sc">## Step 1: Check for changes</span>
+<span class="sw">Look at the git status. If there are</span>
+<span class="sw">uncommitted changes, ask the user</span>
+<span class="sw">whether to continue or abort.</span>
+
+<span class="sc">## Step 2: Run all tests</span>
+<span class="sw">Execute all tests. If any fail,</span>
+<span class="sw">show the failures and stop.</span>
+
+<span class="sc">## Step 3: Write release summary</span>
+<span class="sw">Summarise changes in plain English</span>
+<span class="sw">for non-technical stakeholders.</span>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 1 -->
+      <div class="panel" id="p1">
+        <div>
+          <span class="pbadge pb-c">Cline XML Tools</span>
+          <div class="ptitle">Precise Tool Calls</div>
+          <p class="pdesc">Use XML to invoke Cline's built-in tools directly — deterministic execution with exact parameters. Use when reliability matters most.</p>
+          <div class="ppts">
+            <div class="ppt"><div class="ppt-dot pd-c"></div><span>Deterministic — executes exactly as written</span></div>
+            <div class="ppt"><div class="ppt-dot pd-c"></div><span>Control approval requirement per step</span></div>
+            <div class="ppt"><div class="ppt-dot pd-c"></div><span>Best for production-critical workflows</span></div>
+          </div>
+        </div>
+        <div class="codeblock">
+          <div class="cb-bar"><div class="cb-dots"><div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div></div><span class="cb-name">xml-tools.md</span></div>
+          <div class="cb-body">
+<span class="sk">&lt;execute_command&gt;</span>
+  <span class="sa">&lt;command&gt;</span><span class="ss">npm run test</span><span class="sa">&lt;/command&gt;</span>
+  <span class="sa">&lt;requires_approval&gt;</span>false<span class="sa">&lt;/requires_approval&gt;</span>
+<span class="sk">&lt;/execute_command&gt;</span>
+
+<span class="sk">&lt;ask_followup_question&gt;</span>
+  <span class="sa">&lt;question&gt;</span>Deploy target?<span class="sa">&lt;/question&gt;</span>
+  <span class="sa">&lt;options&gt;</span>
+    <span class="ss">["Production","Staging"]</span>
+  <span class="sa">&lt;/options&gt;</span>
+<span class="sk">&lt;/ask_followup_question&gt;</span>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 2 -->
+      <div class="panel" id="p2">
+        <div>
+          <span class="pbadge pb-s">CLI Commands</span>
+          <div class="ptitle">Shell & Terminal Tools</div>
+          <p class="pdesc">Reference any tool on your machine — git, npm, docker, gh, make, curl. If your terminal can run it, your workflow can orchestrate it.</p>
+          <div class="ppts">
+            <div class="ppt"><div class="ppt-dot pd-s"></div><span>Full access to your entire local toolchain</span></div>
+            <div class="ppt"><div class="ppt-dot pd-s"></div><span>Chain multiple CLI tools in sequence</span></div>
+            <div class="ppt"><div class="ppt-dot pd-s"></div><span>Use output of one step as input to the next</span></div>
+          </div>
+        </div>
+        <div class="codeblock">
+          <div class="cb-bar"><div class="cb-dots"><div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div></div><span class="cb-name">cli-steps.md</span></div>
+          <div class="cb-body">
+<span class="sc">## Step 3: Generate changelog</span>
+<span class="sl">git log</span> <span class="sw">--oneline \</span>
+  <span class="sw">$(git describe --tags --abbrev=0)..HEAD</span>
+
+<span class="sc">## Step 4: Docker build & push</span>
+<span class="sl">docker build</span> <span class="sw">-t myapp:latest .</span>
+<span class="sl">docker push</span> <span class="sw">registry/myapp:latest</span>
+
+<span class="sc">## Step 5: GitHub release</span>
+<span class="sl">gh release create</span> <span class="ss">v2.4.0</span> <span class="sw">--generate-notes</span>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 3 -->
+      <div class="panel" id="p3">
+        <div>
+          <span class="pbadge pb-w">MCP Tools</span>
+          <div class="ptitle">External Service Integrations</div>
+          <p class="pdesc">Connect to GitHub, Slack, Jira, databases — any MCP server you've configured. Natural language or explicit XML for full control.</p>
+          <div class="ppts">
+            <div class="ppt"><div class="ppt-dot pd-w"></div><span>GitHub, Slack, Jira, Notion and more</span></div>
+            <div class="ppt"><div class="ppt-dot pd-w"></div><span>Chain calls across multiple services in one flow</span></div>
+            <div class="ppt"><div class="ppt-dot pd-w"></div><span>Fully automated cross-service workflows</span></div>
+          </div>
+        </div>
+        <div class="codeblock">
+          <div class="cb-bar"><div class="cb-dots"><div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div></div><span class="cb-name">mcp-tools.md</span></div>
+          <div class="cb-body">
+<span class="sk">&lt;use_mcp_tool&gt;</span>
+  <span class="sa">&lt;server_name&gt;</span>github-server<span class="sa">&lt;/server_name&gt;</span>
+  <span class="sa">&lt;tool_name&gt;</span>create_release<span class="sa">&lt;/tool_name&gt;</span>
+  <span class="sa">&lt;arguments&gt;</span>{
+    <span class="ss">"tag"</span>: <span class="ss">"v2.4.0"</span>,
+    <span class="ss">"body"</span>: <span class="ss">"Changelog here"</span>
+  }<span class="sa">&lt;/arguments&gt;</span>
+<span class="sk">&lt;/use_mcp_tool&gt;</span>
+
+<span class="sc">## Notify team</span>
+<span class="sw">Post release note to #engineering</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CREATE -->
+<section id="create">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-a"><div class="ew-bar"></div>Creating Your First Workflow</div></div>
+    <h2 class="sec-h sr d1">From idea to automation<br>in <em>five minutes</em>.</h2>
+    <div class="create-layout">
+      <div class="csteps">
+        <div class="cstep sr d1"><div class="csn cn1">1</div><div class="csbody"><h4>Open the Workflows Menu</h4><p>Click the <strong>scale icon</strong> at the bottom of the Cline sidebar, left of the model selector. Switch to the <code>Workflows</code> tab.</p></div></div>
+        <div class="cstep sr d2"><div class="csn cn2">2</div><div class="csbody"><h4>Create a New Workflow File</h4><p>Click <strong>"New workflow file…"</strong> and enter a name like <code>deploy</code>. Cline appends <code>.md</code> automatically.</p></div></div>
+        <div class="cstep sr d3"><div class="csn cn3">3</div><div class="csbody"><h4>Write Your Steps</h4><p>Add a title and numbered steps in Markdown. Be as high-level or specific as needed — Cline adapts intelligently.</p></div></div>
+        <div class="cs-pro sr d4">
+          <div class="csn cn4" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-size:.9rem;">✦</div>
+          <div class="csbody"><h4>Pro Tip: Let Cline Write It</h4><p>After any repeatable task, say <em>"Create a workflow for what I just did."</em> Cline reads the conversation and generates the file automatically.</p></div>
+        </div>
+        <div class="cstep sr"><div class="csn cn5">5</div><div class="csbody"><h4>Invoke with /filename.md</h4><p>Type <code>/</code> in chat, pick from autocomplete, press <strong>Enter</strong>. Execution starts immediately.</p></div></div>
+      </div>
+      <div class="preview sr d2">
+        <div class="preview-card">
+          <div class="pvbar"><div class="pvdots"><div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div></div><span class="pvname">my-first-workflow.md</span></div>
+          <div class="pvbody">
+            <span class="ph1"># My First Workflow</span>
+            <span class="pt">Sets up a fresh feature branch and</span>
+            <span class="pt">checks all prerequisites are met.</span>
+            <span class="ph2">## Step 1: Check git status</span>
+            <span class="pt">Run <span class="pc">git status</span> and confirm the</span>
+            <span class="pt">working directory is clean.</span>
+            <span class="ph2">## Step 2: Create feature branch</span>
+            <span class="pt">Ask for branch name, then run</span>
+            <span class="pt"><span class="pc">git checkout -b [branch-name]</span>.</span>
+            <span class="ph2">## Step 3: Install dependencies</span>
+            <span class="pt">Run <span class="pc">npm install</span> and report any</span>
+            <span class="pt">security vulnerabilities found.</span>
+            <span class="ph2">## Step 4: Start dev server</span>
+            <span class="pt">Start <span class="pc">npm run dev</span> and confirm</span>
+            <span class="pt">the app loads at localhost.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LOCATIONS -->
+<section id="locations">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-n"><div class="ew-bar"></div>Where Workflows Live</div></div>
+    <h2 class="sec-h sr d1">Project-scoped or<br><em>globally</em> available.</h2>
+    <p class="loc-intro sr d2">
+      <strong>Project workflows</strong> live in <code style="font-family:monospace;font-size:.85em;background:var(--teal3);color:var(--teal);padding:.1rem .4rem;border-radius:4px;">.clinerules/workflows/</code> — commit to git, share with your team, review in PRs.<br><br>
+      <strong>Global workflows</strong> live in your system Cline directory — available across every project on your machine.
+    </p>
+    <p class="loc-note sr d3">→ Project workflows take precedence when names conflict with global ones.</p>
+    <div class="loc-grid">
+      <div class="lc lc-p sr d1"><span class="lc-em">📁</span><div class="lc-name">Project (Team Shared)</div><div class="lc-path">.clinerules/workflows/</div><span class="lc-scope ls-p">project</span><p style="font-size:.82rem;color:var(--slate);margin-top:.75rem;line-height:1.6;">Committed to git — your whole team uses, reviews, and improves them in PRs.</p></div>
+      <div class="lc lc-1 sr d2"><span class="lc-em">🪟</span><div class="lc-name">Windows</div><div class="lc-path">Documents\Cline\Workflows</div><span class="lc-scope ls-g">global</span><p style="font-size:.82rem;color:var(--slate);margin-top:.75rem;line-height:1.6;">Available across every project on this machine.</p></div>
+      <div class="lc lc-2 sr d3"><span class="lc-em">🍎</span><div class="lc-name">macOS</div><div class="lc-path">~/Documents/Cline/Workflows</div><span class="lc-scope ls-g">global</span><p style="font-size:.82rem;color:var(--slate);margin-top:.75rem;line-height:1.6;">Available across every project on this machine.</p></div>
+      <div class="lc lc-3 sr d4"><span class="lc-em">🐧</span><div class="lc-name">Linux / WSL</div><div class="lc-path">~/Documents/Cline/Workflows</div><span class="lc-scope ls-g">global</span><p style="font-size:.82rem;color:var(--slate);margin-top:.75rem;line-height:1.6;">Available across every project on this machine.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INVOKE -->
+<section id="invoke">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-t"><div class="ew-bar"></div>Invoking Workflows</div></div>
+    <h2 class="sec-h sr d1">Just type <em>/</em> and go.</h2>
+    <div class="invoke-layout">
+      <div class="invoke-copy sr d1">
+        <p>The moment you type <code style="font-family:monospace;background:var(--teal3);color:var(--teal);border:1px solid rgba(13,148,136,.2);padding:.1rem .4rem;border-radius:4px;">/</code> in Cline's chat input, a live autocomplete picker appears. Type more letters to filter. Select and press Enter — execution starts instantly.</p>
+        <div class="invoke-pts">
+          <div class="ipt"><div class="ipt-dot">✦</div><span>All project & global workflows appear automatically</span></div>
+          <div class="ipt"><div class="ipt-dot">✦</div><span>Fuzzy match — <code style="font-family:monospace;font-size:.85em;">/rel</code> → <code style="font-family:monospace;font-size:.85em;">release-prep.md</code></span></div>
+          <div class="ipt"><div class="ipt-dot">✦</div><span>Toggle workflows on/off without deleting the file</span></div>
+          <div class="ipt"><div class="ipt-dot">✦</div><span>Reject any approval step to stop the workflow immediately</span></div>
+        </div>
+      </div>
+      <div class="invoke-demo sr d2">
+        <div class="ac-card">
+          <div class="ac-top">
+            <span class="ac-sl">/</span>
+            <span class="ac-ty">rel<span class="ac-c"></span></span>
+          </div>
+          <div class="ac-list">
+            <div class="ac-row hl"><div class="ac-ico ai-t">⚙️</div><div class="ac-inf"><div class="ac-rn">release-prep.md</div><div class="ac-rd">Bump, build, tag &amp; push</div></div><div class="ac-rt">project</div></div>
+            <div class="ac-row"><div class="ac-ico ai-c">🚀</div><div class="ac-inf"><div class="ac-rn">deploy.md</div><div class="ac-rd">Deploy to production</div></div><div class="ac-rt">project</div></div>
+            <div class="ac-row"><div class="ac-ico ai-s">🛠️</div><div class="ac-inf"><div class="ac-rn">setup-db.md</div><div class="ac-rd">Init local database</div></div><div class="ac-rt">global</div></div>
+            <div class="ac-row"><div class="ac-ico ai-w">🔍</div><div class="ac-inf"><div class="ac-rn">code-review.md</div><div class="ac-rd">Review PR changes</div></div><div class="ac-rt">global</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEST PRACTICES -->
+<section id="best">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-c"><div class="ew-bar"></div>Best Practices</div></div>
+    <h2 class="sec-h sr d1">Write workflows like a<br><em>senior engineer</em>.</h2>
+    <p class="sec-p sr d2">Six habits that separate professional automation from brittle one-off scripts.</p>
+    <div class="tips-grid">
+      <div class="tip sr"><div class="tip-iw ti-t">🌱</div><div class="tip-h">Start Simple</div><p class="tip-p">Write natural language steps first. Only add XML tool syntax when you need guaranteed, deterministic behaviour — not before.</p></div>
+      <div class="tip sr d1"><div class="tip-iw ti-c">🎯</div><div class="tip-h">Keep Workflows Focused</div><p class="tip-p"><code>deploy.md</code> deploys. <code>setup-db.md</code> sets up the database. Split complex processes into small, composable files.</p></div>
+      <div class="tip sr d2"><div class="tip-iw ti-s">❓</div><div class="tip-h">Be Explicit About Decisions</div><p class="tip-p">When a step needs user input, say so: <em>"Ask whether to deploy to production or staging before continuing."</em></p></div>
+      <div class="tip sr"><div class="tip-iw ti-w">🛡️</div><div class="tip-h">Handle Failure Explicitly</div><p class="tip-p">Tell Cline what to do when things break: <em>"If tests fail, show full output and stop the workflow."</em></p></div>
+      <div class="tip sr d1"><div class="tip-iw ti-t">📦</div><div class="tip-h">Version Control Everything</div><p class="tip-p">Store in <code>.clinerules/workflows/</code> and commit. Review in PRs. Treat them like production code — because they are.</p></div>
+      <div class="tip sr d2"><div class="tip-iw ti-c">🔄</div><div class="tip-h">Automate Your History</div><p class="tip-p">After any repeatable task, tell Cline: <em>"Create a workflow for what I just did."</em> Your context becomes instant automation.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REAL EXAMPLE -->
+<section id="example">
+  <div class="wrap">
+    <div class="sr"><div class="eyebrow ew-e"><div class="ew-bar"></div>Real World Example</div></div>
+    <h2 class="sec-h sr d1">Release Preparation<br><em>Workflow</em></h2>
+    <p class="sec-p sr d2">A complete workflow combining XML tool calls and natural language — one command for the full release process.</p>
+    <div class="ex-card sr d2">
+      <div class="ex-top">
+        <div class="ex-dots"><div class="dd d-r"></div><div class="dd d-y"></div><div class="dd d-g"></div></div>
+        <span class="ex-fn">release-prep.md</span>
+        <span class="ex-badge">invoke: /release-prep.md</span>
+      </div>
+      <div class="ex-body">
+        <span class="xh1"># Release Preparation</span>
+        <span class="xt">Prepare a new release: run tests, build, bump version, generate changelog.</span>
+        <span class="xh2">## Step 1: Check for clean working directory</span>
+        <span class="xtag">&lt;execute_command&gt;</span>
+        <span class="xcmd">&lt;command&gt;git status --porcelain&lt;/command&gt;</span>
+        <span class="xtag">&lt;/execute_command&gt;</span>
+        <span class="xt">If uncommitted changes exist, ask whether to continue or stash them first.</span>
+        <span class="xh2">## Step 2: Run the test suite</span>
+        <span class="xtag">&lt;execute_command&gt;</span>
+        <span class="xcmd">&lt;command&gt;npm run test&lt;/command&gt;</span>
+        <span class="xtag">&lt;/execute_command&gt;</span>
+        <span class="xt">If any tests fail, stop the workflow and show the full failure output.</span>
+        <span class="xh2">## Step 3: Ask for new version</span>
+        <span class="xtag">&lt;ask_followup_question&gt;</span>
+        <span class="xq">&lt;question&gt;What should the new version be?&lt;/question&gt;</span>
+        <span class="xq">&lt;options&gt;["Patch (x.x.X)", "Minor (x.X.0)", "Major (X.0.0)"]&lt;/options&gt;</span>
+        <span class="xtag">&lt;/ask_followup_question&gt;</span>
+        <span class="xh2">## Step 4: Generate changelog</span>
+        <span class="xtag">&lt;execute_command&gt;</span>
+        <span class="xcmd">&lt;command&gt;git log --oneline $(git describe --tags --abbrev=0)..HEAD&lt;/command&gt;</span>
+        <span class="xtag">&lt;/execute_command&gt;</span>
+        <span class="xt">Use these commits to write a changelog entry and update CHANGELOG.md.</span>
+        <span class="xh2">## Step 5: Commit, tag, and push</span>
+        <span class="xt">Run git add, commit as "chore: release vX.X.X", tag, and push with tags to origin.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-b1"></div><div class="cta-b2"></div><div class="cta-b3"></div>
+  <div class="wrap">
+    <div class="cta-inner">
+      <div class="cta-tag">you've made it this far</div>
+      <h2 class="cta-h">Ready to automate<br><em>everything?</em></h2>
+      <p class="cta-p">Install Cline, write your first workflow, and reclaim the hours you've been burning on repetitive tasks.</p>
+      <div class="cta-btns">
+        <a class="btn-white" href="https://cline.bot/install" target="_blank">Install Cline →</a>
+        <a class="btn-ghost" href="https://docs.cline.bot/customization/workflows" target="_blank">📖 Read the Docs</a>
+        <a class="btn-ghost" href="https://discord.gg/cline" target="_blank">💬 Discord</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Content from <a href="https://docs.cline.bot/customization/workflows" target="_blank">docs.cline.bot</a> · <a href="https://clawhub.ai" target="_blank">clawhub.ai</a> · <a href="https://github.com/cline/cline" target="_blank">github/cline</a> — Built for learning</p>
+</footer>
+
+<script>
+// Scroll reveal
+const sels = document.querySelectorAll('.sr');
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');}),{threshold:.1});
+sels.forEach(el=>obs.observe(el));
+
+// Terminal reveal
+document.querySelectorAll('.tbody>div').forEach((l,i)=>{
+  l.style.opacity='0';
+  setTimeout(()=>{l.style.transition='opacity .3s';l.style.opacity='1';},500+i*230);
+});
+
+// Tabs
+const cMap={t:'on-t',c:'on-c',s:'on-s',w:'on-w'};
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.className='tab');
+    btn.classList.add('tab',cMap[btn.dataset.c]);
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    document.getElementById('p'+btn.dataset.p).classList.add('on');
+  });
+});
+
+// Autocomplete cycle
+const rows=document.querySelectorAll('.ac-row');
+let cur=0;
+setInterval(()=>{rows[cur].classList.remove('hl');cur=(cur+1)%rows.length;rows[cur].classList.add('hl');},1900);
+</script>
+</body>
+</html>
